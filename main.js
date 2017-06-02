@@ -35,8 +35,18 @@ _.each = (list, iteratee) => {
     }  
 };
 
-//  MAP
+//  INDEX OF
+_.indexOf = (array, value, startingIndex = 0) => {
+    if (!array) return -1;
+    if (startingIndex < 0) startingIndex = array.length + startingIndex;
 
+    for (let i = startingIndex; i < array.length; i++) {
+        if (array[i] === value) return i;
+    }
+    return -1;
+}
+
+//  MAP
 _.map = (list, iteratee) => {
     if (Array.isArray(list)) {
         const result = [];
@@ -53,6 +63,8 @@ _.map = (list, iteratee) => {
     }
 };
 
+// // CONTAINS
+// _.contains = 
 
 
 if (typeof module !== 'undefined') {
