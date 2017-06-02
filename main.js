@@ -22,6 +22,19 @@ _.last = (array, n) => {
     return result;
 };
 
+//  EACH
+_.each = (list, iteratee) => {
+    if(Array.isArray(list)) {
+        for (let i = 0; i < list.length; i++) {
+            iteratee (list[i], i, list);
+        }
+    } else {
+        for (let prop in list) {
+            iteratee(list[prop], prop, list);
+        }
+    }
+};
+
 
 
 if (typeof module !== 'undefined') {

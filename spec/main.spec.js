@@ -1,6 +1,6 @@
 const {expect} = require('chai');
 const _ = require ('../main.js');
-// const sinon = require ('sinon');
+const sinon = require ('sinon');
 
 describe('_', function () {
   'use strict';
@@ -298,6 +298,34 @@ describe('_', function () {
             const result2 = _.last('', 1);
             expect(result2).to.eql([]);
         });
+    });
+
+//  EACH
+    describe('_.each', function () {
+        it('is a function', function () {
+            expect(_.each).to.be.a('function');
+        });
+        
+        it('takes two arguments', function () {
+            expect(_.each).to.have.lengthOf(2);
+        });
+
+        it('calls the function as many times as items in the array (SINON)', function () {
+            const spy = sinon.spy();
+            _.each ([1,2,3], spy);
+            expect(spy.callCount).to.equal(3);
+        });
+
+        it('calls the function as many times as items in the array (COUNT)', function () {
+            let count = 0;
+            function incrementCount() {
+                count++;
+            }
+            _.each ([1,2,3], incrementCount);
+            expect(count).to.equal(3);
+        });
+
+    //  NEEDS FINISHING
     });
 
 });
