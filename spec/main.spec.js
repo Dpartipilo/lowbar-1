@@ -314,7 +314,7 @@ describe('_', function () {
             const spy = sinon.spy();
             _.each ([1,2,3], spy);
             expect(spy.callCount).to.equal(3);
-        });
+        });  
 
         it('calls the function as many times as items in the array (COUNT)', function () {
             let count = 0;

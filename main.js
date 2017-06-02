@@ -32,7 +32,7 @@ _.each = (list, iteratee) => {
         for (let prop in list) {
             iteratee(list[prop], prop, list);
         }
-    }
+    }  
 };
 
 
