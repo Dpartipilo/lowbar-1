@@ -1,0 +1,27 @@
+{
+  "name": "refactor-lowbar",
+  "version": "1.0.0",
+  "description": "This code involves reimplementing a JS library, reimplementing the following underscore methods:",
+  "main": "main.js",
+  "scripts": {
+    "test": "mocha ./spec/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SalVN/refactor-lowbar.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SalVN/refactor-lowbar/issues"
+  },
+  "homepage": "https://github.com/SalVN/refactor-lowbar#readme",
+  "dependencies": {
+    "chai": "^4.0.1",
+    "eslint": "^3.19.0",
+    "mocha": "^3.4.2"
+  },
+  "devDependencies": {
+    "sinon": "^2.3.2"
+  }
+}
