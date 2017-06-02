@@ -24,7 +24,7 @@ _.last = (array, n) => {
 
 //  EACH
 _.each = (list, iteratee) => {
-    if(Array.isArray(list)) {
+    if (Array.isArray(list)) {
         for (let i = 0; i < list.length; i++) {
             iteratee (list[i], i, list);
         }
@@ -33,6 +33,24 @@ _.each = (list, iteratee) => {
             iteratee(list[prop], prop, list);
         }
     }  
+};
+
+//  MAP
+
+_.map = (list, iteratee) => {
+    if (Array.isArray(list)) {
+        const result = [];
+        for (let i = 0; i < list.length; i++) {
+            result.push(iteratee(list[i], i, list));
+        }
+        return result;
+    } else {
+        let result = {};
+        for (let key in list) {
+            result[key] = iteratee(list[key], key, list);
+        }
+        return result;
+    }
 };
 
 

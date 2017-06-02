@@ -9,7 +9,7 @@ describe('_', function () {
     expect(_).to.be.an('object');
   });
 
-  //  IDENTITY
+//  IDENTITY
     describe('_.identity', function () {
         it('is a function', function () {
             expect(_.identity).to.be.a('function');
@@ -59,7 +59,7 @@ describe('_', function () {
         });
     });
 
-    //  FIRST
+//  FIRST
     describe('_.first', function () {
         it('is a function', function () {
             expect(_.first).to.be.a('function');
@@ -177,7 +177,7 @@ describe('_', function () {
         });
     });
 
-    //  LAST
+//  LAST
     describe('_.last', function () {
         it('is a function', function () {
             expect(_.last).to.be.a('function');
@@ -312,23 +312,171 @@ describe('_', function () {
 
         it('calls the function as many times as items in the array (SINON)', function () {
             const spy = sinon.spy();
-            _.each ([1,2,3], spy);
-            expect(spy.callCount).to.equal(3);
+            _.each ([1,2,3,4,5,6], spy);
+            expect(spy.callCount).to.equal(6);
         });  
 
         it('calls the function as many times as items in the array (COUNT)', function () {
             let count = 0;
-            function incrementCount() {
-                count++;
-            }
-            _.each ([1,2,3], incrementCount);
-            expect(count).to.equal(3);
+            const incrementCount = () => count++;
+            _.each ([1,2,3,4,5,6], incrementCount);
+            expect(count).to.equal(6);
         });
 
-    //  NEEDS FINISHING
+        it('passes each item of the array as the first argument to the function', function () {
+            let resultArr = [];
+            const putItemInArr = (item) => resultArr.push(item);
+            _.each ([1,2,3,4,5,6], putItemInArr);
+            expect(resultArr).to.have.lengthOf(6);
+            expect(resultArr).to.eql([1,2,3,4,5,6]);
+        });
+
+        it('passes the index of each element of the array as the second argument to the function', function () {
+            let indexArr = [];
+            const putIndexInArr = (item, index) => indexArr.push(index);
+            _.each ([1,2,3,4,5,6], putIndexInArr);
+            expect(indexArr).to.have.lengthOf(6);
+            expect(indexArr).to.eql([0,1,2,3,4,5]);
+        });
+
+        it('passes a list of the original array each time the function iterates', function () {
+            let listArr = [];
+            const putListInArr = (item, index, list) => listArr.push(list);
+            _.each([1, 2, 3, 4], putListInArr);
+            expect(listArr).to.eql([[1, 2, 3, 4], [1, 2, 3, 4], [1, 2, 3, 4], [1, 2, 3, 4]]);
+        });
+
+        it('calls the function as many times as key:value pairs in the object (SINON)', function () {
+            const spy = sinon.spy();
+            _.each ({a: 1, b: 2, c:3, d:4}, spy);
+            expect(spy.callCount).to.equal(4);
+        });  
+
+        it('passes the value of each item in an object as the first argument to the function', function () {
+            let itemsArr = [];
+            const  putItemInArr = (item) => itemsArr.push(item);
+
+            _.each({ one: 1, two: 2, three: 3, four: 4 }, putItemInArr);
+            expect(itemsArr).to.eql([1, 2, 3, 4]);
+        });
+
+        it('passes the key of each item in an object as the second argument to the function', function () {
+            let keysArr = [];
+            const putItemInArr = (item, key) => keysArr.push(key);
+        
+            _.each({ one: 1, two: 2, three: 3 }, putItemInArr);
+            expect(keysArr).to.eql(['one', 'two', 'three']);
+            });
+
+        it('passes a list of the original object each time the function iterates', function () {
+            let listArr = [];
+            const putListInArr = (item, key, list) => listArr.push(list);
+            _.each({ one: 1, two: 2, three: 3 }, putListInArr);
+            expect(listArr).to.eql([{ one: 1, two: 2, three: 3 }, { one: 1, two: 2, three: 3 }, { one: 1, two: 2, three: 3 }]);
+        });
+  
+});
+
+//  MAP
+
+    describe('_.map', function () {
+        it('is a function', function () {
+            expect(_.map).to.be.a('function');
+        });
+        
+        it('takes two arguments', function () {
+            expect(_.map).to.have.lengthOf(2);
+        });
+    
+        it('calls the function as many times as items in the array (SINON)', function () {
+            const spy = sinon.spy();
+            _.map ([1,2,3,4,5,6], spy);
+            expect(spy.callCount).to.equal(6);
+        });  
+
+        it('calls the function as many times as items in the array (COUNT)', function () {
+            let count = 0;
+            const multiplyThree = n => {
+                count ++;
+                n * 3;
+            };
+            _.map ([1,2,3,4,5,6], multiplyThree);
+            expect(count).to.equal(6);
+        });
+
+        it('returns a transformed array', function () {
+            const multiplyThree = (n) => n * 3;
+
+            const result = _.map ([1,2,3,4,5,6], multiplyThree);
+            expect(result).to.be.an('array');
+            expect(result).to.eql([3,6,9,12,15,18]);
+        });
+
+        it('the function can access each item of the array and transform it', function () {
+            const accessItem = (el) => [el, el * 2];
+
+            const result = _.map ([1,2,3], accessItem);
+            expect(result).to.be.an('array');
+            expect(result).to.eql([[1,2], [2,4], [3,6]]);
+        });
+
+        it('the function can access the index of each item of the array', function () {
+            const accessIndex = (el, index) => [el, index];
+
+            const result = _.map (['a', 'b', 'c'], accessIndex);
+            expect(result).to.be.an('array');
+            expect(result).to.eql([['a', 0], ['b',1], ['c',2]]);
+        });
+
+        it('the function can access the inputted array during each iteration', function () {
+            const accessList = (el, index, list) => list;
+
+            const result = _.map (['a', 'b', 'c'], accessList);
+            expect(result).to.be.an('array');
+            expect(result).to.eql([['a', 'b', 'c'],['a', 'b', 'c'],['a', 'b', 'c']]);
+        });
+
+        it('calls the function as many times as items in the object (SINON)', function () {
+            const spy = sinon.spy();
+            _.map ({a: 1, b: 2, c: 3, d: 4, e: 5}, spy);
+            expect(spy.callCount).to.equal(5);
+        });
+
+        it('returns a transformed object', function () {
+            const multiplyThree = (n) => n * 3;
+
+            const result = _.map ({a: 1, b: 2, c: 3, d: 4, e: 5}, multiplyThree);
+            expect(result).to.be.an('object');
+            expect(result).to.eql({a: 3, b: 6, c: 9, d: 12, e: 15});
+        });
+
+        it('the function can access each value of the array and transform it', function () {
+            const accessItem = (value) => [value, value * 2];
+
+            const result = _.map ({a: 1, b: 2, c: 3, d: 4, e: 5}, accessItem);
+            expect(result).to.be.an('object');
+            expect(result).to.eql({a: [1, 2], b: [2, 4], c: [3,6], d: [4, 8], e: [5,10]});
+        });
+
+        it('the function can access the keys of each of the objects', function () {
+            const accessIndex = (value, key) => [(value + 2), key];
+
+            const result = _.map ({a: 1, b: 2, c: 3}, accessIndex);
+            expect(result).to.be.an('object');
+            expect(result).to.eql({a: [3, 'a'], b: [4, 'b'], c: [5, 'c']});
+        });
+
+        it('the function can access the inputted list during each iteration', function () {
+            const accessList = (value, key, list) => list;
+
+            const result = _.map ({a: 1, b: 2, c: 3}, accessList);
+            expect(result).to.be.an('object');
+            expect(result).to.eql({a: {a: 1, b: 2, c: 3}, b: {a: 1, b: 2, c: 3}, c: {a: 1, b: 2, c: 3}});
+        });
     });
 
 });
+
 
 
 
