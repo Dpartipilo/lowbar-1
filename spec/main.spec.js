@@ -59,6 +59,124 @@ describe('_', function () {
         });
     });
 
+    //  FIRST
+    describe('_.first', function () {
+        it('is a function', function () {
+            expect(_.first).to.be.a('function');
+        });
+
+        it('takes two arguments', function () {
+            expect(_.first).to.have.lengthOf(2);
+        });
+
+        it('should return undefined for an empty array/string or if a non-array/string first argument is given', function () {
+            const result1 = _.first();
+            expect(result1).to.be.undefined;
+            
+            const result2 = _.first([]);
+            expect(result2).to.be.undefined;
+
+            const result3 = _.first('');
+            expect(result3).to.be.undefined;
+
+            const result4 = _.first({a: 1, b: 2});
+            expect(result4).to.be.undefined;
+
+            const result5 = _.first(true);
+            expect(result5).to.be.undefined;
+
+            const result6 = _.first(12345);
+            expect(result6).to.be.undefined;
+        });
+
+        it('should return the first element of an array if no second argument is provided', function () {
+            const result1 = _.first([1,2,3,4,5]);
+            expect(result1).to.equal(1);
+
+            const result2 = _.first(['hello', 'world']);
+            expect(result2).to.equal('hello');
+        });
+
+        it('should return the first letter of a string if no second argument is provided', function () {
+            const result = _.first('hello');
+            expect(result).to.equal('h');
+        });
+
+        it('should return the elements up to the nth element of a given array, in an array format', function () {
+            const result1 = _.first([1,2,3,4,5], 1);
+            expect(result1).to.be.an('array');
+            expect(result1).to.eql([1]);
+
+            const result2 = _.first([1,2,3,4,5], 2);
+            expect(result2).to.eql([1, 2]);
+
+            const result3 = _.first(['to', 'be', 'or', 'not', 'to', 'be'], 4);
+            expect(result3).to.eql(['to', 'be', 'or', 'not']);
+        });
+
+        it('should return the letters up to the nth letter of a given string, returning an array', function () {
+            const result1 = _.first('hello', 1);
+            expect(result1).to.be.an('array');
+            expect(result1).to.eql(['h']);
+
+            const result2 = _.first('hello', 2);
+            expect(result2).to.eql(['h', 'e']);
+        });
+
+         it('should return an empty array if the number is negative or zero', function () {
+            const result1 = _.first([1,2,3,4,5], -1);
+            expect(result1).to.be.an('array');
+            expect(result1).to.eql([]);
+
+            const result2 = _.first([1,2,3,4,5], -3);
+            expect(result2).to.be.an('array');
+            expect(result2).to.eql([]);
+
+            const result3 = _.first([1,2,3,4,5], 0);
+            expect(result3).to.be.an('array');
+            expect(result3).to.eql([]);
+        });
+
+        it('should assume Math.floor(n) if a decimal input is given for n', function () {
+            const result1 = _.first([1,2,3,4,5], 0.8);
+            expect(result1).to.eql([]);
+
+            const result2 = _.first([1,2,3,4,5], 2.3);
+            expect(result2).to.eql([1,2]);
+        });
+
+        it('returns the whole array if n is bigger than the array or string length', function () {
+            const result1 = _.first([1,2,3,4,5], 100);
+            expect(result1).to.eql([1,2,3,4,5]);
+
+            const result2 = _.first('hello', 1000);
+            expect(result2).to.eql(['h', 'e', 'l', 'l', 'o']);
+        });
+
+
+        it('should return an empty array if a string is entered and the number is negative or zero', function () {
+            const result1 = _.first('hippopotamus', -1);
+            expect(result1).to.be.an('array');
+            expect(result1).to.eql([]);
+
+            const result2 = _.first('hippopotamus', -3);
+            expect(result2).to.be.an('array');
+            expect(result2).to.eql([]);
+
+            const result3 = _.first('hippopotamus', 0);
+            expect(result3).to.be.an('array');
+            expect(result3).to.eql([]);
+        });
+
+        it('should return an empty array if the input is an empty array/string and a number', function () {
+            const result1 = _.first([], 1);
+            expect(result1).to.eql([]);
+
+            const result2 = _.first('', 1);
+            expect(result2).to.eql([]);
+        });
+    });
+
 });
 
 
