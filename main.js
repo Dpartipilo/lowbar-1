@@ -1,5 +1,7 @@
 const _ = {};
 
+//  IDENTITY
+_.identity = value => value;
 
 
 
