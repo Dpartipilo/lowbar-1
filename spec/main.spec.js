@@ -503,7 +503,7 @@ describe('_', function () {
             expect(_.indexOf([1, 1, '1'], '1')).to.equal(2);
         });
 
-        it('22. the binary search functionality will also work for alphabetically ordered string arrays', function () {
+        it('23. the binary search functionality will also work for alphabetically ordered string arrays', function () {
             expect(_.indexOf(['a', 'b', 'c', 'd', 'e'], 'b', true)).to.equal(1);
             expect(_.indexOf(['a', 'c', 'b', 'd', 'e'], 'c', true)).to.equal(-1);
             expect(_.indexOf(['a', 'c', 'b', 'd', 'e'], 'a', true)).to.equal(0);
@@ -514,7 +514,7 @@ describe('_', function () {
             expect(_.indexOf(['strawberry', 'avocado', 'apple ', 'banana', 'grapes', 'sharon fruit', 'starfruit'], 'apple', true)).to.equal(-1);
         });
 
-        it('22. the binary search functionality will also work for alphabetically ordered strings', function () {
+        it('24. the binary search functionality will also work for alphabetically ordered strings', function () {
             expect(_.indexOf('abcdefghijk', 'a', true)).to.equal(0);
             expect(_.indexOf('aclq', 'q', true)).to.equal(3);
             expect(_.indexOf('hello', 'h', true)).to.equal(-1);
