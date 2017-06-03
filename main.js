@@ -1,4 +1,5 @@
 const _ = {};
+const {binarySearch} = require('./lib/binarySearch.js');
 
 //  IDENTITY
 _.identity = value => value;
@@ -38,6 +39,7 @@ _.each = (list, iteratee) => {
 //  INDEX OF
 _.indexOf = (array, value, startingIndex = 0) => {
     if (!array) return -1;
+    if (startingIndex === true) return binarySearch(array, value);
     if (startingIndex < 0) startingIndex = array.length + startingIndex;
 
     for (let i = startingIndex; i < array.length; i++) {

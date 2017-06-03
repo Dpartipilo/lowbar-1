@@ -473,6 +473,54 @@ describe('_', function () {
             expect(_.indexOf([1,1,1], 1, 1.1)).to.equal(-1);
 
         });
+
+        it('18. should use binary search if the starting index is set to true for a sorted array', function () {
+            expect(_.indexOf([1,2,3,4,5,6,7,8,9,10], 3, true)).to.equal(2);
+            expect(_.indexOf([1,2,3,4,5,6,7,8,9,10], 3, true)).to.equal(_.indexOf([1,2,3,4,5,6,7,8,9,10], 3));
+        });
+
+        it('19. should use binary search if the starting index is set to true for a sorted array, returning -1 if the value is not in the array', function () {
+            expect(_.indexOf([1,2,3,4,5,6,7,8,9,10], 11, true)).to.equal(-1);
+            expect(_.indexOf([1,2,3,4,5,6,7,8,9,10], 12, true)).to.equal(_.indexOf([1,2,3,4,5,6,7,8,9,10], 12));
+        });
+
+        it('20. binary search should not return the correct answer if the array is not sorted', function () {
+            expect(_.indexOf([10,9,7,8,3,6,5,4,3,1,2], 9, true)).to.not.equal(1);
+            expect(_.indexOf([10,9,7,8,3,6,5,4,3,1,2], 9, true)).to.not.equal(_.indexOf([10,9,7,8,3,6,5,4,3,1,2], 9));
+            expect(_.indexOf([10,9,7,8,3,6,5,4,3,1,2], 9, true)).to.equal(-1);
+        });
+
+        it('21. binary search works for an array with repeated values', function () {
+            expect(_.indexOf([1,1,1,1,1,1,1,1,1,1,1], 1, true)).to.equal(0);
+            expect(_.indexOf([1,1,1,1,1,1,1,1,1,1,1], 1, true)).to.equal(_.indexOf([1,1,1,1,1,1,1,1,1,1,1], 1));
+            expect(_.indexOf([1,1,1,2,2,2,2,2,2,2,2], 2, true)).to.equal(3);
+        });
+
+        it('22. will return -1 if the search term is a number is given that matches a string number and vice versa', function () {
+            expect(_.indexOf(['1'], 1)).to.equal(-1);
+            expect(_.indexOf(['1', '1', 1], 1)).to.equal(2);
+            expect(_.indexOf([1], '1')).to.equal(-1);
+            expect(_.indexOf([1, 1, '1'], '1')).to.equal(2);
+        });
+
+        it('22. the binary search functionality will also work for alphabetically ordered string arrays', function () {
+            expect(_.indexOf(['a', 'b', 'c', 'd', 'e'], 'b', true)).to.equal(1);
+            expect(_.indexOf(['a', 'c', 'b', 'd', 'e'], 'c', true)).to.equal(-1);
+            expect(_.indexOf(['a', 'c', 'b', 'd', 'e'], 'a', true)).to.equal(0);
+            expect(_.indexOf(['a', 'h', 'l', 'y', 'z'], 'y', true)).to.equal(3);
+            expect(_.indexOf(['apple', 'avocado', 'banana', 'grapes', 'sharon fruit', 'starfruit', 'strawberry'], 'apple', true)).to.equal(0);
+            expect(_.indexOf(['apple', 'avocado', 'banana', 'grapes', 'sharon fruit', 'starfruit', 'strawberry'], 'avocado', true)).to.equal(1);
+            expect(_.indexOf(['apple', 'avocado', 'banana', 'grapes', 'sharon fruit', 'starfruit', 'strawberry'], 'starfruit', true)).to.equal(5);
+            expect(_.indexOf(['strawberry', 'avocado', 'apple ', 'banana', 'grapes', 'sharon fruit', 'starfruit'], 'apple', true)).to.equal(-1);
+        });
+
+        it('22. the binary search functionality will also work for alphabetically ordered strings', function () {
+            expect(_.indexOf('abcdefghijk', 'a', true)).to.equal(0);
+            expect(_.indexOf('aclq', 'q', true)).to.equal(3);
+            expect(_.indexOf('hello', 'h', true)).to.equal(-1);
+            expect(_.indexOf('hello', 'l', true)).to.equal(2);
+            expect(_.indexOf('hello', 'o', true)).to.equal(4);
+        });
     });
 //  MAP
 
