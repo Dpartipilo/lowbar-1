@@ -620,6 +620,106 @@ describe('_', function () {
         });
     });
 
+//  CONTAINS
+
+    describe('_.contains', function () {
+        it('1. is a function', function () {
+            expect(_.contains).to.be.a('function');
+        });
+
+        it('2. takes three arguments', function () {
+            expect(_.contains).to.have.length.at.least(2);
+        });
+
+        it('3. should return a boolean', function () {
+            expect(_.contains([1,2,3], 2)).to.be.a('boolean');
+            expect(_.contains()).to.be.a('boolean');
+        });
+
+        it('4. should return true if the array contains the value', function () {
+            expect(_.contains([1,2,3], 2)).to.equal(true);
+            expect(_.contains([1,2,3, 4, 4, 3], 3)).to.equal(true);
+            expect(_.contains(['a','b','c'], 'c')).to.equal(true);
+            expect(_.contains([1 ,2, false, true, false], true)).to.equal(true);
+        });
+
+        it('6. should return false if the array does not contain the search value', function () {
+            expect(_.contains([1,2,3], 4)).to.equal(false);
+        });
+
+        it('7. should return false if a search value is not given', function () {
+            expect(_.contains([1,2,3])).to.equal(false);
+        });
+
+        it('8. will not match nested arrays or objects within the array', function () {
+            expect(_.contains([[1,2,3], 2, {a: 1}, 4], [1,2,3])).to.equal(false);
+            expect(_.contains([[1,2,3], 2, {a: 1}, 4], {a: 1})).to.equal(false);
+        });
+
+        it('9. should return -1 if an object, number or boolean is given as the first argument', function () {
+            expect(_.contains(12345, 3)).to.equal(false);
+            expect(_.contains(12345, 12345)).to.equal(false);
+            expect(_.contains(true, true)).to.equal(false);
+        });
+
+        it('10. should return -1 if trying to match a whole string', function () {
+            expect(_.contains('hello', 'hello')).to.equal(false);
+        });
+
+        it('11. should return the first index of a letter in a string', function () {
+            expect(_.contains('hello', 'h')).to.equal(true);
+            expect(_.contains('hello', 'l')).to.equal(true);
+        });
+
+        it('12. should return -1 if no arguments are passed', function () {
+            expect(_.contains()).to.equal(false);
+        });
+
+        it('13. it will start searching from the given index if a number is passed as the third value', function () {
+            expect(_.contains([1,2,3,4,5,4,5], 3, 3)).to.equal(false);
+            expect(_.contains([1,2,3,4,5,4,5], 3, 2)).to.equal(true);
+            expect(_.contains(['to', 'be', 'or', 'not', 'to', 'be'], 'to', 5)).to.equal(false);
+            expect(_.contains(['to', 'be', 'or', 'not', 'to', 'be'], 'or', 2)).to.equal(true);
+            expect(_.contains('zigzag', 'z', 4)).to.equal(false);
+            expect(_.contains('zigzag', 'z', 3)).to.equal(true);
+        });
+
+        it('14. should return false if the search index is in the array, but prior to the /search from/ index', function () {
+            expect(_.contains([1,2,3,4,5,6], 1, 3)).to.equal(false);
+        });
+        
+        it('15. should return false if the search index is higher than the array or string length', function () {
+            expect(_.contains([1,2,3,4,5,6], 1, 7)).to.equal(false);
+            expect(_.contains('hello', 'h', 6)).to.equal(false);
+        });
+
+        it('16. should start searching from an index counted from the end if a negative starting index is given', function () {
+            expect(_.contains([1,2,3,4,5,6], 5, -1)).to.equal(false);
+            expect(_.contains([1,2,3,4,5,6], 5, -2)).to.equal(true);
+            expect(_.contains([1,2,3,4,5,6], 5, -3)).to.equal(true);
+            expect(_.contains([1,2,3,4,5,6], 1, -100)).to.equal(true);
+            expect(_.contains([1,2,3,1,2,3], 1, -2)).to.equal(false);
+            expect(_.contains([1,2,3,1,2,3], 1, -3)).to.equal(true);
+            expect(_.contains('zigzag', 'a', -1)).to.equal(false);
+            expect(_.contains('zigzag', 'a', -2)).to.equal(true);
+            expect(_.contains('zigzag', 'i', -4)).to.equal(false);
+            expect(_.contains('zigzag', 'i', -5)).to.equal(true);
+        });
+
+        it('17. does not accept decimals as a starting index', function () {
+            expect(_.contains([1,1,1], 1, 1.1)).to.equal(false);
+        });
+
+        it('18. will return true if the value of a key value pair in an object is present', function () {
+            expect(_.contains({a: 1, b: 2}, 1)).to.equal(true);
+            expect(_.contains({a: 1, b: 2}, 2)).to.equal(true);
+            expect(_.contains({a: 1, b: 2}, 3)).to.equal(false);
+            expect(_.contains({1: 'a', 2: 'b'}, 1)).to.equal(false);
+            expect(_.contains({1: 'a', 2: 'b'}, 'a')).to.equal(true);
+            expect(_.contains({1: 'a', 2: 'b'}, 2)).to.equal(false);
+            expect(_.contains({1: 'a', 2: 'b'}, 'b')).to.equal(true);
+        });
+    });
 });
 
 

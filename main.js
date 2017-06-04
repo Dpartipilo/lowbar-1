@@ -66,7 +66,17 @@ _.map = (list, iteratee) => {
 };
 
 // // CONTAINS
-// _.contains = 
+_.contains = (array, value, startingIndex = 0) => {
+    if (typeof array === 'object' && !(Array.isArray(array))) {
+        for (let key in array) {
+            if (array[key] === value) return true;
+        }
+        return false;
+    }
+    const result = _.indexOf(array, value, startingIndex);
+        if (result >= 0) return true;
+        return false;
+};
 
 
 if (typeof module !== 'undefined') {
