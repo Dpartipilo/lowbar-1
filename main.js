@@ -65,7 +65,7 @@ _.map = (list, iteratee) => {
     }
 };
 
-// // CONTAINS
+// CONTAINS
 _.contains = (array, value, startingIndex = 0) => {
     if (typeof array === 'object' && !(Array.isArray(array))) {
         for (let key in array) {
@@ -76,6 +76,18 @@ _.contains = (array, value, startingIndex = 0) => {
     const result = _.indexOf(array, value, startingIndex);
         if (result >= 0) return true;
         return false;
+};
+
+//  PLUCK
+_.pluck = (list, propertyName) => {
+    if (!list) return [];
+    if (!propertyName) return [undefined];
+    const result = [];
+
+    for (var i = 0; i < list.length; i++) {
+        result.push(list[i][propertyName]);
+    }
+    return result;
 };
 
 

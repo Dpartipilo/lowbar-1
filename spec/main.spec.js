@@ -720,6 +720,119 @@ describe('_', function () {
             expect(_.contains({1: 'a', 2: 'b'}, 'b')).to.equal(true);
         });
     });
+
+//  PLUCK
+
+    describe('_.pluck', function () {
+        it('1. is a function', function () {
+            expect(_.pluck).to.be.a('function');
+        });
+
+        it('2. takes two arguments', function () {
+            expect(_.pluck).to.have.lengthOf(2);
+        });
+
+        it('3. should return an array', function () {
+            const info = [
+                {firstName: 'Harry', surname: 'Potter', house: 'Gryffindor'},
+                {firstName: 'Hermione', surname: 'Granger', house: 'Gryffindor'},
+                {firstName: 'Ron', surname: 'Weasley', house: 'Gryffindor'},
+                {firstName: 'Draco', surname: 'Malfoy', house: 'Slytherin'},
+                {firstName: 'Luna', surname: 'Lovegood', house: 'Ravenclaw'},
+            ];
+            
+            expect(_.pluck()).to.be.an('array');
+            expect(_.pluck(info, 'firstName')).to.be.an('array');
+        });
+
+        it('4. should return an array containing the property values of each object in an array', function () {
+            const info = [
+                {firstName: 'Harry', surname: 'Potter', house: 'Gryffindor'},
+                {firstName: 'Hermione', surname: 'Granger', house: 'Gryffindor'},
+                {firstName: 'Ron', surname: 'Weasley', house: 'Gryffindor'},
+                {firstName: 'Draco', surname: 'Malfoy', house: 'Slytherin'},
+                {firstName: 'Luna', surname: 'Lovegood', house: 'Ravenclaw'},
+            ];
+
+            const resultFirstName = [ 'Harry', 'Hermione', 'Ron', 'Draco', 'Luna' ];
+            const resultSurname = [ 'Potter', 'Granger', 'Weasley', 'Malfoy', 'Lovegood' ];
+
+            expect(_.pluck(info, 'firstName')).to.eql(resultFirstName);
+            expect(_.pluck(info, 'surname')).to.eql(resultSurname);
+        });
+
+        it('5. should return an array containing undefined (the same number as the array length of the original array) if the objects do not contain the search term', function () {
+            const info = [
+                {firstName: 'Harry', surname: 'Potter', house: 'Gryffindor'},
+                {firstName: 'Hermione', surname: 'Granger', house: 'Gryffindor'},
+                {firstName: 'Ron', surname: 'Weasley', house: 'Gryffindor'},
+                {firstName: 'Draco', surname: 'Malfoy', house: 'Slytherin'},
+                {firstName: 'Luna', surname: 'Lovegood', house: 'Ravenclaw'},
+            ];
+
+            const expected = [undefined, undefined, undefined, undefined, undefined];
+            expect(_.pluck(info, 'wand')).to.eql(expected);
+        });
+
+        it('6. should return undefined in the array if one of the objects does not contain the search term', function () {
+            const info = [
+                {firstName: 'Harry', surname: 'Potter', house: 'Gryffindor', wand: 'holly, phoenix feather'},
+                {firstName: 'Hermione', surname: 'Granger', house: 'Gryffindor', wand: 'vine, dragon heartstring'},
+                {firstName: 'Ron', surname: 'Weasley', house: 'Gryffindor'},
+                {firstName: 'Draco', surname: 'Malfoy', house: 'Slytherin'},
+                {firstName: 'Luna', surname: 'Lovegood', house: 'Ravenclaw'},
+            ];
+
+            const expected = ['holly, phoenix feather', 'vine, dragon heartstring', undefined, undefined, undefined];
+            expect(_.pluck(info, 'wand')).to.eql(expected);
+        });
+
+        it('7. should return an empty array if no list is given', function () {
+            expect(_.pluck()).to.eql([]);
+        });
+
+        it('8. should return an array containing [undefined] if no searchTerm is given', function () {
+            const info = [
+                {firstName: 'Harry', surname: 'Potter', house: 'Gryffindor'},
+                {firstName: 'Hermione', surname: 'Granger', house: 'Gryffindor'},
+                {firstName: 'Ron', surname: 'Weasley', house: 'Gryffindor'},
+                {firstName: 'Draco', surname: 'Malfoy', house: 'Slytherin'},
+                {firstName: 'Luna', surname: 'Lovegood', house: 'Ravenclaw'},
+            ];
+
+            expect(_.pluck(info)).to.eql([undefined]);
+        });
+
+        it('9. should return undefined if the array does not contain objects', function () {
+            const list = ['hello', 'world', 123];
+            const list2 = ['hello', 'world', 123, {'hello': 'world'}];
+            
+            expect(_.pluck(list, 'hello')).to.eql([undefined, undefined, undefined]);
+            expect(_.pluck(list2, 'hello')).to.eql([undefined, undefined, undefined, 'world']);
+        });
+
+        it('10. should return an empty array if the list is an object', function () {
+            const list = {a: 1, b: 2, c: 3};        
+            expect(_.pluck(list, 'a')).to.eql([]);  
+        });
+
+        it('11. should return an empty array if the list is a number or boolean', function () {
+            const listNumber = 123;   
+            const listBoolean = false;        
+            expect(_.pluck(listNumber, 2)).to.eql([]);  
+            expect(_.pluck(listBoolean, false)).to.eql([]);  
+        });
+
+        it('12. should return an array containing undefined for each letter of the string if the list is a string', function () {
+            const listStringTwo = 'hi';         
+            expect(_.pluck(listStringTwo, 'h')).to.have.lengthOf(2);  
+            expect(_.pluck(listStringTwo, 'h')).to.eql([undefined, undefined]);  
+
+            const listStringFive = 'hello';         
+            expect(_.pluck(listStringFive, 'h')).to.have.lengthOf(5);  
+            expect(_.pluck(listStringFive, 'h')).to.eql([undefined, undefined, undefined, undefined, undefined]);
+        });
+    });
 });
 
 
