@@ -952,28 +952,88 @@ describe('_', function () {
             expect(count).to.equal(4);
         });
 
-        // it('9. passes the value of each item in an object as the first argument to the function', function () {
-        //     let itemsArr = [];
-        //     const putItemInArr = (item) => itemsArr.push(item);
+        it('17. will return an array if the memo is an array (object list)', function () {
+            const double = (memo, item) => memo.concat(item * 2);
+            let result = _.reduce({a: 1, b: 2, c: 3, d: 4}, double, []);
+            expect(result).to.be.an('array');
+            expect(result).to.eql([2, 4, 6, 8]);
+        });
 
-        //     _.each({ one: 1, two: 2, three: 3, four: 4 }, putItemInArr);
-        //     expect(itemsArr).to.eql([1, 2, 3, 4]);
-        // });
+        it('18. passes the memo as the first argument to the iterator and the iterator returns the altered memo (object list)', function () {
+            const double = (memo) => memo.concat('hello');
+            let result = _.reduce({a: 1, b: 2, c: 3, d: 4}, double, []);
+            expect(result).to.be.an('array');
+            expect(result).to.eql(['hello', 'hello', 'hello', 'hello']);
+        });
 
-        // it('10. passes the key of each item in an object as the second argument to the function', function () {
-        //     let keysArr = [];
-        //     const putItemInArr = (item, key) => keysArr.push(key);
+        it('19. passes each value from the object list as the second argument to the function, resulting in an array if the memo is an array (object list)', function () {
+            const double = (memo, value) => memo.concat(value * 2);
+            const result = _.reduce({a: 1, b: 2, c: 3, d: 4}, double, []);
+            expect(result).to.have.lengthOf(4);
+            expect(result).to.eql([2, 4, 6, 8]);
+        });
 
-        //     _.each({ one: 1, two: 2, three: 3 }, putItemInArr);
-        //     expect(keysArr).to.eql(['one', 'two', 'three']);
-        // });
+        it('20. passes the key of each key value pair as the third argument to the iterator (object list)', function () {
+            const makeKeyArray = (memo, value, key) => memo.concat(key);
+            let result = _.reduce({a: 1, b: 2, c: 3, d: 4}, makeKeyArray, []);
+            expect(result).to.have.lengthOf(4);
+            expect(result).to.eql(['a', 'b', 'c', 'd']);
+        });
 
-        // it('11. passes a list of the original object each time the function iterates', function () {
-        //     let listArr = [];
-        //     const putListInArr = (item, key, list) => listArr.push(list);
-        //     _.each({ one: 1, two: 2, three: 3 }, putListInArr);
-        //     expect(listArr).to.eql([{ one: 1, two: 2, three: 3 }, { one: 1, two: 2, three: 3 }, { one: 1, two: 2, three: 3 }]);
-        // });
+        it('21. passes a list of the original object to the function each time the function iterates (object list)', function () {
+            const putListInArr = (memo, value, key, list) => {
+                memo.push(list);
+                return memo;
+            };
+            let result = _.reduce({a: 1, b: 2, c: 3, d: 4}, putListInArr, []);
+            expect(result).to.eql([{a: 1, b: 2, c: 3, d: 4}, {a: 1, b: 2, c: 3, d: 4}, {a: 1, b: 2, c: 3, d: 4}, {a: 1, b: 2, c: 3, d: 4}]);
+        });
+
+        it('22. returns a string if the memo is a string (object list)', function () {
+            const putListInString = (memo, value) => {
+                memo += `${value} `;
+                return memo;
+            };
+            let result = _.reduce({a: 'eggs', b: 'apples', c: 'bananas', d: 'bread'}, putListInString, '');
+            expect(result).to.equal('eggs apples bananas bread ');
+        });
+
+        it('23. returns a number if the memo is a number (object list)', function () {
+            const accumulate = (memo, value) => {
+                memo += value;
+                return memo;
+            };
+            let result = _.reduce({a: 1, b: 2, c: 3, d: 4}, accumulate, 0);
+            expect(result).to.equal(10);
+
+            result = _.reduce({a: 1, b: 2, c: 3, d: 4}, accumulate, 2);
+            expect(result).to.equal(12);
+        });
+
+        it('24. returns an object if the memo is an object', function () {
+            const accumulateDoubles = (memo, value, key) => {
+                memo[key] = value * 2;
+                return memo;
+            };
+            let result = _.reduce({a: 1, b: 2, c: 3, d: 4}, accumulateDoubles, {});
+            expect(result).to.eql({a: 2, b: 4, c: 6, d: 8});
+        });
+
+        it('25. if the list argument is an array and the memo is not defined, it uses the first key as the memo (COUNT)', function () {
+            let count = 0;
+            const incrementCount = () => count++;
+            _.reduce({a: 1, b: 2, c: 3, d: 4}, incrementCount);
+            expect(count).to.equal(3);
+        });
+
+        it('26. will use the initial key value pair of the object encountered as the memo if the memo is not defined', function () {
+            const accumulate = (memo, item) => memo += item;
+            let result1 = _.reduce({a: 1, b: 2, c: 3, d: 4}, accumulate, 0);
+            let result2 = _.reduce({a: 1, b: 2, c: 3, d: 4}, accumulate);
+            expect(result1).to.eql(result2);
+            expect(result2).to.eql(10);
+        });
+
 
     });
 });
