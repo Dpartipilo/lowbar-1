@@ -110,8 +110,14 @@ _.reduce = (list, iteratee, memo) => {
 
 //  EVERY
 _.every = (list, predicate) => {
-    for (let i = 0; i < list.length; i++) {
-        if (!(predicate(list[i]))) return false;
+    if (Array.isArray(list)) {
+        for (let i = 0; i < list.length; i++) {
+            if (!(predicate(list[i]))) return false;
+        }
+    } else if (typeof list === 'object') {
+        for (let key in list) {
+            if (!(predicate(list[key]))) return false;
+        }
     }
     return true;
 };
