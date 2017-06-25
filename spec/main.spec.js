@@ -857,13 +857,12 @@ describe('_', function () {
             expect(count).to.equal(6);
         });
 
-        // it('5. passes each item of the array as the first argument to the function', function () {
-        //     let resultArr = [];
-        //     const putItemInArr = (item) => resultArr.push(item);
-        //     _.each([1, 2, 3, 4, 5, 6], putItemInArr);
-        //     expect(resultArr).to.have.lengthOf(6);
-        //     expect(resultArr).to.eql([1, 2, 3, 4, 5, 6]);
-        // });
+        it('5. passes each item of the array as the first argument to the function, resulting in a new array', function () {
+            const double = (item) => item * 2;
+            const result = _.reduce([1, 2, 3, 4, 5, 6], double, []);
+            expect(result).to.have.lengthOf(6);
+            expect(result).to.eql([2, 4, 6, 8, 10, 12]);
+        });
 
         // it('6. passes the index of each element of the array as the second argument to the function', function () {
         //     let indexArr = [];
