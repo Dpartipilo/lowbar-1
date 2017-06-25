@@ -1,5 +1,7 @@
+const path = require('path');
+
 const _ = {};
-const {binarySearch} = require('./lib/binarySearch.js');
+const binarySearch = require(path.resolve(__dirname, 'lib', 'binarySearch'));
 
 //  IDENTITY
 _.identity = value => value;
@@ -89,6 +91,10 @@ _.pluck = (list, propertyName) => {
     }
     return result;
 };
+
+//  REDUCE
+
+
 
 
 if (typeof module !== 'undefined') {

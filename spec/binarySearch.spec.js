@@ -1,5 +1,7 @@
 const {expect} = require('chai');
-const {binarySearch} = require('../lib/binarySearch.js');
+const path = require('path');
+
+const binarySearch = require(path.resolve(__dirname, '..', 'lib', 'binarySearch'));
 
 describe('binarySearch', function () {
   it('is a function', function () {
