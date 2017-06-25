@@ -29,13 +29,13 @@ _.last = (array, n) => {
 _.each = (list, iteratee) => {
     if (Array.isArray(list)) {
         for (let i = 0; i < list.length; i++) {
-            iteratee (list[i], i, list);
+            iteratee(list[i], i, list);
         }
     } else {
         for (let prop in list) {
             iteratee(list[prop], prop, list);
         }
-    }  
+    }
 };
 
 //  INDEX OF
@@ -76,8 +76,8 @@ _.contains = (array, value, startingIndex = 0) => {
         return false;
     }
     const result = _.indexOf(array, value, startingIndex);
-        if (result >= 0) return true;
-        return false;
+    if (result >= 0) return true;
+    return false;
 };
 
 //  PLUCK
@@ -93,10 +93,41 @@ _.pluck = (list, propertyName) => {
 };
 
 //  REDUCE
+// reduce_.reduce(list, iteratee, [memo], [context]) Aliases: inject, foldl 
+// Also known as inject and foldl, reduce boils down a list of values into a single value. Memo is the initial 
+// state of the reduction, and each successive step of it should be returned by iteratee. The iteratee is passed 
+// four arguments: the memo, then the value and index (or key) of the iteration, and finally a reference to the
+//  entire list.
 
+// If no memo is passed to the initial invocation of reduce, the iteratee is not invoked on the first element 
+// of the list. The first element is instead passed as the memo in the invocation of the iteratee on the next 
+// element in the list.
+
+// var sum = _.reduce([1, 2, 3], function(memo, num){ return memo + num; }, 0);
+// => 6
+
+_.reduce = (list, iteratee, memo) => {
+    // if memo is an array
+    if (Array.isArray(list)) {
+        // if there is no memo, memo = array[0] and iteration starts at 1;
+        if (memo !== 0 && !memo) memo = list.shift();
+        for (let i = 0; i < list.length; i++) {
+            // if memo is an array
+            if (Array.isArray(memo)) memo.push(iteratee(list[i], i, list));
+            // if memo is an object
+            // if (typeof memo === 'object') 
+
+            // if memo is a number || if memo is a string 
+            if (Number.isInteger(memo) || typeof memo === 'string') memo += iteratee(list[i], i, list);
+
+
+        }
+        return memo;
+    }
+};
 
 
 
 if (typeof module !== 'undefined') {
-  module.exports = _;
+    module.exports = _;
 }
