@@ -110,7 +110,7 @@ _.reduce = (list, iteratee, memo) => {
     // if memo is an array
     if (Array.isArray(list)) {
         // if there is no memo, memo = array[0] and iteration starts at 1;
-        if (memo !== 0 && !memo) memo = list.shift();
+        if (memo !== 0 && memo !== '' && !memo) memo = list.shift();
         for (let i = 0; i < list.length; i++) {
             memo = iteratee(memo, list[i], i, list);
         }

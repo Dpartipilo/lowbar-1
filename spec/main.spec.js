@@ -894,6 +894,16 @@ describe('_', function () {
             expect(result).to.eql([[1, 2, 3, 4], [1, 2, 3, 4], [1, 2, 3, 4], [1, 2, 3, 4]]);
         });
 
+
+        it('10. returns a string if the memo is a string', function () {
+            const putListInString = (memo, item) => {
+                memo += `${item} `;
+                return memo;
+            };
+            let result = _.reduce(['eggs', 'apples', 'bananas', 'bread'], putListInString, '');
+            expect(result).to.equal('eggs apples bananas bread ');
+        });
+
         // it('8. calls the function as many times as key:value pairs in the object (SINON)', function () {
         //     const spy = sinon.spy();
         //     _.each({ a: 1, b: 2, c: 3, d: 4 }, spy);
