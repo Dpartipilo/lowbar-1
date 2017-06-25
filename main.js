@@ -92,30 +92,19 @@ _.pluck = (list, propertyName) => {
     return result;
 };
 
-//  REDUCE
-// reduce_.reduce(list, iteratee, [memo], [context]) Aliases: inject, foldl 
-// Also known as inject and foldl, reduce boils down a list of values into a single value. Memo is the initial 
-// state of the reduction, and each successive step of it should be returned by iteratee. The iteratee is passed 
-// four arguments: the memo, then the value and index (or key) of the iteration, and finally a reference to the
-//  entire list.
-
-// If no memo is passed to the initial invocation of reduce, the iteratee is not invoked on the first element 
-// of the list. The first element is instead passed as the memo in the invocation of the iteratee on the next 
-// element in the list.
-
-// var sum = _.reduce([1, 2, 3], function(memo, num){ return memo + num; }, 0);
-// => 6
-
 _.reduce = (list, iteratee, memo) => {
-    // if memo is an array
     if (Array.isArray(list)) {
-        // if there is no memo, memo = array[0] and iteration starts at 1;
         if (memo !== 0 && memo !== '' && !memo) memo = list.shift();
         for (let i = 0; i < list.length; i++) {
             memo = iteratee(memo, list[i], i, list);
         }
-        return memo;
+    } else {
+        for (let key in list) {
+            if (memo !== 0 && memo !== '' && !memo) memo = list[key];
+            else memo = iteratee(memo, list[key], key, list);
+        }
     }
+    return memo;
 };
 
 

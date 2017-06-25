@@ -921,14 +921,36 @@ describe('_', function () {
                 return memo;
             };
             let result = _.reduce([1, 2, 3], accumulateDoubles, {});
-            expect(result).to.eql({0: 2, 1: 4, 2: 6});
+            expect(result).to.eql({ 0: 2, 1: 4, 2: 6 });
         });
 
-        // it('8. calls the function as many times as key:value pairs in the object (SINON)', function () {
-        //     const spy = sinon.spy();
-        //     _.each({ a: 1, b: 2, c: 3, d: 4 }, spy);
-        //     expect(spy.callCount).to.equal(4);
-        // });
+        it('13. if the list argument is an array and the memo is not defined, it uses the first element as the memo (SINON)', function () {
+            const spy = sinon.spy();
+            _.reduce([1, 2, 3, 4, 5, 6], spy);
+            expect(spy.callCount).to.equal(5);
+        });
+
+        it('14. if the list argument is an array and the memo is not defined, it uses the first element as the memo (COUNT)', function () {
+            let count = 0;
+            const incrementCount = () => count++;
+            _.reduce([1, 2, 3, 4, 5, 6], incrementCount);
+            expect(count).to.equal(5);
+        });
+
+        it('15. will use the initial element of the array as the memo if the memo is not defined', function () {
+            const accumulate = (memo, item) => memo += item;
+            let result1 = _.reduce([1, 2, 3, 4], accumulate, 0);
+            let result2 = _.reduce([1, 2, 3, 4], accumulate);
+            expect(result1).to.eql(result2);
+            expect(result2).to.eql(10);
+        });
+
+        it('16. if the list argument is an object, it calls the function as many times as items in the array (COUNT)', function () {
+            let count = 0;
+            const incrementCount = () => count++;
+            _.reduce({ a: 1, b: 2, c: 3, d: 4 }, incrementCount, 0);
+            expect(count).to.equal(4);
+        });
 
         // it('9. passes the value of each item in an object as the first argument to the function', function () {
         //     let itemsArr = [];
