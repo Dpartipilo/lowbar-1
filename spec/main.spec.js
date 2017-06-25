@@ -835,7 +835,8 @@ describe('_', function () {
         });
     });
 
-    describe.only('_.reduce', function () {
+    //  REDUCE
+    describe('_.reduce', function () {
         it('1. is a function', function () {
             expect(_.reduce).to.be.a('function');
         });
@@ -1034,7 +1035,17 @@ describe('_', function () {
             expect(result2).to.eql(10);
         });
 
+//  EVERY
+    describe('_.every', function () {
+        it('1. is a function', function () {
+            expect(_.every).to.be.a('function');
+        });
 
+        it('2. takes two arguments', function () {
+            expect(_.every).to.have.lengthOf(2);
+        });
+
+    });
     });
 });
 

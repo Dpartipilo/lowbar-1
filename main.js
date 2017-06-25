@@ -92,6 +92,7 @@ _.pluck = (list, propertyName) => {
     return result;
 };
 
+//  REDUCE
 _.reduce = (list, iteratee, memo) => {
     if (Array.isArray(list)) {
         if (memo !== 0 && memo !== '' && !memo) memo = list.shift();
@@ -106,6 +107,9 @@ _.reduce = (list, iteratee, memo) => {
     }
     return memo;
 };
+
+//  EVERY
+_.every = (list, predicate) => {}
 
 
 
