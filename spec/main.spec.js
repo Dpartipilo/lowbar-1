@@ -894,7 +894,6 @@ describe('_', function () {
             expect(result).to.eql([[1, 2, 3, 4], [1, 2, 3, 4], [1, 2, 3, 4], [1, 2, 3, 4]]);
         });
 
-
         it('10. returns a string if the memo is a string', function () {
             const putListInString = (memo, item) => {
                 memo += `${item} `;
@@ -902,6 +901,15 @@ describe('_', function () {
             };
             let result = _.reduce(['eggs', 'apples', 'bananas', 'bread'], putListInString, '');
             expect(result).to.equal('eggs apples bananas bread ');
+        });
+
+        it('11. returns a number if the memo is a number', function () {
+            const accumulate = (memo, item) => {
+                memo += item;
+                return memo;
+            };
+            let result = _.reduce([1,2,3,4,5], accumulate, 0);
+            expect(result).to.equal(15);
         });
 
         // it('8. calls the function as many times as key:value pairs in the object (SINON)', function () {
