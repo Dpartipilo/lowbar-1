@@ -871,12 +871,11 @@ describe('_', function () {
             expect(result).to.eql([0, 1, 2, 3, 4, 5]);
         });
 
-        // it('7. passes a list of the original array each time the function iterates', function () {
-        //     let listArr = [];
-        //     const putListInArr = (item, index, list) => listArr.push(list);
-        //     _.each([1, 2, 3, 4], putListInArr);
-        //     expect(listArr).to.eql([[1, 2, 3, 4], [1, 2, 3, 4], [1, 2, 3, 4], [1, 2, 3, 4]]);
-        // });
+        it('7. passes a list of the original array each time the function iterates', function () {
+            const putListInArr = (item, index, list) => list;
+            let result = _.reduce([1, 2, 3, 4], putListInArr, []);
+            expect(result).to.eql([[1, 2, 3, 4], [1, 2, 3, 4], [1, 2, 3, 4], [1, 2, 3, 4]]);
+        });
 
         // it('8. calls the function as many times as key:value pairs in the object (SINON)', function () {
         //     const spy = sinon.spy();
