@@ -910,6 +910,9 @@ describe('_', function () {
             };
             let result = _.reduce([1,2,3,4,5], accumulate, 0);
             expect(result).to.equal(15);
+
+            result = _.reduce([1,2,3,4,5], accumulate, 2);
+            expect(result).to.equal(17);
         });
 
         // it('8. calls the function as many times as key:value pairs in the object (SINON)', function () {
