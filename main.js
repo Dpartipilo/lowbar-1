@@ -109,7 +109,12 @@ _.reduce = (list, iteratee, memo) => {
 };
 
 //  EVERY
-_.every = (list, predicate) => {}
+_.every = (list, predicate) => {
+    for (let i = 0; i < list.length; i++) {
+        if (!(predicate(list[i]))) return false;
+    }
+    return true;
+};
 
 
 

@@ -955,28 +955,28 @@ describe('_', function () {
 
         it('17. will return an array if the memo is an array (object list)', function () {
             const double = (memo, item) => memo.concat(item * 2);
-            let result = _.reduce({a: 1, b: 2, c: 3, d: 4}, double, []);
+            let result = _.reduce({ a: 1, b: 2, c: 3, d: 4 }, double, []);
             expect(result).to.be.an('array');
             expect(result).to.eql([2, 4, 6, 8]);
         });
 
         it('18. passes the memo as the first argument to the iterator and the iterator returns the altered memo (object list)', function () {
             const double = (memo) => memo.concat('hello');
-            let result = _.reduce({a: 1, b: 2, c: 3, d: 4}, double, []);
+            let result = _.reduce({ a: 1, b: 2, c: 3, d: 4 }, double, []);
             expect(result).to.be.an('array');
             expect(result).to.eql(['hello', 'hello', 'hello', 'hello']);
         });
 
         it('19. passes each value from the object list as the second argument to the function, resulting in an array if the memo is an array (object list)', function () {
             const double = (memo, value) => memo.concat(value * 2);
-            const result = _.reduce({a: 1, b: 2, c: 3, d: 4}, double, []);
+            const result = _.reduce({ a: 1, b: 2, c: 3, d: 4 }, double, []);
             expect(result).to.have.lengthOf(4);
             expect(result).to.eql([2, 4, 6, 8]);
         });
 
         it('20. passes the key of each key value pair as the third argument to the iterator (object list)', function () {
             const makeKeyArray = (memo, value, key) => memo.concat(key);
-            let result = _.reduce({a: 1, b: 2, c: 3, d: 4}, makeKeyArray, []);
+            let result = _.reduce({ a: 1, b: 2, c: 3, d: 4 }, makeKeyArray, []);
             expect(result).to.have.lengthOf(4);
             expect(result).to.eql(['a', 'b', 'c', 'd']);
         });
@@ -986,8 +986,8 @@ describe('_', function () {
                 memo.push(list);
                 return memo;
             };
-            let result = _.reduce({a: 1, b: 2, c: 3, d: 4}, putListInArr, []);
-            expect(result).to.eql([{a: 1, b: 2, c: 3, d: 4}, {a: 1, b: 2, c: 3, d: 4}, {a: 1, b: 2, c: 3, d: 4}, {a: 1, b: 2, c: 3, d: 4}]);
+            let result = _.reduce({ a: 1, b: 2, c: 3, d: 4 }, putListInArr, []);
+            expect(result).to.eql([{ a: 1, b: 2, c: 3, d: 4 }, { a: 1, b: 2, c: 3, d: 4 }, { a: 1, b: 2, c: 3, d: 4 }, { a: 1, b: 2, c: 3, d: 4 }]);
         });
 
         it('22. returns a string if the memo is a string (object list)', function () {
@@ -995,7 +995,7 @@ describe('_', function () {
                 memo += `${value} `;
                 return memo;
             };
-            let result = _.reduce({a: 'eggs', b: 'apples', c: 'bananas', d: 'bread'}, putListInString, '');
+            let result = _.reduce({ a: 'eggs', b: 'apples', c: 'bananas', d: 'bread' }, putListInString, '');
             expect(result).to.equal('eggs apples bananas bread ');
         });
 
@@ -1004,10 +1004,10 @@ describe('_', function () {
                 memo += value;
                 return memo;
             };
-            let result = _.reduce({a: 1, b: 2, c: 3, d: 4}, accumulate, 0);
+            let result = _.reduce({ a: 1, b: 2, c: 3, d: 4 }, accumulate, 0);
             expect(result).to.equal(10);
 
-            result = _.reduce({a: 1, b: 2, c: 3, d: 4}, accumulate, 2);
+            result = _.reduce({ a: 1, b: 2, c: 3, d: 4 }, accumulate, 2);
             expect(result).to.equal(12);
         });
 
@@ -1016,36 +1016,71 @@ describe('_', function () {
                 memo[key] = value * 2;
                 return memo;
             };
-            let result = _.reduce({a: 1, b: 2, c: 3, d: 4}, accumulateDoubles, {});
-            expect(result).to.eql({a: 2, b: 4, c: 6, d: 8});
+            let result = _.reduce({ a: 1, b: 2, c: 3, d: 4 }, accumulateDoubles, {});
+            expect(result).to.eql({ a: 2, b: 4, c: 6, d: 8 });
         });
 
         it('25. if the list argument is an array and the memo is not defined, it uses the first key as the memo (COUNT)', function () {
             let count = 0;
             const incrementCount = () => count++;
-            _.reduce({a: 1, b: 2, c: 3, d: 4}, incrementCount);
+            _.reduce({ a: 1, b: 2, c: 3, d: 4 }, incrementCount);
             expect(count).to.equal(3);
         });
 
         it('26. will use the initial key value pair of the object encountered as the memo if the memo is not defined', function () {
             const accumulate = (memo, item) => memo += item;
-            let result1 = _.reduce({a: 1, b: 2, c: 3, d: 4}, accumulate, 0);
-            let result2 = _.reduce({a: 1, b: 2, c: 3, d: 4}, accumulate);
+            let result1 = _.reduce({ a: 1, b: 2, c: 3, d: 4 }, accumulate, 0);
+            let result2 = _.reduce({ a: 1, b: 2, c: 3, d: 4 }, accumulate);
             expect(result1).to.eql(result2);
             expect(result2).to.eql(10);
         });
 
-//  EVERY
-    describe('_.every', function () {
-        it('1. is a function', function () {
-            expect(_.every).to.be.a('function');
-        });
+        //  EVERY
+        describe('_.every', function () {
+            it('1. is a function', function () {
+                expect(_.every).to.be.a('function');
+            });
 
-        it('2. takes two arguments', function () {
-            expect(_.every).to.have.lengthOf(2);
-        });
+            it('2. takes two arguments', function () {
+                expect(_.every).to.have.lengthOf(2);
+            });
 
-    });
+            it('3. returns a boolean', function () {
+                const isString = (letter) => typeof letter === 'string';
+                expect(_.every(['a'], isString)).to.be.a('boolean');
+            });
+
+            it('4. should return true if all of the values in the list pass the predicate truth test', function () {
+                const isString = (letter) => typeof letter === 'string';
+                expect(_.every(['a', 'b', 'c', 'd'], isString)).to.be.true;
+
+                const isEven = (number) => number % 2 === 0;
+                expect(_.every([2, 4, 6, 8], isEven)).to.be.true;
+            });
+
+            it('5. should return false if one value in the list is false', function () {
+                const isString = (letter) => typeof letter === 'string';
+                expect(_.every(['a', 'b', 1, 'd'], isString)).to.be.false;
+
+                const isEven = (number) => number % 2 === 0;
+                expect(_.every([2, 4, 6, 9], isEven)).to.be.false;
+            });
+
+            it('6. should stop traversing the list if a false element is found', function () {
+                let count = 0;
+                const isString = (letter) => {
+                    count++;
+                    return typeof letter === 'string';
+                };
+                _.every(['a', 'b', 'c', 'd'], isString);
+                expect(count).to.equal(4);
+
+                count = 0;
+                _.every(['a', 1, 'c', 'd'], isString);
+                expect(count).to.equal(2);
+            });
+
+        });
     });
 });
 
