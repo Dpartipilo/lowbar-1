@@ -835,7 +835,7 @@ describe('_', function () {
         });
     });
 
-    describe('_.reduce', function () {
+    describe.only('_.reduce', function () {
         it('1. is a function', function () {
             expect(_.reduce).to.be.a('function');
         });
@@ -844,9 +844,9 @@ describe('_', function () {
             expect(_.reduce).to.have.lengthOf(3);
         });
 
-        xit('3. if the list argument is an array, it calls the function as many times as items in the array (SINON)', function () {
+        it('3. if the list argument is an array, it calls the function as many times as items in the array (SINON)', function () {
             const spy = sinon.spy();
-            _.reduce([1, 2, 3, 4, 5, 6], spy);
+            _.reduce([1, 2, 3, 4, 5, 6], spy, []);
             expect(spy.callCount).to.equal(6);
         });
 

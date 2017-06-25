@@ -19,7 +19,8 @@
   "dependencies": {
     "chai": "^4.0.1",
     "eslint": "^3.19.0",
-    "mocha": "^3.4.2"
+    "mocha": "^3.4.2",
+    "sinon": "^2.3.5"
   },
   "devDependencies": {
     "sinon": "^2.3.2"
