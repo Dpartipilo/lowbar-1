@@ -857,25 +857,33 @@ describe('_', function () {
             expect(count).to.equal(6);
         });
 
-        it('5. passes each item of the array as the first argument to the function, resulting in a new array if the memo is an array', function () {
+        it('5. will return an array if the memo is an array', function () {
+            const double = (item) => item * 2;
+            let result = _.reduce([1, 2, 3, 4], double, []);
+            expect(result).to.be.an('array');
+            expect(result).to.eql([2, 4, 6, 8]);
+        });
+
+        it('6. passes each item of the array as the first argument to the function, resulting in a new array if the memo is an array', function () {
             const double = (item) => item * 2;
             const result = _.reduce([1, 2, 3, 4, 5, 6], double, []);
             expect(result).to.have.lengthOf(6);
             expect(result).to.eql([2, 4, 6, 8, 10, 12]);
         });
 
-        it('6. passes the index of each element of the array as the second argument to the function', function () {
+        it('7. passes the index of each element of the array as the second argument to the function', function () {
             const makeIndexArray = (item, index) => index;
             let result = _.reduce([5, 5, 5, 5, 5, 5], makeIndexArray, []);
             expect(result).to.have.lengthOf(6);
             expect(result).to.eql([0, 1, 2, 3, 4, 5]);
         });
 
-        it('7. passes a list of the original array each time the function iterates', function () {
+        it('8. passes a list of the original array to the function each time the function iterates', function () {
             const putListInArr = (item, index, list) => list;
             let result = _.reduce([1, 2, 3, 4], putListInArr, []);
             expect(result).to.eql([[1, 2, 3, 4], [1, 2, 3, 4], [1, 2, 3, 4], [1, 2, 3, 4]]);
         });
+
 
         // it('8. calls the function as many times as key:value pairs in the object (SINON)', function () {
         //     const spy = sinon.spy();
