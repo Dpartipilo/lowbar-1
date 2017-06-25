@@ -112,15 +112,7 @@ _.reduce = (list, iteratee, memo) => {
         // if there is no memo, memo = array[0] and iteration starts at 1;
         if (memo !== 0 && !memo) memo = list.shift();
         for (let i = 0; i < list.length; i++) {
-            // if memo is an array
-            if (Array.isArray(memo)) memo.push(iteratee(list[i], i, list));
-            // if memo is an object
-            // if (typeof memo === 'object') 
-
-            // if memo is a number || if memo is a string 
-            if (Number.isInteger(memo) || typeof memo === 'string') memo += iteratee(list[i], i, list);
-
-
+            memo = iteratee(memo, list[i], i, list);
         }
         return memo;
     }

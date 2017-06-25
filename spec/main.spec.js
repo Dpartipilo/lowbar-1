@@ -858,32 +858,41 @@ describe('_', function () {
         });
 
         it('5. will return an array if the memo is an array', function () {
-            const double = (item) => item * 2;
+            const double = (memo, item) => memo.concat(item * 2);
             let result = _.reduce([1, 2, 3, 4], double, []);
             expect(result).to.be.an('array');
             expect(result).to.eql([2, 4, 6, 8]);
         });
 
-        it('6. passes each item of the array as the first argument to the function, resulting in a new array if the memo is an array', function () {
-            const double = (item) => item * 2;
+        it('6. passes the memo as the first argument to the iterator and the iterator returns the altered memo', function () {
+            const double = (memo) => memo.concat('hello');
+            let result = _.reduce([1, 2, 3, 4], double, []);
+            expect(result).to.be.an('array');
+            expect(result).to.eql(['hello', 'hello', 'hello', 'hello']);
+        });
+
+        it('7. passes each item of the array as the second argument to the function, resulting in a new array if the memo is an array', function () {
+            const double = (memo, item) => memo.concat(item * 2);
             const result = _.reduce([1, 2, 3, 4, 5, 6], double, []);
             expect(result).to.have.lengthOf(6);
             expect(result).to.eql([2, 4, 6, 8, 10, 12]);
         });
 
-        it('7. passes the index of each element of the array as the second argument to the function', function () {
-            const makeIndexArray = (item, index) => index;
+        it('8. passes the index of each element of the array as the third argument to the iterator', function () {
+            const makeIndexArray = (memo, item, index) => memo.concat(index);
             let result = _.reduce([5, 5, 5, 5, 5, 5], makeIndexArray, []);
             expect(result).to.have.lengthOf(6);
             expect(result).to.eql([0, 1, 2, 3, 4, 5]);
         });
 
-        it('8. passes a list of the original array to the function each time the function iterates', function () {
-            const putListInArr = (item, index, list) => list;
+        it('9. passes a list of the original array to the function each time the function iterates', function () {
+            const putListInArr = (memo, item, index, list) => {
+                memo.push(list);
+                return memo;
+            };
             let result = _.reduce([1, 2, 3, 4], putListInArr, []);
             expect(result).to.eql([[1, 2, 3, 4], [1, 2, 3, 4], [1, 2, 3, 4], [1, 2, 3, 4]]);
         });
-
 
         // it('8. calls the function as many times as key:value pairs in the object (SINON)', function () {
         //     const spy = sinon.spy();
