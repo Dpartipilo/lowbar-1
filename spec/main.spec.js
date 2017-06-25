@@ -857,20 +857,19 @@ describe('_', function () {
             expect(count).to.equal(6);
         });
 
-        it('5. passes each item of the array as the first argument to the function, resulting in a new array', function () {
+        it('5. passes each item of the array as the first argument to the function, resulting in a new array if the memo is an array', function () {
             const double = (item) => item * 2;
             const result = _.reduce([1, 2, 3, 4, 5, 6], double, []);
             expect(result).to.have.lengthOf(6);
             expect(result).to.eql([2, 4, 6, 8, 10, 12]);
         });
 
-        // it('6. passes the index of each element of the array as the second argument to the function', function () {
-        //     let indexArr = [];
-        //     const putIndexInArr = (item, index) => indexArr.push(index);
-        //     _.each([1, 2, 3, 4, 5, 6], putIndexInArr);
-        //     expect(indexArr).to.have.lengthOf(6);
-        //     expect(indexArr).to.eql([0, 1, 2, 3, 4, 5]);
-        // });
+        it('6. passes the index of each element of the array as the second argument to the function', function () {
+            const makeIndexArray = (item, index) => index;
+            let result = _.reduce([5, 5, 5, 5, 5, 5], makeIndexArray, []);
+            expect(result).to.have.lengthOf(6);
+            expect(result).to.eql([0, 1, 2, 3, 4, 5]);
+        });
 
         // it('7. passes a list of the original array each time the function iterates', function () {
         //     let listArr = [];
