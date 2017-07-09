@@ -1203,7 +1203,7 @@ describe('_', function () {
             expect(_.extend).to.be.a('function');
         });
 
-        it('2. takes at least one argument', function () {
+        it('2. has one named parameter', function () {
             expect(_.extend).to.have.lengthOf(1);
         });
 
@@ -1215,7 +1215,7 @@ describe('_', function () {
         });
 
         it('4. adds the values of an object with one key-value pair to the an empty destination object', function () {
-            expect(_.extend({}, {a: 1})).to.eql({ a: 1 });
+            expect(_.extend({}, { a: 1 })).to.eql({ a: 1 });
         });
 
         it('5. adds the values of an object with more than one key-value pair to the an empty destination object', function () {
@@ -1313,27 +1313,198 @@ describe('_', function () {
         it('16. returns the original destination array if the sources are not arrays or objects', function () {
             let a = [1, 2, 3, 4, 5];
             let b = 6;
-            expect(_.extend(a, b)).to.eql([1,2,3,4,5]);
+            expect(_.extend(a, b)).to.eql([1, 2, 3, 4, 5]);
         });
 
         it('17. returns the original destination array if the sources are not arrays or objects', function () {
             let a = [1, 2, 3, 4, 5];
             let b = 6;
-            expect(_.extend(a, b)).to.eql([1,2,3,4,5]);
+            expect(_.extend(a, b)).to.eql([1, 2, 3, 4, 5]);
         });
 
         it('18. adds the index and value of each array element to an object, if the destination is an object and one source is an array', function () {
-            let a = {a: 1};
+            let a = { a: 1 };
             let b = ['a', 'b', 'c'];
-            let c = {b: 7};
-            expect(_.extend(a, b, c)).to.eql({'0': 'a', '1': 'b', '2': 'c', a: 1, b: 7});
+            let c = { b: 7 };
+            expect(_.extend(a, b, c)).to.eql({ '0': 'a', '1': 'b', '2': 'c', a: 1, b: 7 });
         });
 
         it('19. will override the array index property if there is more than one array source', function () {
-            let a = {a: 1};
+            let a = { a: 1 };
             let b = ['a', 'b', 'c'];
             let c = ['z'];
-            expect(_.extend(a, b, c)).to.eql({'0': 'z', '1': 'b', '2': 'c', a: 1});
+            expect(_.extend(a, b, c)).to.eql({ '0': 'z', '1': 'b', '2': 'c', a: 1 });
+        });
+    });
+
+    // DEFAULTS
+    describe('_.defaults', function () {
+        it('1. is a function', function () {
+            expect(_.defaults).to.be.a('function');
+        });
+
+        it('2. has one named parameter', function () {
+            expect(_.defaults).to.have.lengthOf(1);
+        });
+
+        it('3. returns the provided object argument', function () {
+            let a = { a: 1, b: 2 };
+            let result = _.defaults(a);
+            expect(result).to.be.an('object');
+            expect(result).to.equal(a);
+        });
+
+        it('4. Adds the values of one default argument with one key-value pair to an empty object argument', function () {
+            let obj = {};
+            let defaultObj = { animal: 'rabbit' };
+            let result = _.defaults(obj, defaultObj);
+            expect(result).to.eql({ animal: 'rabbit' });
+        });
+
+        it('5. Adds the values of one default argument with multiple key-value pairs to an empty object argument', function () {
+            let obj = {};
+            let defaultObj = { animal: 'rabbit', food: 'carrots' };
+            let result = _.defaults(obj, defaultObj);
+            expect(result).to.eql({ animal: 'rabbit', food: 'carrots' });
+        });
+
+        it('6. Adds the values of multiple default arguments with one key-value pair to an empty object argument', function () {
+            let obj = {};
+            let defaultObj1 = { animal: 'rabbit' };
+            let defaultObj2 = { food: 'carrots' };
+            let result = _.defaults(obj, defaultObj1, defaultObj2);
+            expect(result).to.eql({ animal: 'rabbit', food: 'carrots' });
+        });
+
+        it('7. Adds the values of multiple default arguments with multiple key-value pairs to an empty object argument', function () {
+            let obj = {};
+            let defaultObj1 = { animal: 'rabbit', name: 'fluffy' };
+            let defaultObj2 = { food: 'carrots', drinks: 'water' };
+            let result = _.defaults(obj, defaultObj1, defaultObj2);
+            expect(result).to.eql({ animal: 'rabbit', drinks: 'water', food: 'carrots', name: 'fluffy' });
+        });
+
+        it('8. Adds the values of one default argument with one key-value pair to an object argument with existing key value pairs which do not match the keys of the default', function () {
+            let obj = { name: 'Fluffy', age: 1 };
+            let defaultObj1 = { animal: 'rabbit' };
+            let result = _.defaults(obj, defaultObj1);
+            expect(result).to.eql({ age: 1, animal: 'rabbit', name: 'Fluffy' });
+        });
+
+        it('9. Adds the values of one default argument with multiple key-value pairs to an object argument with existing key value pairs which do not match the keys of the default', function () {
+            let obj = { name: 'Fluffy', age: 1 };
+            let defaultObj1 = { animal: 'rabbit', likes: 'carrots' };
+            let result = _.defaults(obj, defaultObj1);
+            expect(result).to.eql({ age: 1, animal: 'rabbit', likes: 'carrots', name: 'Fluffy' });
+        });
+
+        it('10. Adds the values of multiple default arguments with one key-value pair to an object argument with existing key value pairs which do not match the keys of the default', function () {
+            let obj = { name: 'Fluffy', age: 1 };
+            let defaultObj1 = { animal: 'rabbit' };
+            let defaultObj2 = { likes: 'carrots' };
+            let result = _.defaults(obj, defaultObj1, defaultObj2);
+            expect(result).to.eql({ age: 1, animal: 'rabbit', likes: 'carrots', name: 'Fluffy' });
+        });
+
+        it('11. Adds the values of multiple default arguments with multiple key-value pair to an object argument with existing key value pairs which do not match the keys of the default', function () {
+            let obj = { name: 'Fluffy', age: 1 };
+            let defaultObj1 = { animal: 'rabbit', drinks: 'water' };
+            let defaultObj2 = { likes: 'carrots', livesIn: 'hutch' };
+            let result = _.defaults(obj, defaultObj1, defaultObj2);
+            expect(result).to.eql({ age: 1, animal: 'rabbit', drinks: 'water', likes: 'carrots', livesIn: 'hutch', name: 'Fluffy' });
+        });
+
+
+        it('12. Adds the values of one default argument with one key-value pair to an object argument with existing key value pairs, not mutating any existing key-value pairs', function () {
+            let obj = { name: 'Fluffy', animal: 'cat' };
+            let defaultObj1 = { animal: 'rabbit' };
+            let result = _.defaults(obj, defaultObj1);
+            expect(result).to.eql({ animal: 'cat', name: 'Fluffy' });
+        });
+
+        it('13. Adds the values of one default argument with multiple key-value pairs to an object argument with existing key value pairs, not mutating any existing key-value pairs', function () {
+            let obj = { name: 'Fluffy', animal: 'snake' };
+            let defaultObj1 = { animal: 'rabbit', age: 1 };
+            let result = _.defaults(obj, defaultObj1);
+            expect(result).to.eql({ age: 1, animal: 'snake', name: 'Fluffy' });
+        });
+
+        it('14. Adds the values of multiple default arguments with one key-value pair to an object argument with existing key value pairs, not mutating any existing key-value pairs', function () {
+            let obj = { name: 'Fluffy', animal: 'crocodile' };
+            let defaultObj1 = { animal: 'rabbit' };
+            let defaultObj2 = { age: 1 };
+            let result = _.defaults(obj, defaultObj1, defaultObj2);
+            expect(result).to.eql({ age: 1, animal: 'crocodile', name: 'Fluffy' });
+        });
+
+        it('15. Adds the values of multiple default arguments with multiple key-value pairs to an object argument with existing key value pairs, not mutating any existing key-value pairs', function () {
+            let obj = { name: 'Fluffy', animal: 'komodo dragon' };
+            let defaultObj1 = { animal: 'rabbit', drinks: 'water' };
+            let defaultObj2 = { name: 'Cuddles', vicious: true };
+            let result = _.defaults(obj, defaultObj1, defaultObj2);
+            expect(result).to.eql({ animal: 'komodo dragon', drinks: 'water', name: 'Fluffy', vicious: true });
+        });
+
+        it('16. Mutates the provided object argument', function () {
+            let obj = { name: 'Fluffy', animal: 'komodo dragon' };
+            let defaultObj1 = { animal: 'rabbit', drinks: 'water' };
+            let defaultObj2 = { name: 'Cuddles', vicious: true };
+            let result = _.defaults(obj, defaultObj1, defaultObj2);
+            expect(result).to.equal(obj);
+        });
+
+        it('17. returns the original "object" argument without changing it if it is not an object or array', function () {
+            let obj1 = 'Fluffy';
+            let defaultObj1 = { animal: 'rabbit', drinks: 'water' };
+            let result1 = _.defaults(obj1, defaultObj1);
+            expect(result1).to.equal('Fluffy');
+
+            let obj2 = 123;
+            let defaultObj2 = { animal: 'rabbit', drinks: 'water' };
+            let result2 = _.defaults(obj2, defaultObj2);
+            expect(result2).to.equal(123);
+        });
+
+        it('18. should not override conflicting default arguments', function () {
+            let obj = { name: 'Fluffy' };
+            let defaultObj1 = { animal: 'komodo dragon' };
+            let defaultObj2 = { animal: 'crocodile', vicious: true };
+            let result = _.defaults(obj, defaultObj1, defaultObj2);
+            expect(result).to.eql({ animal: 'komodo dragon', name: 'Fluffy', vicious: true });
+        });
+
+        it('19. should return a completed array if the provided object is an empty array and another array argument is provided', function () {
+            let obj = [];
+            let defaultObj = [1, 2, 3];
+            expect(_.defaults(obj, defaultObj)).to.eql([1, 2, 3]);
+        });
+
+        it('20. should return an unchanged array if the provided object is an empty array and any additional array arguments have lengths less than or equal to the provided array object length', function () {
+            let obj = [1, 2, 3];
+            let defaultObj1 = [4];
+            let defaultObj2 = [4, 5];
+            expect(_.defaults(obj, defaultObj1, defaultObj2)).to.eql([1, 2, 3]);
+        });
+
+        it('21. should add additional elements to a provided array object if any additional array arguments have lengths longer than the provided object array, but existing elements are unchanged', function () {
+            let obj = [1, 2, 3];
+            let defaultObj1 = ['a', 'b', 'c', 'd'];
+            let defaultObj2 = ['v', 'w', 'x', 'y', 'z'];
+            expect(_.defaults(obj, defaultObj1, defaultObj2)).to.eql([1, 2, 3, 'd', 'z']);
+        });
+
+        it('21. should add array elements to the provided object argument if one of the additional arguments is an array, using the index of the element as the key', function () {
+            let obj = { a: 1, b: 2 };
+            let defaultObj1 = [3, 4];
+            let defaultObj2 = { c: 3 };
+            expect(_.defaults(obj, defaultObj1, defaultObj2)).to.eql({ '0': 3, '1': 4, a: 1, b: 2, c: 3 });
+        });
+
+        it('22. should add any additional array elements to the provided object argument if one of the additional arguments is an array, using the index of the element as the key, but not override any existing keys if more than one additional array argument is provided', function () {
+            let obj = { a: 1, b: 2 };
+            let defaultObj1 = [3, 4];
+            let defaultObj2 = ['x', 'y', 'z'];
+            expect(_.defaults(obj, defaultObj1, defaultObj2)).to.eql({ '0': 3, '1': 4, '2': 'z', a: 1, b: 2});
         });
     });
 });

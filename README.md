@@ -15,6 +15,6 @@ This code involves reimplementing a JS library, reimplementing the following und
 2. reduce
 3. every
 4. some
-5/. extends (Object.assign)
+5. extends
 6/. defaults
 

@@ -145,6 +145,20 @@ _.extend = function (destination) {
     return destination;
 };
 
+_.defaults = function (obj) {
+    if (typeof obj === 'object') {
+        for (let i = 1; i < arguments.length; i++) {
+            const checkObj = arguments[i];
+            for (let key in checkObj) {
+                if (!(key in obj)) {
+                    obj[key] = checkObj[key]
+                }
+            }
+        }
+    }
+    return obj;
+};
+
 
 
 if (typeof module !== 'undefined') {
