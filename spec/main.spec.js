@@ -1092,7 +1092,7 @@ describe('_', function () {
             expect(_.every({ a: 'a', b: 'b', c: 1, d: 'd' }, isString)).to.be.false;
 
             const isEven = (number) => number % 2 === 0;
-            expect(_.every({a: 2, b: 4, c: 6, d: 9}, isEven)).to.be.false;
+            expect(_.every({ a: 2, b: 4, c: 6, d: 9 }, isEven)).to.be.false;
         });
 
         it('9. should stop traversing the list if a false element is found (object list)', function () {
@@ -1111,6 +1111,7 @@ describe('_', function () {
 
     });
 
+    //  SOME
     describe('_.some', function () {
         it('1. is a function', function () {
             expect(_.some).to.be.a('function');
@@ -1177,7 +1178,7 @@ describe('_', function () {
             expect(_.some({ a: 1, b: 2, c: 3, d: 4 }, isString)).to.be.false;
 
             const isEven = (number) => number % 2 === 0;
-            expect(_.some({a: 1, b: 3, c: 5, d: 9}, isEven)).to.be.false;
+            expect(_.some({ a: 1, b: 3, c: 5, d: 9 }, isEven)).to.be.false;
         });
 
         it('9. should stop traversing the list if a false element is found (object list)', function () {
@@ -1194,6 +1195,146 @@ describe('_', function () {
             expect(count).to.equal(3);
         });
 
+    });
+
+    // EXTEND
+    describe('_.extend', function () {
+        it('1. is a function', function () {
+            expect(_.extend).to.be.a('function');
+        });
+
+        it('2. takes at least one argument', function () {
+            expect(_.extend).to.have.lengthOf(1);
+        });
+
+        it('3. returns the destination object', function () {
+            let a = { a: 1, b: 2 };
+            let result = _.extend(a);
+            expect(result).to.be.an('object');
+            expect(result).to.equal(a);
+        });
+
+        it('4. adds the values of an object with one key-value pair to the an empty destination object', function () {
+            expect(_.extend({}, {a: 1})).to.eql({ a: 1 });
+        });
+
+        it('5. adds the values of an object with more than one key-value pair to the an empty destination object', function () {
+            let a = {};
+            let b = { a: 1, b: 2, c: 3 };
+            expect(_.extend(a, b)).to.eql({ a: 1, b: 2, c: 3 });
+        });
+
+        it('6. adds the values of an object with one key-value pair to a destination object with existing key-value pairs', function () {
+            let a = { a: 1, b: 2 };
+            let b = { c: 3 };
+            expect(_.extend(a, b)).to.eql({ a: 1, b: 2, c: 3 });
+        });
+
+        it('7. adds the values of an object with more than one key-value pair to a destination object with more than one existing key-value pair', function () {
+            let a = { a: 1, b: 2, c: 3 };
+            let b = { d: 4, e: 2, f: 3 };
+            expect(_.extend(a, b)).to.eql({ a: 1, b: 2, c: 3, d: 4, e: 2, f: 3 });
+        });
+
+        it('8. mutates the destination object', function () {
+            let a = { a: 1, b: 2 };
+            let b = { c: 3 };
+            expect(_.extend(a, b)).to.eql(a);
+        });
+
+        it('9. adds multiple sources with one key-value pair to the destination object', function () {
+            let a = { a: 1 };
+            let b = { b: 2 };
+            let c = { c: 3 };
+            let d = { d: 4 };
+            let e = { e: 5 };
+            expect(_.extend(a, b, c, d, e)).to.eql({ a: 1, b: 2, c: 3, d: 4, e: 5 });
+        });
+
+        it('10. adds multiple sources with multiple key-value pairs to the destination object', function () {
+            let a = { a: 1, b: 2 };
+            let b = { c: 3 };
+            let c = { d: 4, e: 5 };
+            let d = { f: 6 };
+            let e = { g: 7, h: 8 };
+            expect(_.extend(a, b, c, d, e)).to.eql({ a: 1, b: 2, c: 3, d: 4, e: 5, f: 6, g: 7, h: 8 });
+        });
+
+        it('11. returns the original destination if it cannot be added to (e.g. if it is a string or a number)', function () {
+            let a = 'a';
+            let b = 'b';
+            let c = 'c';
+            expect(_.extend(a, b, c)).to.eql('a');
+
+            let d = 1;
+            let e = 2;
+            let f = 3;
+            expect(_.extend(d, e, f)).to.eql(1);
+        });
+
+        it('12. passes nested array by reference', function () {
+            let arr = [1, 2, 3];
+            let a = { a: 1, b: 2 };
+            let b = { c: arr };
+            let result = _.extend(a, b);
+            expect(result.c).to.have.lengthOf(3);
+            expect(result).to.eql({ a: 1, b: 2, c: [1, 2, 3] });
+
+            arr.push(4);
+            expect(result.c).to.have.lengthOf(4);
+            expect(result).to.eql({ a: 1, b: 2, c: [1, 2, 3, 4] });
+        });
+
+        it('13. passes nested objects by reference', function () {
+            let obj = { d: 4, e: 5 };
+            let a = { a: 1, b: 2 };
+            let b = { c: obj };
+            let result = _.extend(a, b);
+            expect(result).to.eql({ a: 1, b: 2, c: { d: 4, e: 5 } });
+
+            obj.f = 6;
+            expect(result).to.eql({ a: 1, b: 2, c: { d: 4, e: 5, f: 6 } });
+        });
+
+        it('14. the last source will override properties of the same name in previous arguments', function () {
+            let a = { a: 1, b: 2, c: 3 };
+            let b = { a: 7 };
+            let c = { c: 8, d: 10 };
+            expect(_.extend(a, b, c)).to.eql({ a: 7, b: 2, c: 8, d: 10 });
+        });
+
+        it('15. alters a destination array by overriding destination[index] with source[index]', function () {
+            let a = [1, 2, 3, 4, 5];
+            let b = ['a', 'b', 'c'];
+            let c = ['x'];
+            expect(_.extend(a, b, c)).to.eql(['x', 'b', 'c', 4, 5]);
+        });
+
+        it('16. returns the original destination array if the sources are not arrays or objects', function () {
+            let a = [1, 2, 3, 4, 5];
+            let b = 6;
+            expect(_.extend(a, b)).to.eql([1,2,3,4,5]);
+        });
+
+        it('17. returns the original destination array if the sources are not arrays or objects', function () {
+            let a = [1, 2, 3, 4, 5];
+            let b = 6;
+            expect(_.extend(a, b)).to.eql([1,2,3,4,5]);
+        });
+
+        it('18. adds the index and value of each array element to an object, if the destination is an object and one source is an array', function () {
+            let a = {a: 1};
+            let b = ['a', 'b', 'c'];
+            let c = {b: 7};
+            expect(_.extend(a, b, c)).to.eql({'0': 'a', '1': 'b', '2': 'c', a: 1, b: 7});
+        });
+
+        it('19. will override the array index property if there is more than one array source', function () {
+            let a = {a: 1};
+            let b = ['a', 'b', 'c'];
+            let c = ['z'];
+            expect(_.extend(a, b, c)).to.eql({'0': 'z', '1': 'b', '2': 'c', a: 1});
+        });
     });
 });
 

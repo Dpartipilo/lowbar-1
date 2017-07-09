@@ -135,6 +135,16 @@ _.some = (list, predicate) => {
     return false;
 };
 
+_.extend = function (destination) {
+    for (let i = 1; i < arguments.length; i++) {
+        const obj = arguments[i];
+        for (let key in obj) {
+            destination[key] = obj[key];
+        }
+    }
+    return destination;
+};
+
 
 
 if (typeof module !== 'undefined') {
