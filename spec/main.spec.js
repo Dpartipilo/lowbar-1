@@ -379,7 +379,6 @@ describe('_', function () {
     });
 
     //  INDEX OF
-
     describe('_.indexOf', function () {
         it('1. is a function', function () {
             expect(_.indexOf).to.be.a('function');
@@ -523,8 +522,8 @@ describe('_', function () {
             expect(_.indexOf('hello', 'o', true)).to.equal(4);
         });
     });
-    //  MAP
 
+    //  MAP
     describe('_.map', function () {
         it('1. is a function', function () {
             expect(_.map).to.be.a('function');
@@ -622,7 +621,6 @@ describe('_', function () {
     });
 
     //  CONTAINS
-
     describe('_.contains', function () {
         it('1. is a function', function () {
             expect(_.contains).to.be.a('function');
@@ -723,7 +721,6 @@ describe('_', function () {
     });
 
     //  PLUCK
-
     describe('_.pluck', function () {
         it('1. is a function', function () {
             expect(_.pluck).to.be.a('function');
@@ -1035,84 +1032,171 @@ describe('_', function () {
             expect(result2).to.eql(10);
         });
 
-        //  EVERY
-        describe('_.every', function () {
-            it('1. is a function', function () {
-                expect(_.every).to.be.a('function');
-            });
+    });
 
-            it('2. takes two arguments', function () {
-                expect(_.every).to.have.lengthOf(2);
-            });
-
-            it('3. returns a boolean', function () {
-                const isString = (letter) => typeof letter === 'string';
-                expect(_.every(['a'], isString)).to.be.a('boolean');
-            });
-
-            it('4. should return true if all of the values in the array list pass the predicate truth test', function () {
-                const isString = (letter) => typeof letter === 'string';
-                expect(_.every(['a', 'b', 'c', 'd'], isString)).to.be.true;
-
-                const isEven = (number) => number % 2 === 0;
-                expect(_.every([2, 4, 6, 8], isEven)).to.be.true;
-            });
-
-            it('5. should return false if one value in the array list is false', function () {
-                const isString = (letter) => typeof letter === 'string';
-                expect(_.every(['a', 'b', 1, 'd'], isString)).to.be.false;
-
-                const isEven = (number) => number % 2 === 0;
-                expect(_.every([2, 4, 6, 9], isEven)).to.be.false;
-            });
-
-            it('6. should stop traversing the list if a false element is found (array)', function () {
-                let count = 0;
-                const isString = (letter) => {
-                    count++;
-                    return typeof letter === 'string';
-                };
-                _.every(['a', 'b', 'c', 'd'], isString);
-                expect(count).to.equal(4);
-
-                count = 0;
-                _.every(['a', 1, 'c', 'd'], isString);
-                expect(count).to.equal(2);
-            });
-
-            it('7. should return true if all of the values in a list object pass the predicate truth test (object list)', function () {
-                const isString = (letter) => typeof letter === 'string';
-                expect(_.every({a: 'a', b: 'b', c: 'c', d: 'd'}, isString)).to.be.true;
-
-                const isEven = (number) => number % 2 === 0;
-                expect(_.every({a: 2, b: 4, c: 6, d: 8}, isEven)).to.be.true;
-            });
-
-            it('8. should return false if one value in the list is false', function () {
-                const isString = (letter) => typeof letter === 'string';
-                expect(_.every({a: 'a', b: 'b', c: 1, d: 'd'}, isString)).to.be.false;
-
-                const isEven = (number) => number % 2 === 0;
-                expect(_.every([2, 4, 6, 9], isEven)).to.be.false;
-            });
-
-            it('9. should stop traversing the list if a false element is found (object)', function () {
-                let count = 0;
-                const isString = (letter) => {
-                    count++;
-                    return typeof letter === 'string';
-                };
-                _.every({a: 'a', b: 'b', c: 'c', d: 'd'}, isString);
-                expect(count).to.equal(4);
-
-                count = 0;
-                _.every({a: 'a', b: 1, c: 'c', d: 'd'}, isString);
-                expect(count).to.equal(2);
-            });
-
+    //  EVERY
+    describe('_.every', function () {
+        it('1. is a function', function () {
+            expect(_.every).to.be.a('function');
         });
+
+        it('2. takes two arguments', function () {
+            expect(_.every).to.have.lengthOf(2);
+        });
+
+        it('3. returns a boolean', function () {
+            const isString = (letter) => typeof letter === 'string';
+            expect(_.every(['a'], isString)).to.be.a('boolean');
+        });
+
+        it('4. should return true if all of the values in the array list pass the predicate truth test', function () {
+            const isString = (letter) => typeof letter === 'string';
+            expect(_.every(['a', 'b', 'c', 'd'], isString)).to.be.true;
+
+            const isEven = (number) => number % 2 === 0;
+            expect(_.every([2, 4, 6, 8], isEven)).to.be.true;
+        });
+
+        it('5. should return false if one value in the array list is false', function () {
+            const isString = (letter) => typeof letter === 'string';
+            expect(_.every(['a', 'b', 1, 'd'], isString)).to.be.false;
+
+            const isEven = (number) => number % 2 === 0;
+            expect(_.every([2, 4, 6, 9], isEven)).to.be.false;
+        });
+
+        it('6. should stop traversing the list if a false element is found (array)', function () {
+            let count = 0;
+            const isString = (letter) => {
+                count++;
+                return typeof letter === 'string';
+            };
+            _.every(['a', 'b', 'c', 'd'], isString);
+            expect(count).to.equal(4);
+
+            count = 0;
+            _.every(['a', 1, 'c', 'd'], isString);
+            expect(count).to.equal(2);
+        });
+
+        it('7. should return true if all of the values in a list pass the predicate truth test (object list)', function () {
+            const isString = (letter) => typeof letter === 'string';
+            expect(_.every({ a: 'a', b: 'b', c: 'c', d: 'd' }, isString)).to.be.true;
+
+            const isEven = (number) => number % 2 === 0;
+            expect(_.every({ a: 2, b: 4, c: 6, d: 8 }, isEven)).to.be.true;
+        });
+
+        it('8. should return false if one value in the list is false (object list)', function () {
+            const isString = (letter) => typeof letter === 'string';
+            expect(_.every({ a: 'a', b: 'b', c: 1, d: 'd' }, isString)).to.be.false;
+
+            const isEven = (number) => number % 2 === 0;
+            expect(_.every({a: 2, b: 4, c: 6, d: 9}, isEven)).to.be.false;
+        });
+
+        it('9. should stop traversing the list if a false element is found (object list)', function () {
+            let count = 0;
+            const isString = (letter) => {
+                count++;
+                return typeof letter === 'string';
+            };
+            _.every({ a: 'a', b: 'b', c: 'c', d: 'd' }, isString);
+            expect(count).to.equal(4);
+
+            count = 0;
+            _.every({ a: 'a', b: 1, c: 'c', d: 'd' }, isString);
+            expect(count).to.equal(2);
+        });
+
+    });
+
+    describe('_.some', function () {
+        it('1. is a function', function () {
+            expect(_.some).to.be.a('function');
+        });
+
+        it('2. takes two arguments', function () {
+            expect(_.some).to.have.lengthOf(2);
+        });
+
+        it('3. returns a boolean', function () {
+            const isString = (letter) => typeof letter === 'string';
+            expect(_.some(['a'], isString)).to.be.a('boolean');
+        });
+
+        it('4. should return true if at least one of the values in the array list pass the predicate truth test', function () {
+            const isString = (letter) => typeof letter === 'string';
+            expect(_.some(['a', 'b', 'c', 'd'], isString)).to.be.true;
+            expect(_.some(['a', 1, 4, 3], isString)).to.be.true;
+            expect(_.some([1, false, 4, 'd'], isString)).to.be.true;
+
+            const isEven = (number) => number % 2 === 0;
+            expect(_.some([2, 4, 6, 8], isEven)).to.be.true;
+            expect(_.some([2, 1, 5, 7], isEven)).to.be.true;
+            expect(_.some([1, 1, 5, 4], isEven)).to.be.true;
+        });
+
+        it('5. should return false if no values in the array list pass the predicate', function () {
+            const isString = (letter) => typeof letter === 'string';
+            expect(_.some([false, 3, 1, ['a']], isString)).to.be.false;
+
+            const isEven = (number) => number % 2 === 0;
+            expect(_.some([1, 3, 5, 9], isEven)).to.be.false;
+        });
+
+        it('6. should stop traversing the list if a true element is found (array)', function () {
+            let count = 0;
+            const isString = (letter) => {
+                count++;
+                return typeof letter === 'string';
+            };
+            _.some(['a', 'b', 'c', 'd'], isString);
+            expect(count).to.equal(1);
+
+            count = 0;
+            _.some([1, 3, 'c', 5], isString);
+            expect(count).to.equal(3);
+        });
+
+        it('7. should return true if one of the values in an object list passes the predicate truth test (object list)', function () {
+            const isString = (letter) => typeof letter === 'string';
+            expect(_.some({ a: 'a', b: 'b', c: 'c', d: 'd' }, isString)).to.be.true;
+            expect(_.some({ a: 1, b: '1', c: 'c', d: 'd' }, isString)).to.be.true;
+            expect(_.some({ a: '1', b: 4, c: ['a'], d: false }, isString)).to.be.true;
+            expect(_.some({ a: true, b: 4, c: ['a'], d: 'g' }, isString)).to.be.true;
+
+            const isEven = (number) => number % 2 === 0;
+            expect(_.some({ a: 2, b: 4, c: 6, d: 8 }, isEven)).to.be.true;
+            expect(_.some({ a: 2, b: 1, c: 3, d: 5 }, isEven)).to.be.true;
+            expect(_.some({ a: 1, b: 3, c: 5, d: 10 }, isEven)).to.be.true;
+        });
+
+        it('8. should return false if all the values in the object list do not pass the predicate truth test (object list)', function () {
+            const isString = (letter) => typeof letter === 'string';
+            expect(_.some({ a: 1, b: 2, c: 3, d: 4 }, isString)).to.be.false;
+
+            const isEven = (number) => number % 2 === 0;
+            expect(_.some({a: 1, b: 3, c: 5, d: 9}, isEven)).to.be.false;
+        });
+
+        it('9. should stop traversing the list if a false element is found (object list)', function () {
+            let count = 0;
+            const isString = (letter) => {
+                count++;
+                return typeof letter === 'string';
+            };
+            _.some({ a: 'a', b: 'b', c: 'c', d: 'd' }, isString);
+            expect(count).to.equal(1);
+
+            count = 0;
+            _.some({ a: 1, b: 1, c: 'c', d: 'd' }, isString);
+            expect(count).to.equal(3);
+        });
+
     });
 });
+
 
 
 
