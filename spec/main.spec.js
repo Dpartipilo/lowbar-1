@@ -1657,13 +1657,13 @@ describe('_', function () {
         });
 
         it('is a pure function', function () {
-            let arr = [1,2,3];
+            let arr = [1, 2, 3];
             expect(_.shuffle(arr)).to.not.eql(arr);
 
             let str = 'abc';
             expect(_.shuffle(str)).to.not.eql(str);
 
-            let obj = {a: 1, b: 2};
+            let obj = { a: 1, b: 2 };
             expect(_.shuffle(obj)).to.not.eql(obj);
         });
 
@@ -1672,40 +1672,171 @@ describe('_', function () {
     //  INVOKE
 
     //  SORTBY
+    describe('_.sortBy', function () {
+        it('1. is a function', function () {
+            expect(_.sortBy).to.be.a('function');
+        });
+
+        it('2. takes two arguments', function () {
+            expect(_.sortBy).to.have.lengthOf(2);
+        });
+
+        it('3. returns a new array', function () {
+            const arr = [1, 2, 3, 4, 5];
+            expect(_.sortBy(arr)).to.be.an('array');
+            expect(_.sortBy(arr)).to.not.equal(arr);
+
+            const sortArr = [5,4,3,2,1];
+            expect(_.sortBy(sortArr)).to.be.an('array');
+            expect(_.sortBy(sortArr)).to.not.equal(sortArr);
+        })
+
+        it('4. returns an array', function () {
+            expect(_.sortBy([1, 2, 3, 4, 5])).to.be.an('array');
+        });
+
+        it('5. returns a sorted array of numbers in ascending order if only one argument is provided', function () {
+            const arr = [7, 3, 5, 1, 0, 19];
+            expect(_.sortBy(arr)).to.eql([0, 1, 3, 5, 7, 19]);
+        });
+
+        it('6. returns a sorted array of strings in alphabetical order if only one argument is provided', function () {
+            const arr = ['zoo', 'ant', 'elephant'];
+            expect(_.sortBy(arr)).to.eql(['ant', 'elephant', 'zoo']);
+        });
+
+        it('7. returns a sorted array of the values of the key value pairs in an object if only one argument is given', function () {
+            const objNum = { a: 7, b: 1, c: 12, d: 5 };
+            expect(_.sortBy(objNum)).to.eql([1, 5, 7, 12]);
+
+            const objStr = { a: 'zoo', b: 'ant', c: 'elephant' };
+            expect(_.sortBy(objStr)).to.eql(['ant', 'elephant', 'zoo']);
+        });
+
+        it('8. returns an array of booleans sorted by false and true', function () {
+            const arrBool = [true, true, false, true, false, true];
+            expect(_.sortBy(arrBool)).to.eql([false, false, true, true, true, true]);
+        });
+
+        it('9. returns an array of booleans sorted by false/null (stable search), true, undefined', function () {
+            const words = [undefined, null, true, false, false, null, true];
+            expect(_.sortBy(words)).to.eql([null, false, false, null, true, true, undefined]);
+        });
+
+        it('10. returns a stably sorted array of mixed number and string values, with the values unchanged', function () {
+            const mixed = ['a', 14, 'zoo', 3];
+            expect(_.sortBy(mixed)).to.eql(mixed);
+            expect(_.sortBy(mixed)).to.not.equal(mixed);
+        });
+
+        it('11. returns an array stably sorted by the results of passing each value in an array through an iteratee (number)', function () {
+            const arr = [1, 2, 3, 4, 5];
+            const func = function (n) { return Math.sin(n); };
+            const res = [5, 4, 3, 1, 2];
+            expect(_.sortBy(arr, func)).to.eql(res);
+        });
+
+        it('12. returns an array stably sorted by the results of passing each value in an array through an iteratee (string)', function () {
+            const arr = ['any', 'antique', 'a', 'and', 'ants', 'as'];
+            const func = function (w) { return w.length; };
+            const res = ['a', 'as', 'any', 'and', 'ants', 'antique'];
+            expect(_.sortBy(arr, func)).to.eql(res);
+        });
+
+        it('13. returns an array stably sorted by the results of passing each value in an object through an iteratee (number)', function () {
+            const obj = { a: 1, b: 2, c: 3, d: 4, e: 5 };
+            const func = function (n) { return Math.sin(n); };
+            const res = [5, 4, 3, 1, 2];
+            expect(_.sortBy(obj, func)).to.eql(res);
+        });
+
+        it('14. returns an array stably sorted by the results of passing each value in an array through an iteratee (string)', function () {
+            const obj = { a: 'any', b: 'antique', c: 'a', d: 'and', e: 'ants', f: 'as' };
+            const func = function (w) { return w.length; };
+            const res = ['a', 'as', 'any', 'and', 'ants', 'antique'];
+            expect(_.sortBy(obj, func)).to.eql(res);
+        });
+
+        it('15. returns an array of object sorted by a given key (numbers, no function)', function () {
+            const objArr = [{ name: 'ben', age: 60 }, { name: 'jen', age: 50 }, { name: 'len', age: 40 }, { name: 'ken', age: 50 }];
+            const res = [{ name: 'len', age: 40 }, { name: 'jen', age: 50 }, { name: 'ken', age: 50 }, { name: 'ben', age: 60 }];
+            expect(_.sortBy(objArr, 'age')).to.eql(res);
+        });
+
+        it('16. returns an array of object sorted by a given key (string, no function)', function () {
+            const objArr = [{ name: 'len', age: 40 }, { name: 'ben', age: 60 }, { name: 'ken', age: 50 }, { name: 'jen', age: 50 }];
+            const res = [{ name: 'ben', age: 60 }, { name: 'jen', age: 50 }, { name: 'ken', age: 50 }, { name: 'len', age: 40 }];
+            expect(_.sortBy(objArr, 'name')).to.eql(res);
+        });
+
+        it('17. will not take a function argument if sorting an array of objects by key, taking the key instead', function () {
+            const objArr = [{ name: 'benjamin', age: 60 }, { name: 'jennifer', age: 50 }, { name: 'leonard', age: 40 }, { name: 'ken', age: 50 }];
+            const func = function (n) { return n.name.length; };
+            const res = [{ name: 'benjamin', age: 60 }, { name: 'jennifer', age: 50 }, { name: 'ken', age: 50 }, { name: 'leonard', age: 40 }]
+            expect(_.sortBy(objArr, 'name', func)).to.eql(res);
+        });
+
+        it('18. will sort an object array by a function if a key is defined in the function', function () {
+            const objArr = [{ name: 'benjamin', age: 60 }, { name: 'jennifer', age: 50 }, { name: 'leonard', age: 40 }, { name: 'ken', age: 50 }];
+            const func = function (n) { return n.name.length; };
+            const res = [ { name: 'ken', age: 50 }, { name: 'leonard', age: 40 },{ name: 'benjamin', age: 60 },{ name: 'jennifer', age: 50 } ];
+            expect(_.sortBy(objArr, func)).to.eql(res);
+        });
+
+        it('19. returns a stable sorted array, keeping the original objects in the same order if they both have the same iteratee result', function () {
+            const arr = ['apple', 'pear', 'bear', 'fear', 'dear', 'paper'];
+            const func = function (n) { return n.length; };
+            const res = ['pear', 'bear', 'fear', 'dear', 'apple', 'paper'];
+            expect(_.sortBy(arr, func)).to.eql(res);
+        });
+
+        it('20. returns an empty array if a non-valid argument is given', function () {
+            expect(_.sortBy(true)).to.eql([]);
+            expect(_.sortBy(123)).to.eql([]);
+            expect(_.sortBy(undefined)).to.eql([]);
+            expect(_.sortBy(null)).to.eql([]);
+            expect(_.sortBy()).to.eql([]);
+        });
+
+        it('21. returns an array of alphabetically ordered letters if a string argument is given', function () {
+            expect(_.sortBy('hello')).to.eql(['e', 'h', 'l', 'l', 'o']);
+            expect(_.sortBy('hello world')).to.eql([ ' ', 'd', 'e', 'h', 'l', 'l', 'l', 'o', 'o', 'r', 'w' ]);
+        });
+    });
 
     //  ZIP
     describe('#zip', function () {
-        it ('is a function', function () {
+        it('1. is a function', function () {
             expect(_.zip).to.be.a('function');
         });
 
-        it ('returns an empty array if an array or string is not inputted', function () {
-            let result1 = _.zip({a: 1, b: 2}, {c: 3, d: 4});
+        it('2. returns an empty array if an array or string is not inputted', function () {
+            let result1 = _.zip({ a: 1, b: 2 }, { c: 3, d: 4 });
             let result2 = _.zip(1);
             let expected = [];
             expect(result1).to.eql(expected);
             expect(result2).to.eql(expected);
         });
 
-        it ('returns the expected result if all the arrays are the same length', function () {
+        it('3. returns the expected result if all the arrays are the same length', function () {
             let result = _.zip(['moe', 'larry', 'curly'], [30, 40, 50], [true, false, false]);
             let expected = [['moe', 30, true], ['larry', 40, false], ['curly', 50, false]];
             expect(result).to.eql(expected);
         });
 
-        it ('returns the expected result if the arrays are different lengths', function () {
+        it('4. returns the expected result if the arrays are different lengths', function () {
             let result = _.zip(['moe', 'larry'], [30, 40, 50], [true, false]);
-            let expected = [ [ 'moe', 30, true ], [ 'larry', 40, false ], [ undefined, 50, undefined ] ];
+            let expected = [['moe', 30, true], ['larry', 40, false], [undefined, 50, undefined]];
             expect(result).to.eql(expected);
         });
 
-        it ('returns the expected result if only one array is provided as an argument', function () {
-            let result = _.zip([1,2,3]);
+        it('5. returns the expected result if only one array is provided as an argument', function () {
+            let result = _.zip([1, 2, 3]);
             let expected = [[1], [2], [3]];
             expect(result).to.eql(expected);
         });
 
-        it ('returns an array of string letters if a string is provided', function () {
+        it('6. returns an array of string letters if a string is provided', function () {
             let result = _.zip('abc');
             let expected = [['a'], ['b'], ['c']];
             expect(result).to.eql(expected);

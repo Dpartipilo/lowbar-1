@@ -217,33 +217,72 @@ _.shuffle = function (arr) {
 //  INVOKE
 
 //  SORT BY
-
-//  ZIP
-_.zip = function () {
-    const result = [];
-    let longest = 0;
-    for (let i = 0; i < arguments.length; i++) {
-        if (arguments[i].length > longest) longest = arguments[i].length;
-    }
-    for (let j = 0; j < longest; j++) {
-        const tempArr = [];
-        for (let k = 0; k < arguments.length; k++) {
-            tempArr.push(arguments[k][j]);
+_.sortBy = function (list, iteratee) {
+    let listArr;
+    Array.isArray(list) ? listArr = [...list] : listArr = _.defaults({}, list)
+    let iterated = false;
+    if (typeof listArr === 'string') listArr = listArr.split('');
+    if (typeof listArr === 'object' && !(Array.isArray(listArr))) {
+        const newList = [];
+        for (let key in listArr) {
+            newList.push(listArr[key]);
         }
-        result.push(tempArr);
+        listArr = newList;
+    }
+    if (typeof iteratee === 'function') {
+        const newList = [];
+        for (let i = 0; i < listArr.length; i++) {
+            newList.push({originalValue: listArr[i], newValue: iteratee(listArr[i])});
+        }
+        listArr = newList;
+        iterated = true;
+    }
+    if (_.every(listArr, function (el) {return typeof el === 'string'})) {
+        return listArr.sort();
+    }
+
+    let result = listArr.sort((a, b) => {
+        if (iteratee) {
+            if (iterated) return a.newValue > b.newValue;
+            return a[iteratee] > b[iteratee];
+        }
+        return a > b;
+    });
+    if (iterated) {
+        const updatedResult = [];
+        for (let i = 0; i < result.length; i++) {
+            updatedResult.push(result[i].originalValue);
+        }
+        return updatedResult;
     }
     return result;
 };
-//  SORTEDINDEX
+    //  ZIP
+    _.zip = function () {
+        const result = [];
+        let longest = 0;
+        for (let i = 0; i < arguments.length; i++) {
+            if (arguments[i].length > longest) longest = arguments[i].length;
+        }
+        for (let j = 0; j < longest; j++) {
+            const tempArr = [];
+            for (let k = 0; k < arguments.length; k++) {
+                tempArr.push(arguments[k][j]);
+            }
+            result.push(tempArr);
+        }
+        return result;
+    };
+    //  SORTEDINDEX
 
-//  FLATTEN
+    //  FLATTEN
 
-//  INTERSECTION
+    //  INTERSECTION
 
-//  THROTTLE
+    //  THROTTLE
 
-//  DELAY
+    //  DELAY
 
-if (typeof module !== 'undefined') {
-    module.exports = _;
-}
+    if (typeof module !== 'undefined') {
+        module.exports = _;
+    }
