@@ -1659,12 +1659,15 @@ describe('_', function () {
         it('is a pure function', function () {
             let arr = [1, 2, 3];
             expect(_.shuffle(arr)).to.not.eql(arr);
+            expect(arr).to.eql([1,2,3]);
 
             let str = 'abc';
             expect(_.shuffle(str)).to.not.eql(str);
+            expect(str).to.equal('abc');
 
             let obj = { a: 1, b: 2 };
             expect(_.shuffle(obj)).to.not.eql(obj);
+            expect(obj).to.eql({a: 1, b: 2});
         });
 
     });
