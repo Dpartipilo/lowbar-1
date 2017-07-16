@@ -1615,9 +1615,13 @@ describe('_', function () {
             expect(_.shuffle(arr)).to.be.an('array');
         });
 
-        // it('returns an empty array if an arguments which is not an array, string or object is entered', function () {
+        it('returns an empty array if an arguments which is not an array, string or object is entered', function () {
+            expect(_.shuffle(true)).to.be.an('array');
+            expect(_.shuffle(true)).to.eql([]);
 
-        // });
+            expect(_.shuffle(123)).to.be.an('array');
+            expect(_.shuffle(123)).to.eql([]);
+        });
 
         it('returns the array if an array of length 0 or 1 is entered', function () {
             let empty = [];
@@ -1636,6 +1640,29 @@ describe('_', function () {
         it('returns an array that contains the same elements', function () {
             let arr = [1, 2, 3, 4, 5];
             expect(_.shuffle(arr)).to.include(1, 2, 3, 4, 5);
+        });
+
+        it('returns an array containing each letter of the string argument in a shuffled order', function () {
+            let str = 'abcdefg';
+            expect(_.shuffle(str)).to.be.an('array');
+            expect(_.shuffle(str)).to.include('a', 'b', 'c', 'd', 'e', 'f', 'g');
+        });
+
+        it('returns an array containing the value of each key-value pair in a shuffled order if an object is given as an argument', function () {
+            let obj = { a: 1, b: 2, c: 3, d: 4 };
+            expect(_.shuffle(obj)).to.be.an('array');
+            expect(_.shuffle(obj)).to.include(1, 2, 3, 4);
+        });
+
+        it('is a pure function', function () {
+            let arr = [1,2,3];
+            expect(_.shuffle(arr)).to.not.eql(arr);
+
+            let str = 'abc';
+            expect(_.shuffle(str)).to.not.eql(str);
+
+            let obj = {a: 1, b: 2};
+            expect(_.shuffle(obj)).to.not.eql(obj);
         });
 
     });

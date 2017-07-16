@@ -194,7 +194,15 @@ _.memoize = function (fn) {
 
 //  SHUFFLE
 _.shuffle = function (arr) {
-    if (!arr || arr.length === 0) return [];
+    if (typeof arr === 'string') arr = arr.split('');
+    if (typeof arr === 'object' && !(Array.isArray(arr))) {
+        const newArr = [];
+        for (let key in arr) {
+            newArr.push(arr[key]);
+        }
+        arr = newArr;
+    }
+    if (!arr || arr.length === 0 || !(Array.isArray(arr))) return [];
     const result = [];
     do {
         let randomIndex = (Math.floor(Math.random() * arr.length));
