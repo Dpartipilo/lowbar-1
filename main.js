@@ -218,9 +218,8 @@ _.shuffle = function (arr) {
 
 //  SORT BY
 _.sortBy = function (list, iteratee) {
-    let listArr;
-    Array.isArray(list) ? listArr = [...list] : listArr = _.defaults({}, list)
-    let iterated = false;
+    let listArr, iterated = false;
+    Array.isArray(list) ? listArr = [...list] : listArr = _.defaults({}, list);
     if (typeof listArr === 'string') listArr = listArr.split('');
     if (typeof listArr === 'object' && !(Array.isArray(listArr))) {
         const newList = [];
@@ -234,11 +233,7 @@ _.sortBy = function (list, iteratee) {
         for (let i = 0; i < listArr.length; i++) {
             newList.push({originalValue: listArr[i], newValue: iteratee(listArr[i])});
         }
-        listArr = newList;
-        iterated = true;
-    }
-    if (_.every(listArr, function (el) {return typeof el === 'string'})) {
-        return listArr.sort();
+        listArr = newList, iterated = true;
     }
 
     let result = listArr.sort((a, b) => {
@@ -248,6 +243,7 @@ _.sortBy = function (list, iteratee) {
         }
         return a > b;
     });
+    
     if (iterated) {
         const updatedResult = [];
         for (let i = 0; i < result.length; i++) {
