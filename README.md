@@ -22,7 +22,7 @@ ORIGINAL LOWBAR
 ADVANCED LOWBAR
 1. once
 2. memoize
-3/. shuffle?
+3. shuffle
 4/. invoke?
 5/. sortBy
 6/. zip?

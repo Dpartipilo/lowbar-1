@@ -1525,6 +1525,7 @@ describe('_', function () {
         });
     });
 
+    //  MEMOIZE
     describe('_.memoize', function () {
         it('is a function', function () {
             expect(_.memoize).to.be.a('function');
@@ -1605,6 +1606,7 @@ describe('_', function () {
         });
     });
 
+    //  SHUFFLE
     describe('_.shuffle', function () {
         it('is a function', function () {
             expect(_.shuffle).to.be.a('function');
@@ -1667,6 +1669,60 @@ describe('_', function () {
 
     });
 
+    //  INVOKE
+
+    //  SORTBY
+
+    //  ZIP
+    describe('#zip', function () {
+        it ('is a function', function () {
+            expect(_.zip).to.be.a('function');
+        });
+
+        it ('returns an empty array if an array or string is not inputted', function () {
+            let result1 = _.zip({a: 1, b: 2}, {c: 3, d: 4});
+            let result2 = _.zip(1);
+            let expected = [];
+            expect(result1).to.eql(expected);
+            expect(result2).to.eql(expected);
+        });
+
+        it ('returns the expected result if all the arrays are the same length', function () {
+            let result = _.zip(['moe', 'larry', 'curly'], [30, 40, 50], [true, false, false]);
+            let expected = [['moe', 30, true], ['larry', 40, false], ['curly', 50, false]];
+            expect(result).to.eql(expected);
+        });
+
+        it ('returns the expected result if the arrays are different lengths', function () {
+            let result = _.zip(['moe', 'larry'], [30, 40, 50], [true, false]);
+            let expected = [ [ 'moe', 30, true ], [ 'larry', 40, false ], [ undefined, 50, undefined ] ];
+            expect(result).to.eql(expected);
+        });
+
+        it ('returns the expected result if only one array is provided as an argument', function () {
+            let result = _.zip([1,2,3]);
+            let expected = [[1], [2], [3]];
+            expect(result).to.eql(expected);
+        });
+
+        it ('returns an array of string letters if a string is provided', function () {
+            let result = _.zip('abc');
+            let expected = [['a'], ['b'], ['c']];
+            expect(result).to.eql(expected);
+        });
+    });
+
+    //  SORTEDINDEX
+
+    //  FLATTEN
+
+    //  INTERSECTION
+
+    //  DIFFERENCE
+
+    //  THROTTLE
+
+    //  DELAY
 });
 
 

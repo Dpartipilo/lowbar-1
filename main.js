@@ -214,6 +214,36 @@ _.shuffle = function (arr) {
     return result;
 };
 
+//  INVOKE
+
+//  SORT BY
+
+//  ZIP
+_.zip = function () {
+    const result = [];
+    let longest = 0;
+    for (let i = 0; i < arguments.length; i++) {
+        if (arguments[i].length > longest) longest = arguments[i].length;
+    }
+    for (let j = 0; j < longest; j++) {
+        const tempArr = [];
+        for (let k = 0; k < arguments.length; k++) {
+            tempArr.push(arguments[k][j]);
+        }
+        result.push(tempArr);
+    }
+    return result;
+};
+//  SORTEDINDEX
+
+//  FLATTEN
+
+//  INTERSECTION
+
+//  THROTTLE
+
+//  DELAY
+
 if (typeof module !== 'undefined') {
     module.exports = _;
 }
