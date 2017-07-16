@@ -122,6 +122,7 @@ _.every = (list, predicate) => {
     return true;
 };
 
+//  SOME
 _.some = (list, predicate) => {
     if (Array.isArray(list)) {
         for (let i = 0; i < list.length; i++) {
@@ -135,6 +136,7 @@ _.some = (list, predicate) => {
     return false;
 };
 
+//  EXTEND
 _.extend = function (destination) {
     for (let i = 1; i < arguments.length; i++) {
         const obj = arguments[i];
@@ -145,6 +147,7 @@ _.extend = function (destination) {
     return destination;
 };
 
+//  DEFAULTS
 _.defaults = function (obj) {
     if (typeof obj === 'object') {
         for (let i = 1; i < arguments.length; i++) {
@@ -159,7 +162,49 @@ _.defaults = function (obj) {
     return obj;
 };
 
+//  ONCE
+_.once = function (fn) {
+    let alreadyCalled = false;
+    return function () {
+        if (!alreadyCalled) {
+            alreadyCalled = true;
+            return fn.apply(null, arguments);
+        }
+    };
+};
 
+//  MEMOIZE
+_.memoize = function (fn) {
+    let cache = {};
+    return function () {
+        if (arguments.length === 1) {
+            if (arguments[0] in cache) return cache[arguments[0]];
+            let result = fn(arguments[0]);
+            cache[arguments[0]] = result;
+            return result;
+        } else {
+            let args = JSON.stringify(arguments);
+            if (args in cache) return cache[args];
+            let result = fn.apply(null, arguments);
+            cache[args] = result;
+            return result;
+        }
+    };
+};
+
+//  SHUFFLE
+_.shuffle = function (arr) {
+    if (!arr || arr.length === 0) return [];
+    const result = [];
+    do {
+        let randomIndex = (Math.floor(Math.random() * arr.length));
+        let x = arr[randomIndex];
+        arr = arr.slice(0, randomIndex).concat(arr.slice(randomIndex + 1));
+        result.push(x);
+    }
+    while (arr.length > 0);
+    return result;
+};
 
 if (typeof module !== 'undefined') {
     module.exports = _;

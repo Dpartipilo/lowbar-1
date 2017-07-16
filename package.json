@@ -4,7 +4,7 @@
   "description": "This code involves reimplementing a JS library, reimplementing the following underscore methods:",
   "main": "main.js",
   "scripts": {
-    "test": "mocha ./spec/"
+    "test": "nyc mocha ./spec/"
   },
   "repository": {
     "type": "git",
@@ -23,6 +23,7 @@
     "sinon": "^2.3.5"
   },
   "devDependencies": {
+    "nyc": "^11.0.3",
     "sinon": "^2.3.2"
   }
 }

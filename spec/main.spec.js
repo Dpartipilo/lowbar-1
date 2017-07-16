@@ -1504,10 +1504,144 @@ describe('_', function () {
             let obj = { a: 1, b: 2 };
             let defaultObj1 = [3, 4];
             let defaultObj2 = ['x', 'y', 'z'];
-            expect(_.defaults(obj, defaultObj1, defaultObj2)).to.eql({ '0': 3, '1': 4, '2': 'z', a: 1, b: 2});
+            expect(_.defaults(obj, defaultObj1, defaultObj2)).to.eql({ '0': 3, '1': 4, '2': 'z', a: 1, b: 2 });
         });
     });
+
+    //  ONCE
+    describe('_.once', function () {
+        it('is a function', function () {
+            expect(_.once).to.be.a('function');
+        });
+
+        it('only calls the function once', function () {
+            const spy = sinon.spy();
+            let testFunctionCheck = _.once(spy);
+            testFunctionCheck();
+            testFunctionCheck();
+            testFunctionCheck();
+
+            expect(spy.callCount).to.equal(1);
+        });
+    });
+
+    describe('_.memoize', function () {
+        it('is a function', function () {
+            expect(_.memoize).to.be.a('function');
+        });
+
+        it('only calls the function once for each single argument', function () {
+            let count = 0;
+            let testFunction = function (n) {
+                count++;
+                return n;
+            };
+
+            let testFunctionCheck = _.memoize(testFunction);
+            testFunctionCheck(2);
+            testFunctionCheck(2);
+            testFunctionCheck(2);
+
+            expect(count).to.equal(1);
+
+            count = 0;
+            testFunctionCheck(3);
+            testFunctionCheck(3);
+            testFunctionCheck(3);
+            testFunctionCheck(4);
+            testFunctionCheck(5);
+            testFunctionCheck(4);
+            testFunctionCheck(3);
+
+            expect(count).to.equal(3);
+        });
+
+        it('TEST 1: only calls the function once for a function with an arguments length greater than 1', function () {
+            let count = 0;
+            let testFunction = function (a, b, c) {
+                count++;
+                let x = a + b + c;
+                return x;
+            };
+
+            let testFunctionCheck = _.memoize(testFunction);
+            testFunctionCheck(2, 3, 4);
+            testFunctionCheck(2, 3, 4);
+            testFunctionCheck(2, 3, 4);
+
+            expect(count).to.equal(1);
+
+        });
+
+        it('TEST 2: only calls the function once for a function with an arguments length greater than 1', function () {
+            let count = 0;
+            let testFunction = function (a, b, c) {
+                count++;
+                let x = a + b + c;
+                return x;
+            };
+            let testFunctionCheck = _.memoize(testFunction);
+
+            testFunctionCheck(2, 3, 4);
+            testFunctionCheck(1, 2, 3);
+            testFunctionCheck(2, 3, 4);
+            testFunctionCheck(2, 3, 4);
+            testFunctionCheck(5, 6, 7);
+            testFunctionCheck(2, 3, 4);
+
+            expect(count).to.equal(3);
+
+        });
+
+        it('only calls the function once for each argument (Sinon test)', function () {
+            const spy = sinon.spy();
+
+            let testFunctionCheck = _.memoize(spy);
+            testFunctionCheck();
+            testFunctionCheck();
+            testFunctionCheck();
+
+            expect(spy.callCount).to.equal(1);
+        });
+    });
+
+    describe('_.shuffle', function () {
+        it('is a function', function () {
+            expect(_.shuffle).to.be.a('function');
+        });
+
+        it('returns an array', function () {
+            let arr = [1, 2, 3, 4, 5];
+            expect(_.shuffle(arr)).to.be.an('array');
+        });
+
+        // it('returns an empty array if an arguments which is not an array, string or object is entered', function () {
+
+        // });
+
+        it('returns the array if an array of length 0 or 1 is entered', function () {
+            let empty = [];
+            expect(_.shuffle(empty)).to.eql([]);
+            expect(_.shuffle([1])).to.eql([1]);
+        });
+
+        it('should return an array of the same length', function () {
+            let arr = [1, 2, 3, 4, 5];
+            expect(_.shuffle(arr)).to.have.lengthOf(5);
+
+            let arr1 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+            expect(_.shuffle(arr1)).to.have.lengthOf(10);
+        });
+
+        it('returns an array that contains the same elements', function () {
+            let arr = [1, 2, 3, 4, 5];
+            expect(_.shuffle(arr)).to.include(1, 2, 3, 4, 5);
+        });
+
+    });
+
 });
+
 
 
 

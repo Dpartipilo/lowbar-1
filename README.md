@@ -1,5 +1,6 @@
 This code involves reimplementing a JS library, reimplementing the following underscore methods:
 
+ORIGINAL LOWBAR
 1. identity
 2. first
 3. last
@@ -11,10 +12,26 @@ This code involves reimplementing a JS library, reimplementing the following und
 9. map
 10. contains
 
-1. pluck
-2. reduce
-3. every
-4. some
-5. extends
-6/. defaults
+11. pluck
+12. reduce
+13. every
+14. some
+15. extends
+16. defaults
+
+ADVANCED LOWBAR
+1. once
+2. memoize
+3/. shuffle?
+4/. invoke?
+5/. sortBy
+6/. zip?
+7/. sortedIndex
+8/. flatten
+9/. intersection
+10/. difference
+
+11. indexOf (again, this time with a binary search)
+12/. throttle
+13/.delay
 
