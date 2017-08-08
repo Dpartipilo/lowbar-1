@@ -403,7 +403,7 @@ _.sortedIndex = function (list, value, iteratee) {
         // if the search value is less than the start value, return the start index
         if (searchValue < fn(list[start]) || (searchValue < fn(list[start][prop]))) return start;
     } while (start <= end);
-    
+
     return 0;
 };
 
@@ -425,6 +425,19 @@ _.flatten = function (array, shallow) {
     return result;
 };
 //  INTERSECTION
+_.intersection = function () {
+    const result = [];
+    for (let i = 0; i < arguments.length; i++) {
+        if (Array.isArray(arguments[i]) || typeof arguments[i] === 'string') {
+            for (let j = 0; j < arguments[i].length; j++) {
+                const includesX = (arr) => arr.includes(arguments[i][j]);
+                if (_.every(arguments, includesX) && !(result.includes(arguments[i][j]))) result.push(arguments[i][j])
+            }
+        }
+    }
+return result;
+};
+//  DIFFERENCE
 
 //  THROTTLE
 

@@ -2055,7 +2055,7 @@ describe('_', function () {
             expect(_.sortedIndex(['ant', 'arm', 'army', 'after', 'anyone'], 'anteater', 'length')).to.equal(5);
         });
     });
-    
+
     //  FLATTEN
     describe('_.flatten', function () {
         it('1. is a function', function () {
@@ -2077,24 +2077,24 @@ describe('_', function () {
         });
 
         it('5. returns an array flattened a single level if shallow is true', function () {
-            expect(_.flatten([1,2,[3, [4]]])).to.eql([1,2,3,4]);
-            expect(_.flatten([1,2,[3, [4]]], true)).to.eql([1,2,3,[4]]);
+            expect(_.flatten([1, 2, [3, [4]]])).to.eql([1, 2, 3, 4]);
+            expect(_.flatten([1, 2, [3, [4]]], true)).to.eql([1, 2, 3, [4]]);
         });
 
         it('6. returns an array flattened a single level if a non-falsy value is passed as the second argument', function () {
-            expect(_.flatten([1,2,[3, [4]]], 'abc')).to.eql([1,2,3,[4]]);
-            expect(_.flatten([1,2,[3, [4]]], 5)).to.eql([1,2,3,[4]]);
-            expect(_.flatten([1,2,[3, [4]]], [1,2])).to.eql([1,2,3,[4]]);
-            expect(_.flatten([1,2,[3, [4]]], {a: 1})).to.eql([1,2,3,[4]]);
-            expect(_.flatten([1,2,[3, [4]]]), null).to.eql([1,2,3,4]);
-            expect(_.flatten([1,2,[3, [4]]]), undefined).to.eql([1,2,3,4]);
-            expect(_.flatten([1,2,[3, [4]]]), 0).to.eql([1,2,3,4]);
-            expect(_.flatten([1,2,[3, [4]]]), false).to.eql([1,2,3,4]);
+            expect(_.flatten([1, 2, [3, [4]]], 'abc')).to.eql([1, 2, 3, [4]]);
+            expect(_.flatten([1, 2, [3, [4]]], 5)).to.eql([1, 2, 3, [4]]);
+            expect(_.flatten([1, 2, [3, [4]]], [1, 2])).to.eql([1, 2, 3, [4]]);
+            expect(_.flatten([1, 2, [3, [4]]], { a: 1 })).to.eql([1, 2, 3, [4]]);
+            expect(_.flatten([1, 2, [3, [4]]]), null).to.eql([1, 2, 3, 4]);
+            expect(_.flatten([1, 2, [3, [4]]]), undefined).to.eql([1, 2, 3, 4]);
+            expect(_.flatten([1, 2, [3, [4]]]), 0).to.eql([1, 2, 3, 4]);
+            expect(_.flatten([1, 2, [3, [4]]]), false).to.eql([1, 2, 3, 4]);
         });
 
         it('7. returns an empty array if a non-array and non-string argument is provided', function () {
             expect(_.flatten(123)).to.eql([]);
-            expect(_.flatten({a: 1, b: 2})).to.eql([]);
+            expect(_.flatten({ a: 1, b: 2 })).to.eql([]);
             expect(_.flatten(true)).to.eql([]);
             expect(_.flatten(false)).to.eql([]);
             expect(_.flatten(null)).to.eql([]);
@@ -2107,7 +2107,65 @@ describe('_', function () {
     });
 
     //  INTERSECTION
+    describe('_.intersection', function () {
+        it('1. is a function', function () {
+            expect(_.intersection).to.be.a('function');
+        });
 
+        it('2. returns an empty array if a non array or string argument is given', function () {
+            expect(_.intersection()).to.eql([]);
+            expect(_.intersection(123)).to.eql([]);
+            expect(_.intersection({ a: 1, b: 2 })).to.eql([]);
+            expect(_.intersection(null)).to.eql([]);
+            expect(_.intersection(undefined)).to.eql([]);
+            expect(_.intersection(true)).to.eql([]);
+            expect(_.intersection(false)).to.eql([]);
+            expect(_.intersection(123, 12)).to.eql([]);
+            expect(_.intersection({ a: 1, b: 2 }, { a: 1 })).to.eql([]);
+            expect(_.intersection(null, null)).to.eql([]);
+            expect(_.intersection(undefined, undefined)).to.eql([]);
+            expect(_.intersection(true, true)).to.eql([]);
+            expect(_.intersection(false, false)).to.eql([]);
+        });
+
+        it('3. should return the original array if one argument is provided', function () {
+            expect(_.intersection([1, 2, 3, 4])).to.eql([1, 2, 3, 4]);
+        });
+
+        it('4. should return an array of the values that are an intersection of all the arrays, including numbers, strings, boolean, null, undefined', function () {
+            expect(_.intersection([1, 2], [1, 3])).to.eql([1]);
+            expect(_.intersection(['apple', 'banana'], ['apple', 'pear'])).to.eql(['apple']);
+            expect(_.intersection([1, 2, 3, 4], [2, 3, 4, 5], [3, 4, 5, 6])).to.eql([3, 4]);
+            expect(_.intersection(['ant', 'bear', 'cat', 'dog'], ['bear', 'cat', 'dog', 'elephant'], ['cat', 'dog', 'elephant'])).to.eql(['cat', 'dog']);
+            expect(_.intersection([1, null, undefined, true, false, 100], [2, null, undefined, true, false, 100], [3, null, undefined, true, false, 100], [4, null, undefined, true, false, 100])).to.eql([null, undefined, true, false, 100]);
+        });
+
+        it('5. does not recognise deep equality for nested arrays and objects', function () {
+            expect(_.intersection([1, 2, [1, 2], { a: 1 }], [1, 3, [1, 2], { a: 1 }])).to.eql([1]);
+        });
+
+        it('6. should return an empty array if there is no intersection', function () {
+            expect(_.intersection([1, 2, 3], [4, 5, 6], [7, 8, 9])).to.eql([]);
+            expect(_.intersection(['a', 'b'], ['c', 'd', 'e'], ['f'])).to.eql([]);
+        });
+
+        it('7. should return an array of matching characters in a string', function () {
+            expect(_.intersection('world')).to.eql(['w', 'o', 'r', 'l', 'd']);
+            expect(_.intersection('hello', 'world')).to.eql(['l', 'o']);
+            expect(_.intersection('hel lo!', 'worl d!')).to.eql(['l', ' ', 'o', '!']);
+        });
+
+        it('8. will only return repeated values once in an array or string', function () {
+            expect(_.intersection([1, 2, 1, 2])).to.eql([1, 2]);
+            expect(_.intersection([1, 2, 3, 1, 2], [1, 2, 4, 1, 2])).to.eql([1, 2]);
+            expect(_.intersection('ababab')).to.eql(['a', 'b']);
+            expect(_.intersection('abcdab', 'abefab')).to.eql(['a', 'b']);
+        });
+
+        it('9. recognises a single letter string if it is contained within an array', function () {
+            expect(_.intersection(['a', 'b', 'c'], 'a')).to.eql(['a']);
+        });
+    });
     //  DIFFERENCE
 
     //  THROTTLE
