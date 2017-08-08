@@ -408,7 +408,17 @@ _.sortedIndex = function (list, value, iteratee) {
 };
 
 //  FLATTEN
-
+_.flatten = function (array, shallow) {
+    if (!(Array.isArray(array)) && typeof array !== 'string') return [];
+    if (array.length < 1) return;
+    let result = [];
+    for (let i = 0; i < array.length; i++) {
+        if (!shallow && Array.isArray(array[i])) result = result.concat(_.flatten(array[i]));
+        else if (Array.isArray(array[i])) result = result.concat(array[i]);
+        else result.push(array[i]);
+    }
+    return result;
+};
 //  INTERSECTION
 
 //  THROTTLE

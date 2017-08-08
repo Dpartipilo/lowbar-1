@@ -1737,12 +1737,12 @@ describe('_', function () {
         });
 
         it('3. returns an array', function () {
-            expect(_.invoke([[1,2,3]], 'sort')).to.be.an('array');
+            expect(_.invoke([[1, 2, 3]], 'sort')).to.be.an('array');
         });
 
         it('4. applies an array method on each array value in an array list', function () {
-            expect(_.invoke([[3,2,4,1], [7,3,9,2]], 'sort')).to.eql([[1,2,3,4], [2,3,7,9]]);
-            expect(_.invoke([[3,2,4,1], [7,3,9,2]], 'join')).to.eql([ '3,2,4,1', '7,3,9,2' ]);
+            expect(_.invoke([[3, 2, 4, 1], [7, 3, 9, 2]], 'sort')).to.eql([[1, 2, 3, 4], [2, 3, 7, 9]]);
+            expect(_.invoke([[3, 2, 4, 1], [7, 3, 9, 2]], 'join')).to.eql(['3,2,4,1', '7,3,9,2']);
         });
 
         it('5. applies a string method on each string value in an array list', function () {
@@ -1750,7 +1750,7 @@ describe('_', function () {
         });
 
         it('6. takes arguments to the methods as the third argument', function () {
-            expect(_.invoke([[1,2,3], [4,5,6]], 'join', '?')).to.eql(['1?2?3', '4?5?6']);
+            expect(_.invoke([[1, 2, 3], [4, 5, 6]], 'join', '?')).to.eql(['1?2?3', '4?5?6']);
         });
 
         it('7. returns an array if the list argument is a string', function () {
@@ -1758,20 +1758,20 @@ describe('_', function () {
         });
 
         it('8. returns an array if the list argument is an object', function () {
-            expect(_.invoke({a: 'abc', b: 'def', c: 'ghi'}, 'toUpperCase')).to.eql([ 'ABC', 'DEF', 'GHI' ]);
+            expect(_.invoke({ a: 'abc', b: 'def', c: 'ghi' }, 'toUpperCase')).to.eql(['ABC', 'DEF', 'GHI']);
         });
 
         it('9. returns undefined if no method is given', function () {
-            expect(_.invoke([1,2,3])).to.be.undefined;
+            expect(_.invoke([1, 2, 3])).to.be.undefined;
         });
 
         it('10. returns undefined if a non-prototypal method is given', function () {
-            expect(_.invoke([1,2,3], 'toUpperCase')).to.eql([undefined, undefined, undefined]);
+            expect(_.invoke([1, 2, 3], 'toUpperCase')).to.eql([undefined, undefined, undefined]);
             expect(_.invoke('abc', 'sort')).to.eql([undefined, undefined, undefined]);
         });
 
         it('11. returns undefined if the method cannot be applied to the list value', function () {
-            expect(_.invoke([[3,2,1], [9,8,7], 123], 'sort')).to.eql([ [ 1, 2, 3 ], [ 7, 8, 9 ], undefined ]);
+            expect(_.invoke([[3, 2, 1], [9, 8, 7], 123], 'sort')).to.eql([[1, 2, 3], [7, 8, 9], undefined]);
         });
 
         it('12. returns an empty array if the list argument is undefined, null, a number or a boolean', function () {
@@ -1967,7 +1967,7 @@ describe('_', function () {
         });
 
         it('3. returns a number', function () {
-            expect(_.sortedIndex([1,2,3], 4)).to.be.a('number');
+            expect(_.sortedIndex([1, 2, 3], 4)).to.be.a('number');
         });
 
         it('4. returns the index that the value should be inserted at (numbers)', function () {
@@ -1988,7 +1988,7 @@ describe('_', function () {
         it('7. returns 0 if a value that cannot be sorted is provided', function () {
             expect(_.sortedIndex([10, 20, 30, 40, 50, 60], 'abc')).to.equal(0);
             expect(_.sortedIndex([10, 20, 30, 40, 50, 60], [24, 89])).to.equal(0);
-            expect(_.sortedIndex([10, 20, 30, 40, 50, 60], {a: 14})).to.equal(0);
+            expect(_.sortedIndex([10, 20, 30, 40, 50, 60], { a: 14 })).to.equal(0);
             expect(_.sortedIndex([10, 20, 30, 40, 50, 60], null)).to.equal(0);
             expect(_.sortedIndex([10, 20, 30, 40, 50, 60], undefined)).to.equal(0);
             expect(_.sortedIndex([10, 20, 30, 40, 50, 60], true)).to.equal(0);
@@ -2016,14 +2016,14 @@ describe('_', function () {
         });
 
         it('12. returns the index that an object should be inserted at in an array of objects if the property the array has been sorted by is given as the iteratee', function () {
-            const objArr = [{name: 'Harry', age: 20}, {name: 'Hermione', age: 30}, {name: 'Ron', age: 40}];
-            expect(_.sortedIndex(objArr, {name: 'Luna', age: 25}, 'name')).to.equal(2);
-            expect(_.sortedIndex(objArr, {name: 'Luna', age: 25}, 'age')).to.equal(1);
+            const objArr = [{ name: 'Harry', age: 20 }, { name: 'Hermione', age: 30 }, { name: 'Ron', age: 40 }];
+            expect(_.sortedIndex(objArr, { name: 'Luna', age: 25 }, 'name')).to.equal(2);
+            expect(_.sortedIndex(objArr, { name: 'Luna', age: 25 }, 'age')).to.equal(1);
         });
 
         it('13. returns 0 if the property that the array of objects has been sorted by is not given', function () {
-            const objArr = [{name: 'Harry', age: 20}, {name: 'Hermione', age: 30}, {name: 'Ron', age: 40}];
-            expect(_.sortedIndex(objArr, {name: 'Luna', age: 25})).to.equal(0);
+            const objArr = [{ name: 'Harry', age: 20 }, { name: 'Hermione', age: 30 }, { name: 'Ron', age: 40 }];
+            expect(_.sortedIndex(objArr, { name: 'Luna', age: 25 })).to.equal(0);
         });
 
         it('14. returns the index that a letter or word would be inserted at in an alphabetical string', function () {
@@ -2040,12 +2040,12 @@ describe('_', function () {
                 }
                 return res;
             };
-            expect(_.sortedIndex([[1,2,3], [4,5,6], [7,8,9]], [4,5,7], fn1)).to.eql(2);
+            expect(_.sortedIndex([[1, 2, 3], [4, 5, 6], [7, 8, 9]], [4, 5, 7], fn1)).to.eql(2);
 
             const fn2 = function (el) {
                 return el.name.length;
             };
-            const objArr = [{name: 'Ron', age: 11}, {name: 'Harry', age: 11}, {name: 'Hermione', age: 11}];
+            const objArr = [{ name: 'Ron', age: 11 }, { name: 'Harry', age: 11 }, { name: 'Hermione', age: 11 }];
             const result = _.sortedIndex(objArr, { name: 'Luna', age: 11 }, fn2);
             expect(result).to.eql(1);
         });
@@ -2056,6 +2056,54 @@ describe('_', function () {
         });
     });
     //  FLATTEN
+    describe('_.flatten', function () {
+        it('1. is a function', function () {
+            expect(_.flatten).to.be.a('function');
+        });
+
+        it('2. takes at least one argument', function () {
+            expect(_.flatten).to.have.lengthOf.at.least(1);
+        });
+
+        it('3. returns a flattened array from one nested a single level', function () {
+            expect(_.flatten([[1, 2], [3, 4, 5]])).to.eql([1, 2, 3, 4, 5]);
+        });
+
+        it('4. returns a flattened array from an array nested to any depth', function () {
+            expect(_.flatten([[1, [2]], [3, [4], 5]])).to.eql([1, 2, 3, 4, 5]);
+            expect(_.flatten([1, 2, [[[[[[[[[3]]]]]]]]]])).to.eql([1, 2, 3]);
+            expect(_.flatten([4, [3, [7, [3, [[6]], [[8]], [[[10]]]]], 8], 1])).to.eql([4, 3, 7, 3, 6, 8, 10, 8, 1])
+        });
+
+        it('5. returns an array flattened a single level if shallow is true', function () {
+            expect(_.flatten([1,2,[3, [4]]])).to.eql([1,2,3,4]);
+            expect(_.flatten([1,2,[3, [4]]], true)).to.eql([1,2,3,[4]]);
+        });
+
+        it('6. returns an array flattened a single level if a non-falsy value is passed as the second argument', function () {
+            expect(_.flatten([1,2,[3, [4]]], 'abc')).to.eql([1,2,3,[4]]);
+            expect(_.flatten([1,2,[3, [4]]], 5)).to.eql([1,2,3,[4]]);
+            expect(_.flatten([1,2,[3, [4]]], [1,2])).to.eql([1,2,3,[4]]);
+            expect(_.flatten([1,2,[3, [4]]], {a: 1})).to.eql([1,2,3,[4]]);
+            expect(_.flatten([1,2,[3, [4]]]), null).to.eql([1,2,3,4]);
+            expect(_.flatten([1,2,[3, [4]]]), undefined).to.eql([1,2,3,4]);
+            expect(_.flatten([1,2,[3, [4]]]), 0).to.eql([1,2,3,4]);
+            expect(_.flatten([1,2,[3, [4]]]), false).to.eql([1,2,3,4]);
+        });
+
+        it('7. returns an empty array if a non-array and non-string argument is provided', function () {
+            expect(_.flatten(123)).to.eql([]);
+            expect(_.flatten({a: 1, b: 2})).to.eql([]);
+            expect(_.flatten(true)).to.eql([]);
+            expect(_.flatten(false)).to.eql([]);
+            expect(_.flatten(null)).to.eql([]);
+            expect(_.flatten(undefined)).to.eql([]);
+        });
+
+        it('8. returns the string split into an array by letter if a string argument is passed', function () {
+            expect(_.flatten('hello')).to.eql(['h', 'e', 'l', 'l', 'o']);
+        });
+    });
 
     //  INTERSECTION
 
