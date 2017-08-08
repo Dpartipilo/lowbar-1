@@ -363,56 +363,34 @@ _.sortedIndex = function (list, value, iteratee) {
     if (!value) return 0;
     if (!(isNaN(value))) value = +value;
     if (typeof list === 'string') list.split('');
+    if (typeof list[0] === 'object' && !(Array.isArray(list[0])) && !iteratee) return 0;
 
     let start = 0, end = list.length - 1, mid;
-    if (typeof iteratee === 'function') {
         do {
             mid = ~~((end + start) / 2);
-            iteratee = iteratee || _.identity;
-            let searchValue = iteratee(value) || value;
-            // if (typeof list[mid] === 'object' && !(Array.isArray(list[mid])) && !iteratee) return 0;
-            // if (typeof searchValue !== typeof list[mid] && typeof searchValue !== typeof list[mid][iteratee]) return 0;
-            if (searchValue === iteratee(list[mid])) {
-                if (iteratee(list[mid - 1]) === searchValue) end = mid - 1;
+            const fn = typeof iteratee === 'function' ? iteratee : _.identity;
+            const prop = typeof iteratee === 'string' ? iteratee : null;
+            let searchValue = prop ? fn(value[prop]) : fn(value);
+            if (typeof searchValue !== typeof fn(list[mid]) && typeof searchValue !== typeof fn(list[mid][prop])) return 0;
+            if (searchValue === fn(list[mid]) || (prop && searchValue === fn(list[mid][prop]))) {
+                if (fn(list[mid - 1]) === searchValue || fn(list[mid - 1][prop]) === searchValue) end = mid - 1;
                 else return mid;
             }
-            if (searchValue > iteratee(list[mid])) {
-                if (searchValue < iteratee(list[mid + 1])) return mid + 1;
+            if (searchValue > fn(list[mid]) || (prop && searchValue > fn(list[mid][prop]))) {
+                if (searchValue < fn(list[mid + 1]) || searchValue < fn(list[mid + 1][prop])) return mid + 1;
                 else start = mid + 1;
             }
-            if (searchValue < iteratee(list[mid])) {
-                if (searchValue > iteratee(list[mid - 1])) return mid;
+            if (searchValue < fn(list[mid]) || (prop && searchValue < fn(list[mid][prop]))) {
+                if (searchValue > fn(list[mid - 1]) || searchValue > fn(list[mid - 1][prop])) return mid;
                 else end = mid - 1;
             }
-            if (searchValue > iteratee(list[end])) return end + 1;
-            if (searchValue < iteratee(list[start])) return start;
+            if (searchValue > fn(list[end]) || searchValue > fn(list[end][prop])) return end + 1;
+            if (searchValue < fn(list[start]) || searchValue < fn(list[start][prop])) return start;
         } while (start <= end);
-    } else {
-        do {
-            mid = ~~((end + start) / 2);
-            let searchValue = value[iteratee] || value;
-            // if (typeof iteratee === 'function') searchValue = value[iteratee]();
-            if (typeof list[mid] === 'object' && !(Array.isArray(list[mid])) && !iteratee) return 0;
-            if (typeof searchValue !== typeof list[mid] && typeof searchValue !== typeof list[mid][iteratee]) return 0;
-            if (searchValue === list[mid] || searchValue === list[mid][iteratee]) {
-                if (list[mid - 1] === searchValue || list[mid - 1][iteratee] === searchValue) end = mid - 1;
-                else return mid;
-            }
-            if (searchValue > list[mid] || searchValue > list[mid][iteratee]) {
-                if (searchValue < list[mid + 1] || searchValue < list[mid + 1][iteratee]) return mid + 1;
-                else start = mid + 1;
-            }
-            if (searchValue < list[mid] || searchValue < list[mid][iteratee]) {
-                if (searchValue > list[mid - 1] || searchValue > list[mid - 1][iteratee]) return mid;
-                else end = mid - 1;
-            }
-            if (searchValue > list[end] || searchValue > list[end][iteratee]) return end + 1;
-            if (searchValue < list[start] || searchValue < list[start][iteratee]) return start;
-        } while (start <= end);
-
-    }
+    
     return 0;
 };
+
 //  FLATTEN
 
 //  INTERSECTION
