@@ -517,7 +517,7 @@ describe('_', function () {
         it('24. the binary search functionality will also work for alphabetically ordered strings', function () {
             expect(_.indexOf('abcdefghijk', 'a', true)).to.equal(0);
             expect(_.indexOf('aclq', 'q', true)).to.equal(3);
-            expect(_.indexOf('hello', 'h', true)).to.equal(-1);
+            expect(_.indexOf('hello', 'h', true)).to.equal(0);
             expect(_.indexOf('hello', 'l', true)).to.equal(2);
             expect(_.indexOf('hello', 'o', true)).to.equal(4);
         });
