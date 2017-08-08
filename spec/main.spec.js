@@ -2055,6 +2055,7 @@ describe('_', function () {
             expect(_.sortedIndex(['ant', 'arm', 'army', 'after', 'anyone'], 'anteater', 'length')).to.equal(5);
         });
     });
+    
     //  FLATTEN
     describe('_.flatten', function () {
         it('1. is a function', function () {

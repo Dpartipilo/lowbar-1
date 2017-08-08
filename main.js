@@ -409,12 +409,17 @@ _.sortedIndex = function (list, value, iteratee) {
 
 //  FLATTEN
 _.flatten = function (array, shallow) {
+    // return an empty array if it is not an array or string
     if (!(Array.isArray(array)) && typeof array !== 'string') return [];
     if (array.length < 1) return;
     let result = [];
+    // loop over each value in the array
     for (let i = 0; i < array.length; i++) {
+        // if array[i] is an array, recursively call the function
         if (!shallow && Array.isArray(array[i])) result = result.concat(_.flatten(array[i]));
+        // if shallow is true, only flatten the array one level
         else if (Array.isArray(array[i])) result = result.concat(array[i]);
+        // if array[i] is not an array, push the element to the result
         else result.push(array[i]);
     }
     return result;
