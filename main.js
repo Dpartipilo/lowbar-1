@@ -360,17 +360,17 @@ _.zip = function () {
 };
 //  SORTEDINDEX
 _.sortedIndex = function (list, value, iteratee) {
-    if (!value) return 0;
+    if (!value || (typeof list[0] === 'object' && !(Array.isArray(list[0])) && !iteratee)) return 0;
     if (!(isNaN(value))) value = +value;
     if (typeof list === 'string') list.split('');
-    if (typeof list[0] === 'object' && !(Array.isArray(list[0])) && !iteratee) return 0;
 
     let start = 0, end = list.length - 1, mid;
+    const fn = typeof iteratee === 'function' ? iteratee : _.identity;
+    const prop = typeof iteratee === 'string' ? iteratee : null;
+    let searchValue = prop ? fn(value[prop]) : fn(value);
+    
         do {
             mid = ~~((end + start) / 2);
-            const fn = typeof iteratee === 'function' ? iteratee : _.identity;
-            const prop = typeof iteratee === 'string' ? iteratee : null;
-            let searchValue = prop ? fn(value[prop]) : fn(value);
             if (typeof searchValue !== typeof fn(list[mid]) && typeof searchValue !== typeof fn(list[mid][prop])) return 0;
             if (searchValue === fn(list[mid]) || (prop && searchValue === fn(list[mid][prop]))) {
                 if (fn(list[mid - 1]) === searchValue || fn(list[mid - 1][prop]) === searchValue) end = mid - 1;
@@ -384,8 +384,8 @@ _.sortedIndex = function (list, value, iteratee) {
                 if (searchValue > fn(list[mid - 1]) || searchValue > fn(list[mid - 1][prop])) return mid;
                 else end = mid - 1;
             }
-            if (searchValue > fn(list[end]) || searchValue > fn(list[end][prop])) return end + 1;
-            if (searchValue < fn(list[start]) || searchValue < fn(list[start][prop])) return start;
+            if (searchValue > fn(list[end]) || (prop && searchValue > fn(list[end][prop]))) return end + 1;
+            if (searchValue < fn(list[start]) || (searchValue < fn(list[start][prop]))) return start;
         } while (start <= end);
     
     return 0;
