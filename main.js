@@ -221,32 +221,25 @@ _.once = function (fn) {
 };
 
 //  MEMOIZE
-_.memoize = function (fn) {
-    //  create a variable
-    let cache = {};
+_.memoize = (fn, hf) => {
+    hf = hf || function () {
+        return arguments[0];
+    };
     //  returns a new function
-    return function () {
-        if (arguments.length === 1) {
+    const memoizedFunction = function () {
+        const a = hf.apply(null, arguments);
             //  if arg is in cache, return the value from the cache
-            if (arguments[0] in cache) return cache[arguments[0]];
-            //  if not, calculate the result by calling the function
-            let result = fn(arguments[0]);
-            //  store it in the cache
-            cache[arguments[0]] = result;
-            //  return the value
-            return result;
-        } else {
-            let args = JSON.stringify(arguments);
-            //  if arg is in cache, return the value from the cache
-            if (args in cache) return cache[args];
+            if (a in memoizedFunction.cache) return memoizedFunction.cache[a];
             //  if not, calculate the result by calling the function
             let result = fn.apply(null, arguments);
             //  store it in the cache
-            cache[args] = result;
+            memoizedFunction.cache[a] = result;
             //  return the value
             return result;
-        }
+        // }
     };
+    memoizedFunction.cache = {};
+    return memoizedFunction;
 };
 
 //  SHUFFLE

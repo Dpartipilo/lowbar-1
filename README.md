@@ -24,7 +24,7 @@ ADVANCED LOWBAR
 2. memoize
 3. shuffle
 4/. invoke?
-5/. sortBy
+5. sortBy
 6. zip
 7/. sortedIndex
 8/. flatten
@@ -35,3 +35,4 @@ ADVANCED LOWBAR
 12/. throttle
 13/.delay
 
+7/28
