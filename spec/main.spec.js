@@ -2166,8 +2166,66 @@ describe('_', function () {
             expect(_.intersection(['a', 'b', 'c'], 'a')).to.eql(['a']);
         });
     });
-    //  DIFFERENCE
 
+    //  DIFFERENCE
+    describe('_.difference', function () {
+        it('1. is a function', function () {
+            expect(_.difference).to.be.a('function');
+        });
+
+        it('2. returns an empty array if a non array or string argument is given', function () {
+            expect(_.difference()).to.eql([]);
+            expect(_.difference(123)).to.eql([]);
+            expect(_.difference(null)).to.eql([]);
+            expect(_.difference(undefined)).to.eql([]);
+            expect(_.difference(true)).to.eql([]);
+            expect(_.difference(false)).to.eql([]);
+            expect(_.difference(123, 12)).to.eql([]);
+            expect(_.difference(null, null)).to.eql([]);
+            expect(_.difference(undefined, undefined)).to.eql([]);
+            expect(_.difference(true, true)).to.eql([]);
+            expect(_.difference(false, false)).to.eql([]);
+        });
+
+        it('3. should return the original array if one argument is provided', function () {
+            expect(_.difference([1, 2, 3, 4])).to.eql([1, 2, 3, 4]);
+        });
+
+        it('4. should return an array of the values that are unique to the first array, including numbers, strings, boolean, null, undefined', function () {
+            expect(_.difference([1, 2], [1, 3])).to.eql([2]);
+            expect(_.difference(['apple', 'banana'], ['apple', 'pear'])).to.eql(['banana']);
+            expect(_.difference([1, 2, 3, 4], [3, 6], [3, 4, 5, 6])).to.eql([1, 2]);
+            expect(_.difference(['ant', 'bear', 'cat', 'dog'], ['bear', 'elephant'], ['dog', 'elephant'])).to.eql(['ant', 'cat']);
+            expect(_.difference([1, null, undefined, true, false, 100], [2, null, undefined, true, false, 100], [3, null, undefined, true, false, 100], [4, null, undefined, true, false, 100])).to.eql([1]);
+        });
+
+        it('5. does not recognise deep equality for nested arrays and objects', function () {
+            expect(_.difference([1, 2, [1, 2], { a: 1 }], [1, 3, [1, 2], { a: 1 }])).to.eql([2, [1, 2], { a: 1 }]);
+        });
+
+        it('6. should return an empty array if there are no unique values contained in the first array', function () {
+            expect(_.difference([1, 2, 3], [1, 2, 3])).to.eql([]);
+            expect(_.difference([1, 2, 3, 4, 5, 6], [1, 2, 3], [4, 5, 6])).to.eql([]);
+            expect(_.difference(['a', 'b', 'c'], ['a', 'b', 'c'])).to.eql([]);
+            expect(_.difference(['a', 'b', 'c'], ['c', 'd', 'e'], ['a'], ['b'])).to.eql([]);
+        });
+
+        it('7. returns single argument strings and objects as arrays', function () {
+            expect(_.difference('world')).to.eql(['w', 'o', 'r', 'l', 'd']);
+            expect(_.difference({ a: 1, b: 2, c: 3 })).to.eql([1, 2, 3]);
+        });
+
+        it('8. always returns just the original array for string or object inputs, even if there is repetition in subsequent strings or objects', function () {
+            expect(_.difference('world', 'w')).to.eql(['w', 'o', 'r', 'l', 'd']);
+            expect(_.difference('world', 'world')).to.eql(['w', 'o', 'r', 'l', 'd']);
+            expect(_.difference({ a: 1, b: 2, c: 3 }, { a: 1 })).to.eql([1, 2, 3]);
+            expect(_.difference({ a: 1, b: 2, c: 3 }, { a: 1, b: 2, c: 3 })).to.eql([1, 2, 3]);
+        });
+
+        it('9. deletes all repeated values if they are present in a subsequent array', function () {
+            expect(_.difference([1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 10, 10], [2, 3, 5], [4, 2])).to.eql([1, 1, 1, 10, 10]);
+        });
+    });
     //  THROTTLE
 
     //  DELAY

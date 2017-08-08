@@ -403,7 +403,6 @@ _.sortedIndex = function (list, value, iteratee) {
         // if the search value is less than the start value, return the start index
         if (searchValue < fn(list[start]) || (searchValue < fn(list[start][prop]))) return start;
     } while (start <= end);
-
     return 0;
 };
 
@@ -435,9 +434,36 @@ _.intersection = function () {
             }
         }
     }
-return result;
+    return result;
 };
 //  DIFFERENCE
+_.difference = function () {
+    let result = typeof arguments[0] === 'string' ? arguments[0].split('') : arguments[0];
+    if (!Array.isArray(result) && typeof result === 'object') {
+        let res = [];
+        for (let key in result) {
+            res.push(result[key]);
+        }
+        result = res;
+    }
+    result = (Array.isArray(result)) ? result : [];
+    for (let i = 1; i < arguments.length; i++) {
+        if (Array.isArray(arguments[i])) {
+            for (let j = 0; j < arguments[i].length; j++) {
+                let index = _.indexOf(result, arguments[i][j]);
+                let first = true;
+                while (index >= 0) {
+                    let prevIndex = index;
+                    index = first ? index : _.indexOf(result, arguments[i][j], prevIndex);
+                    first = false;
+                    if (index !== -1) result.splice(index, 1);
+                }
+            }
+        }
+    }
+    return result;
+};
+
 
 //  THROTTLE
 
