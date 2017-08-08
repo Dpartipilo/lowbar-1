@@ -403,7 +403,7 @@ _.sortedIndex = function (list, value, iteratee) {
         // if the search value is less than the start value, return the start index
         if (searchValue < fn(list[start]) || (searchValue < fn(list[start][prop]))) return start;
     } while (start <= end);
-
+    
     return 0;
 };
 
