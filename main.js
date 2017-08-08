@@ -277,16 +277,16 @@ _.invoke = function (list, methodName, args) {
     const result = [];
     if (Array.isArray(list) || typeof list === 'string') {
         for (var i = 0; i < list.length; i++) {
-            typeof list[i][methodName] === 'function' 
-            ? result.push(list[i][methodName](args))
-            : result.push(undefined);
+            typeof list[i][methodName] === 'function'
+                ? result.push(list[i][methodName](args))
+                : result.push(undefined);
         }
     }
     else if (typeof list === 'object') {
         for (let key in list) {
-            typeof list[key][methodName] === 'function' 
-            ? result.push(list[key][methodName](args))
-            : result.push(undefined);
+            typeof list[key][methodName] === 'function'
+                ? result.push(list[key][methodName](args))
+                : result.push(undefined);
         }
     }
     return result;
@@ -359,7 +359,60 @@ _.zip = function () {
     return result;
 };
 //  SORTEDINDEX
+_.sortedIndex = function (list, value, iteratee) {
+    if (!value) return 0;
+    if (!(isNaN(value))) value = +value;
+    if (typeof list === 'string') list.split('');
 
+    let start = 0, end = list.length - 1, mid;
+    if (typeof iteratee === 'function') {
+        do {
+            mid = ~~((end + start) / 2);
+            iteratee = iteratee || _.identity;
+            let searchValue = iteratee(value) || value;
+            // if (typeof list[mid] === 'object' && !(Array.isArray(list[mid])) && !iteratee) return 0;
+            // if (typeof searchValue !== typeof list[mid] && typeof searchValue !== typeof list[mid][iteratee]) return 0;
+            if (searchValue === iteratee(list[mid])) {
+                if (iteratee(list[mid - 1]) === searchValue) end = mid - 1;
+                else return mid;
+            }
+            if (searchValue > iteratee(list[mid])) {
+                if (searchValue < iteratee(list[mid + 1])) return mid + 1;
+                else start = mid + 1;
+            }
+            if (searchValue < iteratee(list[mid])) {
+                if (searchValue > iteratee(list[mid - 1])) return mid;
+                else end = mid - 1;
+            }
+            if (searchValue > iteratee(list[end])) return end + 1;
+            if (searchValue < iteratee(list[start])) return start;
+        } while (start <= end);
+    } else {
+        do {
+            mid = ~~((end + start) / 2);
+            let searchValue = value[iteratee] || value;
+            // if (typeof iteratee === 'function') searchValue = value[iteratee]();
+            if (typeof list[mid] === 'object' && !(Array.isArray(list[mid])) && !iteratee) return 0;
+            if (typeof searchValue !== typeof list[mid] && typeof searchValue !== typeof list[mid][iteratee]) return 0;
+            if (searchValue === list[mid] || searchValue === list[mid][iteratee]) {
+                if (list[mid - 1] === searchValue || list[mid - 1][iteratee] === searchValue) end = mid - 1;
+                else return mid;
+            }
+            if (searchValue > list[mid] || searchValue > list[mid][iteratee]) {
+                if (searchValue < list[mid + 1] || searchValue < list[mid + 1][iteratee]) return mid + 1;
+                else start = mid + 1;
+            }
+            if (searchValue < list[mid] || searchValue < list[mid][iteratee]) {
+                if (searchValue > list[mid - 1] || searchValue > list[mid - 1][iteratee]) return mid;
+                else end = mid - 1;
+            }
+            if (searchValue > list[end] || searchValue > list[end][iteratee]) return end + 1;
+            if (searchValue < list[start] || searchValue < list[start][iteratee]) return start;
+        } while (start <= end);
+
+    }
+    return 0;
+};
 //  FLATTEN
 
 //  INTERSECTION

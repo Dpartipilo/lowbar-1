@@ -1918,7 +1918,7 @@ describe('_', function () {
     });
 
     //  ZIP
-    describe('#zip', function () {
+    describe('_.zip', function () {
         it('1. is a function', function () {
             expect(_.zip).to.be.a('function');
         });
@@ -1957,7 +1957,104 @@ describe('_', function () {
     });
 
     //  SORTEDINDEX
+    describe('_.sortedIndex', function () {
+        it('1. is a function', function () {
+            expect(_.sortedIndex).to.be.a('function');
+        });
 
+        it('2. takes at least two arguments', function () {
+            expect(_.sortedIndex).to.have.length.greaterThan(2);
+        });
+
+        it('3. returns a number', function () {
+            expect(_.sortedIndex([1,2,3], 4)).to.be.a('number');
+        });
+
+        it('4. returns the index that the value should be inserted at (numbers)', function () {
+            expect(_.sortedIndex([10, 20, 30, 40, 50, 60], 45)).to.equal(4);
+            expect(_.sortedIndex([10, 20, 30, 40, 50, 60], 5)).to.equal(0);
+            expect(_.sortedIndex([10, 20, 30, 40, 50, 60], 120)).to.equal(6);
+        });
+
+        it('5. returns the first possible index to insert a number that is equal to an existing number', function () {
+            expect(_.sortedIndex([10, 20, 30, 40, 50, 60], 20)).to.equal(1);
+            expect(_.sortedIndex([10, 20, 30, 30, 30, 40, 50, 60], 30)).to.equal(2);
+        });
+
+        it('6. returns 0 if no value is given', function () {
+            expect(_.sortedIndex([10, 20, 30, 40, 50, 60])).to.equal(0);
+        });
+
+        it('7. returns 0 if a value that cannot be sorted is provided', function () {
+            expect(_.sortedIndex([10, 20, 30, 40, 50, 60], 'abc')).to.equal(0);
+            expect(_.sortedIndex([10, 20, 30, 40, 50, 60], [24, 89])).to.equal(0);
+            expect(_.sortedIndex([10, 20, 30, 40, 50, 60], {a: 14})).to.equal(0);
+            expect(_.sortedIndex([10, 20, 30, 40, 50, 60], null)).to.equal(0);
+            expect(_.sortedIndex([10, 20, 30, 40, 50, 60], undefined)).to.equal(0);
+            expect(_.sortedIndex([10, 20, 30, 40, 50, 60], true)).to.equal(0);
+            expect(_.sortedIndex([10, 20, 30, 40, 50, 60], false)).to.equal(0);
+            expect(_.sortedIndex(['ant', 'bear', 'dog', 'elephant', 'goat'], 12)).to.equal(0);
+        });
+
+        it('8. returns the index that a number should be inserted at if the number is provided as the only element in an array', function () {
+            expect(_.sortedIndex([10, 20, 30, 40, 50, 60], [31])).to.equal(3);
+        });
+
+        it('9. returns the index that a number should be inserted at if the number is provided as a string', function () {
+            expect(_.sortedIndex([10, 20, 30, 40, 50, 60], '31')).to.equal(3);
+        });
+
+        it('10. returns the index that a letter should be inserted at in an alphabetically ordered array list', function () {
+            expect(_.sortedIndex(['a', 'b', 'd', 'e', 'g'], 'c')).to.equal(2);
+            expect(_.sortedIndex(['a', 'b', 'd', 'e', 'g'], 'e')).to.equal(3);
+        });
+
+        it('11. returns the index that a word should be inserted at in an alphabetically ordered array list', function () {
+            expect(_.sortedIndex(['ant', 'bear', 'dog', 'elephant', 'goat'], 'cat')).to.equal(2);
+            expect(_.sortedIndex(['ant', 'bear', 'dog', 'elephant', 'goat'], 'anteater')).to.equal(1);
+            expect(_.sortedIndex(['ant', 'bear', 'dog', 'dragonfly', 'elephant', 'goat'], 'dolphin')).to.equal(3);
+        });
+
+        it('12. returns the index that an object should be inserted at in an array of objects if the property the array has been sorted by is given as the iteratee', function () {
+            const objArr = [{name: 'Harry', age: 20}, {name: 'Hermione', age: 30}, {name: 'Ron', age: 40}];
+            expect(_.sortedIndex(objArr, {name: 'Luna', age: 25}, 'name')).to.equal(2);
+            expect(_.sortedIndex(objArr, {name: 'Luna', age: 25}, 'age')).to.equal(1);
+        });
+
+        it('13. returns 0 if the property that the array of objects has been sorted by is not given', function () {
+            const objArr = [{name: 'Harry', age: 20}, {name: 'Hermione', age: 30}, {name: 'Ron', age: 40}];
+            expect(_.sortedIndex(objArr, {name: 'Luna', age: 25})).to.equal(0);
+        });
+
+        it('14. returns the index that a letter or word would be inserted at in an alphabetical string', function () {
+            expect(_.sortedIndex('abcefgjkl', 'd')).to.equal(3);
+            expect(_.sortedIndex('abcdefgh', 'f')).to.equal(5);
+            expect(_.sortedIndex('abcdefgh', 'dog')).to.equal(4);
+        });
+
+        it('15. returns the index to insert a value at in an array that has sorted by an iteratee if the iteratee is provided', function () {
+            const fn1 = function (el) {
+                let res = 0;
+                for (let i = 0; i < el.length; i++) {
+                    res += el[i];
+                }
+                return res;
+            };
+            expect(_.sortedIndex([[1,2,3], [4,5,6], [7,8,9]], [4,5,7], fn1)).to.eql(2);
+
+            const fn2 = function (el) {
+                return el.name.length;
+            };
+            const objArr = [{name: 'Ron', age: 11}, {name: 'Harry', age: 11}, {name: 'Hermione', age: 11}];
+            const result = _.sortedIndex(objArr, { name: 'Luna', age: 11 }, fn2);
+            expect(result).to.eql(1);
+        });
+
+        it('16. returns the index to insert a value at in array that has been sorted by a prototypal property if that property is provided as a string', function () {
+            expect(_.sortedIndex(['ant', 'arm', 'army', 'after', 'anyone'], 'anteater')).to.equal(1);
+            expect(_.sortedIndex(['ant', 'arm', 'army', 'after', 'anyone'], 'anteater', 'length')).to.equal(5);
+        });
+    });
     //  FLATTEN
 
     //  INTERSECTION
