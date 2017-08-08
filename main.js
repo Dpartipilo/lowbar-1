@@ -438,6 +438,7 @@ _.intersection = function () {
 };
 //  DIFFERENCE
 _.difference = function () {
+    // create an array if the first argument is a string or object
     let result = typeof arguments[0] === 'string' ? arguments[0].split('') : arguments[0];
     if (!Array.isArray(result) && typeof result === 'object') {
         let res = [];
@@ -446,12 +447,15 @@ _.difference = function () {
         }
         result = res;
     }
+    // ensure the result is an empty array if the argument is not now an array
     result = (Array.isArray(result)) ? result : [];
+    // loop over the arguments
     for (let i = 1; i < arguments.length; i++) {
+        // if subsequent arguments are arrays check whether the original argument includes each value
         if (Array.isArray(arguments[i])) {
             for (let j = 0; j < arguments[i].length; j++) {
-                let index = _.indexOf(result, arguments[i][j]);
-                let first = true;
+                let index = _.indexOf(result, arguments[i][j]), first = true;
+                // if it does, remove it
                 while (index >= 0) {
                     let prevIndex = index;
                     index = first ? index : _.indexOf(result, arguments[i][j], prevIndex);
@@ -461,9 +465,9 @@ _.difference = function () {
             }
         }
     }
+    // return remaining values from the original array
     return result;
 };
-
 
 //  THROTTLE
 
