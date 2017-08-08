@@ -228,14 +228,14 @@ _.memoize = (fn, hf) => {
     //  returns a new function
     const memoizedFunction = function () {
         const a = hf.apply(null, arguments);
-            //  if arg is in cache, return the value from the cache
-            if (a in memoizedFunction.cache) return memoizedFunction.cache[a];
-            //  if not, calculate the result by calling the function
-            let result = fn.apply(null, arguments);
-            //  store it in the cache
-            memoizedFunction.cache[a] = result;
-            //  return the value
-            return result;
+        //  if arg is in cache, return the value from the cache
+        if (a in memoizedFunction.cache) return memoizedFunction.cache[a];
+        //  if not, calculate the result by calling the function
+        let result = fn.apply(null, arguments);
+        //  store it in the cache
+        memoizedFunction.cache[a] = result;
+        //  return the value
+        return result;
         // }
     };
     memoizedFunction.cache = {};
@@ -272,6 +272,25 @@ _.shuffle = function (arr) {
 };
 
 //  INVOKE
+_.invoke = function (list, methodName, args) {
+    if (!methodName) return undefined;
+    const result = [];
+    if (Array.isArray(list) || typeof list === 'string') {
+        for (var i = 0; i < list.length; i++) {
+            typeof list[i][methodName] === 'function' 
+            ? result.push(list[i][methodName](args))
+            : result.push(undefined);
+        }
+    }
+    else if (typeof list === 'object') {
+        for (let key in list) {
+            typeof list[key][methodName] === 'function' 
+            ? result.push(list[key][methodName](args))
+            : result.push(undefined);
+        }
+    }
+    return result;
+}
 
 //  SORT BY
 _.sortBy = function (list, iteratee) {
