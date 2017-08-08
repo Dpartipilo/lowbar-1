@@ -274,8 +274,10 @@ _.shuffle = function (arr) {
 //  INVOKE
 _.invoke = function (list, methodName, args) {
     if (!methodName) return undefined;
+    // create a new result array
     const result = [];
     if (Array.isArray(list) || typeof list === 'string') {
+        // call the function on each element, adding the results to the result array
         for (var i = 0; i < list.length; i++) {
             typeof list[i][methodName] === 'function'
                 ? result.push(list[i][methodName](args))
@@ -283,6 +285,7 @@ _.invoke = function (list, methodName, args) {
         }
     }
     else if (typeof list === 'object') {
+        // call the function on each value, adding the results to the result array
         for (let key in list) {
             typeof list[key][methodName] === 'function'
                 ? result.push(list[key][methodName](args))
@@ -360,34 +363,47 @@ _.zip = function () {
 };
 //  SORTEDINDEX
 _.sortedIndex = function (list, value, iteratee) {
+    // return 0 if no iteratee and the array contains an object
     if (!value || (typeof list[0] === 'object' && !(Array.isArray(list[0])) && !iteratee)) return 0;
+    // enable a number value to be used if it is inputted as a string or array
     if (!(isNaN(value))) value = +value;
+    // transform string lists to an array
     if (typeof list === 'string') list.split('');
-
+    // set the start and end points for the binary search
     let start = 0, end = list.length - 1, mid;
+    // use the iteratee if it is a function, or _.identity if not
     const fn = typeof iteratee === 'function' ? iteratee : _.identity;
+    // if the iteratee is a property, enable it to be used
     const prop = typeof iteratee === 'string' ? iteratee : null;
+    // call an iteratee function to define the search value
     let searchValue = prop ? fn(value[prop]) : fn(value);
-    
-        do {
-            mid = ~~((end + start) / 2);
-            if (typeof searchValue !== typeof fn(list[mid]) && typeof searchValue !== typeof fn(list[mid][prop])) return 0;
-            if (searchValue === fn(list[mid]) || (prop && searchValue === fn(list[mid][prop]))) {
-                if (fn(list[mid - 1]) === searchValue || fn(list[mid - 1][prop]) === searchValue) end = mid - 1;
-                else return mid;
-            }
-            if (searchValue > fn(list[mid]) || (prop && searchValue > fn(list[mid][prop]))) {
-                if (searchValue < fn(list[mid + 1]) || searchValue < fn(list[mid + 1][prop])) return mid + 1;
-                else start = mid + 1;
-            }
-            if (searchValue < fn(list[mid]) || (prop && searchValue < fn(list[mid][prop]))) {
-                if (searchValue > fn(list[mid - 1]) || searchValue > fn(list[mid - 1][prop])) return mid;
-                else end = mid - 1;
-            }
-            if (searchValue > fn(list[end]) || (prop && searchValue > fn(list[end][prop]))) return end + 1;
-            if (searchValue < fn(list[start]) || (searchValue < fn(list[start][prop]))) return start;
-        } while (start <= end);
-    
+
+    // conduct a binary search for the term
+    do {
+        mid = ~~((end + start) / 2);
+        // return 0 if the search value type is not equal to the list value
+        if (typeof searchValue !== typeof fn(list[mid]) && typeof searchValue !== typeof fn(list[mid][prop])) return 0;
+        // if the search value equals the list[mid] value and the previous value does not equal the search term return mid
+        if (searchValue === fn(list[mid]) || (prop && searchValue === fn(list[mid][prop]))) {
+            if (fn(list[mid - 1]) === searchValue || fn(list[mid - 1][prop]) === searchValue) end = mid - 1;
+            else return mid;
+        }
+        // if the search value is greater than the list[mid] value and is less than the following value, return mid + 1
+        if (searchValue > fn(list[mid]) || (prop && searchValue > fn(list[mid][prop]))) {
+            if (searchValue < fn(list[mid + 1]) || searchValue < fn(list[mid + 1][prop])) return mid + 1;
+            else start = mid + 1;
+        }
+        // if the search value is less than the list[mid] value and is greater than the following value, return mid + 1
+        if (searchValue < fn(list[mid]) || (prop && searchValue < fn(list[mid][prop]))) {
+            if (searchValue > fn(list[mid - 1]) || searchValue > fn(list[mid - 1][prop])) return mid;
+            else end = mid - 1;
+        }
+        // if the search value is greater than the end value, return the end index + 1
+        if (searchValue > fn(list[end]) || (prop && searchValue > fn(list[end][prop]))) return end + 1;
+        // if the search value is less than the start value, return the start index
+        if (searchValue < fn(list[start]) || (searchValue < fn(list[start][prop]))) return start;
+    } while (start <= end);
+
     return 0;
 };
 
