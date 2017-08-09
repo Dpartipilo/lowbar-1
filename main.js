@@ -167,15 +167,15 @@ _.contains = (list, value, startingIndex = 0) => {
 //  PLUCK
 _.pluck = (list, propertyName) => {
     // return an empty array if no arguments defined
-    if (!list) return [];
+    if (!list || (!Array.isArray(list) && typeof list === 'object')) return [];
     // return an undefined array if no property name is defined
     if (!propertyName) return [undefined];
     const result = [];
     // loop over each element in the list
-    for (var i = 0; i < list.length; i++) {
+    _.each(list, (v) => {
         // push the property name of each value to the result array
-        result.push(list[i][propertyName]);
-    }
+        result.push(v[propertyName]);
+    });
     return result;
 };
 
