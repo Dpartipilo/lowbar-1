@@ -654,6 +654,131 @@ describe('_', function () {
     });
 
     //  REJECT
+    describe('_.reject', function () {
+        it('1. is a function', function () {
+            expect(_.reject).to.be.a('function');
+        });
+
+        it('2. takes two arguments', function () {
+            expect(_.reject).to.have.length.greaterThan(1);
+        });
+
+        it('3. returns an array', function () {
+            const arr = [1, 2, 3, 4, 5, 6];
+            function getEvenNumbers(n) {
+                return n % 2 === 0;
+            }
+            const result1 = _.reject(arr, getEvenNumbers);
+            expect(result1).to.be.an('array');
+
+            const result2 = _.reject();
+            expect(result2).to.be.an('array');
+        });
+
+        it('4. returns a new array with the numbers that do not meet the criteria in the predicate', function () {
+            const arr1 = [1, 2, 3, 4, 5, 6];
+            function getEvenNumbers(n) {
+                return n % 2 == 0;
+            }
+
+            const result1 = _.reject(arr1, getEvenNumbers);
+            expect(result1).to.eql([1, 3, 5]);
+
+            const arr2 = [1, 7, 5, 19, 23, 0, -3];
+            function getLowerThan10(n) {
+                return n < 10;
+            }
+
+            const result2 = _.reject(arr2, getLowerThan10);
+            expect(result2).to.eql([19, 23]);
+        });
+
+        it('5. does not mutate the original array', function () {
+            let arr = [1, 2, 3, 4, 5, 6];
+            function getEvenNumbers(n) {
+                return n % 2 == 0;
+            }
+
+            let result = _.reject(arr, getEvenNumbers);
+            expect(result).to.not.equal(arr);
+        });
+
+        it('6. returns an array of values in a string that do not meet the criteria in the predicate', function () {
+            let str1 = '12345678';
+            function getEvenNumbers(n) {
+                return n % 2 == 0;
+            }
+            let result1 = _.reject(str1, getEvenNumbers);
+            expect(result1).to.eql(['1', '3', '5', '7']);
+
+            let str2 = 'abcdefg';
+            function getVowels(l) {
+                return /[aeiou]/gi.test(l);
+            }
+            let result2 = _.reject(str2, getVowels);
+            expect(result2).to.eql(['b', 'c', 'd', 'f', 'g']);
+        });
+
+
+        it('7. returns an array of the values from an object that do not meet the criteria in the predicate', function () {
+            let obj1 = { a: 1, b: 2, c: 3, d: 4 };
+            function getEvenNumbers(n) {
+                return n % 2 == 0;
+            }
+            let result1 = _.reject(obj1, getEvenNumbers);
+            expect(result1).to.eql([1, 3]);
+
+            let str2 = { 1: 'a', 2: 'b', 3: 'c', 4: 'd', 5: 'e' };
+            function getVowels(l) {
+                return /[aeiou]/gi.test(l);
+            }
+            let result2 = _.reject(str2, getVowels);
+            expect(result2).to.eql(['b', 'c', 'd']);
+        });
+
+        it('8. returns an empty array if the "list" is empty, null, undefined, a number or a boolean, with or without a predicate', function () {
+            expect(_.reject()).to.eql([]);
+            expect(_.reject(null)).to.eql([]);
+            expect(_.reject(undefined)).to.eql([]);
+            expect(_.reject(123)).to.eql([]);
+            expect(_.reject(true)).to.eql([]);
+            expect(_.reject(false)).to.eql([]);
+
+            function doesItNotExist(val) {
+                if (val || !val) return false;
+            }
+
+            expect(_.reject([1, 2, 3], doesItNotExist)).to.eql([1, 2, 3]);
+            expect(_.reject(null, doesItNotExist)).to.eql([]);
+            expect(_.reject(undefined, doesItNotExist)).to.eql([]);
+            expect(_.reject(123, doesItNotExist)).to.eql([]);
+            expect(_.reject(true, doesItNotExist)).to.eql([]);
+            expect(_.reject(false, doesItNotExist)).to.eql([]);
+        });
+
+        it('9. should return an empty array if no predicate is provided', function () {
+            const arr = [1, 2, 3];
+            expect(_.reject(arr)).to.eql([]);
+            expect(_.reject(arr)).to.not.equal(arr);
+            const str = 'abcd';
+            expect(_.reject(str)).to.eql([]);
+            const obj = { a: 1, b: 2, c: 3, d: 4 };
+            expect(_.reject(obj)).to.eql([]);
+        });
+
+        it('10. should allow the predicate to access the index and list, as well as the value', function () {
+            const arr = [10, 20, 30, 40, 50, 60];
+            const func1 = function (v, i) {
+                return i % 2 === 0;
+            };
+            expect(_.reject(arr, func1)).to.eql([20, 40, 60]);
+
+            const func2 = function (v, i, l) {
+                return !(l.includes(v));
+            };
+            expect(_.reject(arr, func2)).to.eql([10,20,30,40,50,60]);
+        });
+    });
 
     //  UNIQ
 

@@ -75,6 +75,14 @@ _.filter = (list, predicate) => {
     return result;
 };
 //  REJECT
+_.reject = (list, predicate) => {
+    const result = [];
+    if (!list || !predicate) return result;
+    _.each(list, (v, i, l) => {
+        if (!(predicate(v, i, l))) result.push(v);
+    });
+    return result;
+};
 
 //  UNIQ
 
