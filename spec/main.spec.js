@@ -523,6 +523,140 @@ describe('_', function () {
         });
     });
 
+    //  FILTER
+    describe('_.filter', function () {
+        it('1. is a function', function () {
+            expect(_.filter).to.be.a('function');
+        });
+
+        it('2. takes two arguments', function () {
+            expect(_.filter).to.have.length.greaterThan(1);
+        });
+
+        it('3. returns an array', function () {
+            const arr = [1, 2, 3, 4, 5, 6];
+            function getEvenNumbers(n) {
+                return n % 2 === 0;
+            }
+            const result1 = _.filter(arr, getEvenNumbers);
+            expect(result1).to.be.an('array');
+
+            const result2 = _.filter();
+            expect(result2).to.be.an('array');
+        });
+
+        it('4. returns a new array with the numbers that meet the criteria in the predicate', function () {
+            const arr1 = [1, 2, 3, 4, 5, 6];
+            function getEvenNumbers(n) {
+                return n % 2 == 0;
+            }
+
+            const result1 = _.filter(arr1, getEvenNumbers);
+            expect(result1).to.eql([2, 4, 6]);
+
+            const arr2 = [1, 7, 5, 19, 23, 0, -3];
+            function getLowerThan10(n) {
+                return n < 10;
+            }
+
+            const result2 = _.filter(arr2, getLowerThan10);
+            expect(result2).to.eql([1, 7, 5, 0, -3]);
+        });
+
+        it('5. does not mutate the original array', function () {
+            let arr = [1, 2, 3, 4, 5, 6];
+            function getEvenNumbers(n) {
+                return n % 2 == 0;
+            }
+
+            let result = _.filter(arr, getEvenNumbers);
+            expect(result).to.not.equal(arr);
+        });
+
+        it('6. returns an array of values filtered from a string', function () {
+            let str1 = '12345678';
+            function getEvenNumbers(n) {
+                return n % 2 == 0;
+            }
+            let result1 = _.filter(str1, getEvenNumbers);
+            expect(result1).to.eql(['2', '4', '6', '8']);
+
+            let str2 = 'abcdefghijklmnopqrstuvwxyz';
+            function getVowels(l) {
+                return /[aeiou]/gi.test(l);
+            }
+            let result2 = _.filter(str2, getVowels);
+            expect(result2).to.eql(['a', 'e', 'i', 'o', 'u']);
+        });
+
+
+        it('7. returns an array of values filtered from an object', function () {
+            let obj1 = { a: 1, b: 2, c: 3, d: 4 };
+            function getEvenNumbers(n) {
+                return n % 2 == 0;
+            }
+            let result1 = _.filter(obj1, getEvenNumbers);
+            expect(result1).to.eql([2, 4]);
+
+            let str2 = { 1: 'a', 2: 'b', 3: 'c', 4: 'd', 5: 'e' };
+            function getVowels(l) {
+                return /[aeiou]/gi.test(l);
+            }
+            let result2 = _.filter(str2, getVowels);
+            expect(result2).to.eql(['a', 'e']);
+        });
+
+        it('8. returns an empty array if the "list" is empty, null, undefined, a number or a boolean, with or without a predicate', function () {
+            expect(_.filter()).to.eql([]);
+            expect(_.filter(null)).to.eql([]);
+            expect(_.filter(undefined)).to.eql([]);
+            expect(_.filter(123)).to.eql([]);
+            expect(_.filter(true)).to.eql([]);
+            expect(_.filter(false)).to.eql([]);
+
+            function doesItExist(val) {
+                if (val || !val) return true;
+            }
+
+            expect(_.filter([1, 2, 3], doesItExist)).to.eql([1, 2, 3]);
+            expect(_.filter(null, doesItExist)).to.eql([]);
+            expect(_.filter(undefined, doesItExist)).to.eql([]);
+            expect(_.filter(123, doesItExist)).to.eql([]);
+            expect(_.filter(true, doesItExist)).to.eql([]);
+            expect(_.filter(false, doesItExist)).to.eql([]);
+        });
+
+        it('9. should return a copy of the original array if no predicate is provided', function () {
+            const arr = [1, 2, 3];
+            expect(_.filter(arr)).to.eql([1, 2, 3]);
+            expect(_.filter(arr)).to.not.equal(arr);
+        });
+
+        it('10. should return an array of a split string or the object values if no predicate is provided', function () {
+            const str = 'abcd';
+            expect(_.filter(str)).to.eql(['a', 'b', 'c', 'd']);
+            const obj = { a: 1, b: 2, c: 3, d: 4 };
+            expect(_.filter(obj)).to.eql([1, 2, 3, 4]);
+        });
+
+        it('11. should allow the predicate to access the index and list, as well as the value', function () {
+            const arr = [10, 20, 30, 40, 50, 60];
+            const func1 = function (v, i) {
+                return i % 2 === 0;
+            };
+            expect(_.filter(arr, func1)).to.eql([10, 30, 50]);
+
+            const func2 = function (v, i, l) {
+                return l.includes(v);
+            };
+            expect(_.filter(arr, func2)).to.eql([10,20,30,40,50,60]);
+        });
+    });
+
+    //  REJECT
+
+    //  UNIQ
+
     //  MAP
     describe('_.map', function () {
         it('1. is a function', function () {
@@ -1712,15 +1846,15 @@ describe('_', function () {
 
         it('is a pure function', function () {
             let arr = [1, 2, 3];
-            expect(_.shuffle(arr)).to.not.eql(arr);
+            expect(_.shuffle(arr)).to.not.equal(arr);
             expect(arr).to.eql([1, 2, 3]);
 
             let str = 'abc';
-            expect(_.shuffle(str)).to.not.eql(str);
+            expect(_.shuffle(str)).to.not.equal(str);
             expect(str).to.equal('abc');
 
             let obj = { a: 1, b: 2 };
-            expect(_.shuffle(obj)).to.not.eql(obj);
+            expect(_.shuffle(obj)).to.not.equal(obj);
             expect(obj).to.eql({ a: 1, b: 2 });
         });
 
@@ -2229,6 +2363,13 @@ describe('_', function () {
     //  THROTTLE
 
     //  DELAY
+    // describe('_.delay', function () {
+    //     it('1. is a function', function () {
+    //         expect(_.delay).to.be.a('function');
+    //     });
+
+
+    // });
 
 });
 

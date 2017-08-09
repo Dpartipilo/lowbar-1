@@ -62,7 +62,21 @@ _.indexOf = (array, value, startingIndex = 0) => {
     }
     // return -1 if no elements match the value
     return -1;
-}
+};
+
+//  FILTER
+_.filter = (list, predicate) => {
+    const result = [];
+    if (!list) return result;
+    _.each(list, (v, i, l) => {
+        if (!predicate) result.push(v);
+        else if (predicate(v, i, l)) result.push(v);
+    });
+    return result;
+};
+//  REJECT
+
+//  UNIQ
 
 //  MAP
 _.map = (list, iteratee) => {
@@ -423,6 +437,7 @@ _.flatten = function (array, shallow) {
     }
     return result;
 };
+
 //  INTERSECTION
 _.intersection = function () {
     const result = [];
@@ -436,6 +451,7 @@ _.intersection = function () {
     }
     return result;
 };
+
 //  DIFFERENCE
 _.difference = function () {
     // create an array if the first argument is a string or object
@@ -472,6 +488,8 @@ _.difference = function () {
 //  THROTTLE
 
 //  DELAY
+
+// sinon
 
 if (typeof module !== 'undefined') {
     module.exports = _;
