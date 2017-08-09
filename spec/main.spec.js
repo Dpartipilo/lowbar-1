@@ -907,6 +907,7 @@ describe('_', function () {
             expect(timeSorted).to.be.lessThan(timeUnsorted);
         });
     });
+
     //  MAP
     describe('_.map', function () {
         it('1. is a function', function () {

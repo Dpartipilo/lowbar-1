@@ -66,19 +66,28 @@ _.indexOf = (array, value, startingIndex = 0) => {
 
 //  FILTER
 _.filter = (list, predicate) => {
+    // create a new result array
     const result = [];
+    // return an empty array if list is not defined
     if (!list) return result;
+    // loop over each value in the list
     _.each(list, (v, i, l) => {
+        // if there is no predicate, add the result
         if (!predicate) result.push(v);
+        // if there is a predicate, check the value and if it resolves to true, push it to the result array
         else if (predicate(v, i, l)) result.push(v);
     });
     return result;
 };
 //  REJECT
 _.reject = (list, predicate) => {
+    // create a result array
     const result = [];
+    // if the list or predicate is not provided, return an empty array
     if (!list || !predicate) return result;
+    // loop over each value in the list
     _.each(list, (v, i, l) => {
+        // if the predicate resolves to false, push the value to the result array
         if (!(predicate(v, i, l))) result.push(v);
     });
     return result;
@@ -86,20 +95,30 @@ _.reject = (list, predicate) => {
 
 //  UNIQ
 _.uniq = (list, sorted, iteratee) => {
+    // create a new result array
     const result = [];
+    // if there is no list, an invalid list, or an object is provided as a list without an iteratee, return an empty array
     if (!list || (!(Array.isArray(list)) && typeof list !== 'string' && !iteratee)) return result;
+    // if the iteratee is not given, use identity
     iteratee = iteratee || _.identity;
+    // use a faster algorithm if sorted is true
     if (sorted) {
+        // loop over each value in the list
         _.each(list, (v, i) => {
+            // if the value does not equal the previous value, push it to the result array
             if (i === 0) result.push(v);
             else if (iteratee(v) !== iteratee(list[i - 1])) result.push(v);
         });
     } else {
+        // loop over each value in the array
         _.each(list, (v, i, l) => {
             let resInc = false;
+            // loop over each value in the result array
             for (let i = 0; i < result.length; i++) {
+                // if the value is already included in the result array, set the variable to true
                 if (iteratee(result[i]) === iteratee(v, i, l)) resInc = true;
             }
+            // if the value is not already included in the result array, push the value to this result array
             if (!resInc) result.push(v);
         });
 
