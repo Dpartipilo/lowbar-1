@@ -321,7 +321,7 @@ _.shuffle = function (arr) {
     const result = [];
     do {
         //  generate a random number between 0 and the array length
-        let randomIndex = (Math.floor(Math.random() * arr.length));
+        let randomIndex = ~~(Math.random() * arr.length);
         //  remove the value at that index from the array
         let x = arr[randomIndex];
         arr = arr.slice(0, randomIndex).concat(arr.slice(randomIndex + 1));
