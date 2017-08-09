@@ -355,7 +355,7 @@ _.invoke = function (list, methodName, args) {
         }
     }
     return result;
-}
+};
 
 //  SORT BY
 _.sortBy = function (list, iteratee) {
@@ -536,8 +536,6 @@ _.difference = function () {
 //  THROTTLE
 
 //  DELAY
-
-// sinon
 
 if (typeof module !== 'undefined') {
     module.exports = _;
