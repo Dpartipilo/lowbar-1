@@ -781,7 +781,132 @@ describe('_', function () {
     });
 
     //  UNIQ
+    describe('_.uniq', function () {
+        it('1. is a function', function () {
+            expect(_.uniq).to.be.a('function');
+        });
 
+        it('2. takes three arguments', function () {
+            expect(_.uniq).to.have.lengthOf(3);
+        });
+
+        it('3. should return an array', function () {
+            expect(_.uniq([1, 2, 3, 4, 1])).to.be.an('array');
+            expect(_.uniq()).to.be.an('array');
+        });
+
+        it('4. should return an array with no duplicate values', function () {
+            const result1 = _.uniq([1, 2, 1, 4, 1, 3]);
+            expect(result1).to.eql([1, 2, 4, 3]);
+
+            const result2 = _.uniq(['hello', 'world', 'hello', 'world']);
+            expect(result2).to.eql(['hello', 'world']);
+
+            const array3 = [null, null, undefined, undefined, false, false];
+            const result3 = _.uniq(array3);
+            expect(result3).to.eql([null, undefined, false]);
+        });
+
+        it('5. should not mutate the original array', function () {
+            const array1 = [1, 2, 3, 4, 5];
+            const result1 = _.uniq(array1);
+            expect(result1).to.not.equal(array1);
+
+            const array2 = [1, 2, 1, 4, 1, 3];
+            const result2 = _.uniq(array2);
+            expect(result2).to.not.equal(array2);
+        });
+
+        it('6. should return an array without duplicate values if the "array" argument is a string', function () {
+            const str1 = 'hello';
+            const result1 = _.uniq(str1);
+            expect(result1).to.eql(['h', 'e', 'l', 'o']);
+
+            const str2 = 'aaaabbbbbbbcccccc';
+            const result2 = _.uniq(str2);
+            expect(result2).to.eql(['a', 'b', 'c']);
+        });
+
+        it('7. should return an empty array for a non-array or string "array" input', function () {
+            expect(_.uniq()).to.eql([]);
+            expect(_.uniq(null)).to.eql([]);
+            expect(_.uniq(undefined)).to.eql([]);
+            expect(_.uniq({ a: 1, b: 1, c: 1 })).to.eql([]);
+            expect(_.uniq(123)).to.eql([]);
+            expect(_.uniq(true)).to.eql([]);
+            expect(_.uniq(false)).to.eql([]);
+        });
+
+        it('8. should sort the array using a faster algorithm if "is Sorted" is true', function () {
+            let sortedArr = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+                2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6, 6, 7, 7, 7, 7, 7, 7, 7, 7, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8,
+                8, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 10, 10, 10, 10, 10, 10, 10, 10];
+            expect(_.uniq(sortedArr)).to.eql([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+            expect(_.uniq(sortedArr, true)).to.eql([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+            const t0 = process.hrtime();
+            _.uniq(sortedArr);
+            const t1 = process.hrtime();
+            const timeUnsorted = t1[1] - t0[1];
+
+            const t2 = process.hrtime();
+            _.uniq(sortedArr, true);
+            const t3 = process.hrtime();
+            const timeSorted = t3[1] - t2[1];
+
+            expect(timeSorted).to.be.lessThan(timeUnsorted);
+        });
+
+        it('9. takes an iteratee function to define the unique items', function () {
+            const objArr = [{ name: 'Ann', age: 20 }, { name: 'Bob', age: 20 }, { name: 'Ann', age: 30 }, { name: 'Tim', age: 30 }, { name: 'Bob', age: 40 }, { name: 'Ben', age: 50 }];
+            const iteratee1 = function (el) {
+                return el.age;
+            };
+            expect(_.uniq(objArr, false, iteratee1)).to.eql(
+                [{ name: 'Ann', age: 20 },
+                { name: 'Ann', age: 30 },
+                { name: 'Bob', age: 40 },
+                { name: 'Ben', age: 50 }]);
+
+            const iteratee2 = function (el) {
+                return el.name;
+            };
+
+            expect(_.uniq(objArr, false, iteratee2)).to.eql(
+                [{ name: 'Ann', age: 20 },
+                { name: 'Bob', age: 20 },
+                { name: 'Tim', age: 30 },
+                { name: 'Ben', age: 50 }]
+            );
+        });
+
+        it('10. should sort the array using a faster algorithm if "is Sorted" is true, including with a given iteratee', function () {
+            const objArr = [{ name: 'Ann', age: 20 }, { name: 'Bob', age: 20 }, { name: 'Ann', age: 30 }, { name: 'Tim', age: 30 }, { name: 'Bob', age: 40 }, { name: 'Ben', age: 50 }];
+            const iteratee = function (el) {
+                return el.age;
+            };
+            expect(_.uniq(objArr, false, iteratee)).to.eql(
+                [{ name: 'Ann', age: 20 },
+                { name: 'Ann', age: 30 },
+                { name: 'Bob', age: 40 },
+                { name: 'Ben', age: 50 }]);
+            expect(_.uniq(objArr, true, iteratee)).to.eql((
+                [{ name: 'Ann', age: 20 },
+                { name: 'Ann', age: 30 },
+                { name: 'Bob', age: 40 },
+                { name: 'Ben', age: 50 }]));
+            const t0 = process.hrtime();
+            _.uniq(objArr, false, iteratee);
+            const t1 = process.hrtime();
+            const timeUnsorted = t1[1] - t0[1];
+
+            const t2 = process.hrtime();
+            _.uniq(objArr, true, iteratee);
+            const t3 = process.hrtime();
+            const timeSorted = t3[1] - t2[1];
+
+            expect(timeSorted).to.be.lessThan(timeUnsorted);
+        });
+    });
     //  MAP
     describe('_.map', function () {
         it('1. is a function', function () {

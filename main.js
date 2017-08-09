@@ -85,6 +85,27 @@ _.reject = (list, predicate) => {
 };
 
 //  UNIQ
+_.uniq = (list, sorted, iteratee) => {
+    const result = [];
+    if (!list || (!(Array.isArray(list)) && typeof list !== 'string' && !iteratee)) return result;
+    iteratee = iteratee || _.identity;
+    if (sorted) {
+        _.each(list, (v, i) => {
+            if (i === 0) result.push(v);
+            else if (iteratee(v) !== iteratee(list[i - 1])) result.push(v);
+        });
+    } else {
+        _.each(list, (v, i, l) => {
+            let resInc = false;
+            for (let i = 0; i < result.length; i++) {
+                if (iteratee(result[i]) === iteratee(v, i, l)) resInc = true;
+            }
+            if (!resInc) result.push(v);
+        });
+
+    }
+    return result;
+};
 
 //  MAP
 _.map = (list, iteratee) => {
