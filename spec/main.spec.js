@@ -649,7 +649,7 @@ describe('_', function () {
             const func2 = function (v, i, l) {
                 return l.includes(v);
             };
-            expect(_.filter(arr, func2)).to.eql([10,20,30,40,50,60]);
+            expect(_.filter(arr, func2)).to.eql([10, 20, 30, 40, 50, 60]);
         });
     });
 
@@ -776,7 +776,7 @@ describe('_', function () {
             const func2 = function (v, i, l) {
                 return !(l.includes(v));
             };
-            expect(_.reject(arr, func2)).to.eql([10,20,30,40,50,60]);
+            expect(_.reject(arr, func2)).to.eql([10, 20, 30, 40, 50, 60]);
         });
     });
 
