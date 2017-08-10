@@ -534,37 +534,37 @@ _.difference = function () {
 };
 
 //  THROTTLE
-_.throttle = function (fn, wait, options) {
-    let timeout = null, result, args;
-    let delay = wait;
-    var originalTime = 0;
-    let calledOnce = false;
+// _.throttle = function (fn, wait, options) {
+//     let timeout = null, result, args;
+//     let delay = wait;
+//     var originalTime = 0;
+//     let calledOnce = false;
 
-    let savedFn = function () {
-        originalTime = Date.now();
-        timeout = null;
-        result = fn.apply(null, args);
-    }; 
-    return function () {
-        let latestTime = Date.now();
-        let remainingTime = delay - (latestTime - originalTime);
-        if (!originalTime) originalTime = latestTime;
-        if (!calledOnce) {
-            calledOnce = true;
-            originalTime = Date.now();
-            return fn(arguments);
-        } else {
-            savedFn = fn.bind(null, arguments);
-            if (remainingTime <= 0) {
-                result = savedFn();
-            }
-            if (!timeout) {
-                timeout = setTimeout(savedFn, remainingTime);
-            }
-            return result;
-        }
-    };
-};
+//     let savedFn = function () {
+//         originalTime = Date.now();
+//         timeout = null;
+//         result = fn.apply(null, args);
+//     }; 
+//     return function () {
+//         let latestTime = Date.now();
+//         let remainingTime = delay - (latestTime - originalTime);
+//         if (!originalTime) originalTime = latestTime;
+//         if (!calledOnce) {
+//             calledOnce = true;
+//             originalTime = Date.now();
+//             return fn(arguments);
+//         } else {
+//             savedFn = fn.bind(null, arguments);
+//             if (remainingTime <= 0) {
+//                 result = savedFn();
+//             }
+//             if (!timeout) {
+//                 timeout = setTimeout(savedFn, remainingTime);
+//             }
+//             return result;
+//         }
+//     };
+// };
 
 //  DELAY
 
