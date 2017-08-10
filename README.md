@@ -23,16 +23,16 @@ ADVANCED LOWBAR
 1. once
 2. memoize
 3. shuffle
-4/. invoke?
+4. invoke?
 5. sortBy
 6. zip
-7/. sortedIndex
-8/. flatten
-9/. intersection
-10/. difference
+7. sortedIndex
+8. flatten
+9. intersection
+10. difference
 
 11. indexOf (again, this time with a binary search)
 12/. throttle
 13/.delay
 
-7/28
+2/28

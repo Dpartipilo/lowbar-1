@@ -2612,7 +2612,190 @@ describe('_', function () {
         });
     });
     //  THROTTLE
+    // describe.only('_.throttle', function () {
+    //     it('1. is a function', function () {
+    //         expect(_.throttle).to.be.a('function');
+    //     });
 
+    //     it('2. takes three arguments', function () {
+    //         expect(_.throttle).to.have.lengthOf(3);
+    //     });
+
+    //     it('3. returns a new, throttled function', function (done) {
+    //         const fn = function (x) {
+    //             return x;
+    //         };
+    //         const throttledFn = _.throttle(fn, 100);
+    //         expect(throttledFn).to.be.a('function');
+    //         expect(throttledFn).to.not.equal(fn);
+    //         done();
+    //     });
+
+    //     it.only('4. calls the function only twice if no optional arguments are given (count test)', function (done) {
+    //         this.timeout(1000);
+    //         let count = 0;
+    //         const fn = function () {
+    //             console.log('fn');
+    //             return count++;
+    //         };
+    //         const throttledFn = _.throttle(fn, 100);
+    //         throttledFn();
+    //         throttledFn();
+    //         throttledFn();
+    //         throttledFn();
+    //         throttledFn();
+
+    //         expect(count).to.equal(2);
+    //         done();
+    //     });
+
+    //     it('5. calls the function only twice if no optional arguments are given (Sinon test)', function (done) {
+    //         this.timeout(1000);
+    //         const spy = sinon.spy();
+    //         const throttledFn = _.throttle(spy, 100);
+
+    //         throttledFn();
+    //         throttledFn();
+    //         throttledFn();
+    //         throttledFn();
+    //         throttledFn();
+
+    //         expect(spy.callCount).to.equal(2);
+    //         done();
+    //     });
+
+    //     it('6. only calls the first and last iterations of the function if no optional arguments are given', function () {
+    //         const fn = function (x) {
+    //             return x;
+    //         };
+    //         const throttledFn = _.throttle(fn, 100);
+
+    //         const res1 = throttledFn(1);
+    //         const res2 = throttledFn(2);
+    //         const res3 = throttledFn(3);
+    //         const res4 = throttledFn(4);
+
+    //         expect(res1).to.eql(1);
+    //         expect(res2).to.be.undefined;
+    //         expect(res3).to.be.undefined;
+    //         expect(res4).to.eql(4);
+    //     });
+
+    //     it('7. delays the second call of the function by the given number of milliseconds (two calls)', function () {
+    //         const fn = function () {
+    //             return process.hrtime()[0];
+    //         };
+
+    //         const throttledFn1 = _.throttle(fn, 1000);
+    //         const res1 = throttledFn1();
+    //         const res2 = throttledFn1();
+
+    //         expect(res2 - res1).to.eql(1);
+
+    //         const throttledFn2 = _.throttle(fn, 8000);
+    //         const res3 = throttledFn2();
+    //         const res4 = throttledFn2();
+
+    //         expect(res4 - res3).to.eql(8);
+    //     });
+
+
+    //     it('8. delays the second call of the function by the given number of milliseconds (multiple calls)', function () {
+    //         const fn = function () {
+    //             return process.hrtime()[0];
+    //         };
+
+    //         const throttledFn1 = _.throttle(fn, 7000);
+    //         const res1 = throttledFn1();
+    //         const res2 = throttledFn1();
+    //         const res3 = throttledFn1();
+    //         const res4 = throttledFn1();
+    //         const res5 = throttledFn1();
+    //         const res6 = throttledFn1();
+    //         const res7 = throttledFn1();
+
+    //         expect(res7 - res1).to.eql(7);
+    //         // expect(res2, res3, res4, res5, res6, res7).to.be.undefined;
+    //     });
+
+    //     it('9. only calls the last iteration of the function if no wait time is defined', function () {
+    //         const fn = function (x) {
+    //             return x;
+    //         };
+
+    //         const throttledFn = _.throttle(fn);
+    //         const res1 = throttledFn(1);
+    //         const res2 = throttledFn(2);
+    //         const res3 = throttledFn(3);
+    //         const res4 = throttledFn(4);
+    //         const res5 = throttledFn(5);
+
+    //         expect(res1).to.be.undefined;
+    //         expect(res2).to.be.undefined;
+    //         expect(res3).to.be.undefined;
+    //         expect(res4).to.be.undefined;
+    //         expect(res5).to.eql(5);
+    //     });
+
+    //     it('10. does not call the leading iteration of the function if {leading: false} is given as an optional argument', function () {
+    //         const fn = function (x) {
+    //             return x;
+    //         };
+
+    //         const throttledFn = _.throttle(fn, 2000, { leading: false });
+    //         const res1 = throttledFn(1);
+    //         const res2 = throttledFn(2);
+    //         const res3 = throttledFn(3);
+    //         const res4 = throttledFn(4);
+    //         const res5 = throttledFn(5);
+
+    //         expect(res1).to.be.undefined;
+    //         expect(res2).to.be.undefined;
+    //         expect(res3).to.be.undefined;
+    //         expect(res4).to.be.undefined;
+    //         expect(res5).to.eql(5);
+    //     });
+
+
+    //     it('11. does not call the trailing iteration of the function if {trailing: false} is given as an optional argument', function () {
+    //         const fn = function (x) {
+    //             return x;
+    //         };
+
+    //         const throttledFn = _.throttle(fn, 2000, { trailing: false });
+    //         const res1 = throttledFn(1);
+    //         const res2 = throttledFn(2);
+    //         const res3 = throttledFn(3);
+    //         const res4 = throttledFn(4);
+    //         const res5 = throttledFn(5);
+
+    //         expect(res1).to.eql(1);
+    //         expect(res2).to.be.undefined;
+    //         expect(res3).to.be.undefined;
+    //         expect(res4).to.be.undefined;
+    //         expect(res5).to.be.undefined;
+    //     });
+
+    //     it('12. does not call either the leading or trailing iteration of the function if {leading: false, trailing: false}', function () {
+    //         const fn = function (x) {
+    //             return x;
+    //         };
+
+    //         const throttledFn = _.throttle(fn, 2000, { leading: false, trailing: false });
+    //         const res1 = throttledFn(1);
+    //         const res2 = throttledFn(2);
+    //         const res3 = throttledFn(3);
+    //         const res4 = throttledFn(4);
+    //         const res5 = throttledFn(5);
+
+    //         expect(res1).to.be.undefined;
+    //         expect(res2).to.be.undefined;
+    //         expect(res3).to.be.undefined;
+    //         expect(res4).to.be.undefined;
+    //         expect(res5).to.be.undefined;
+    //     });
+
+    // });
     //  DELAY
     // describe('_.delay', function () {
     //     it('1. is a function', function () {

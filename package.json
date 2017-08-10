@@ -1,10 +1,12 @@
 {
-  "name": "refactor-lowbar",
+  "name": "lowbar",
   "version": "1.0.0",
-  "description": "This code involves reimplementing a JS library, reimplementing the following underscore methods:",
+  "description": "This code involves reimplementing a javascript library, reimplementing the following underscore methods:",
   "main": "main.js",
   "scripts": {
-    "test": "nyc mocha ./spec/"
+    "test": "nyc mocha ./spec/",
+    "lint": "eslint ./",
+    "precommit": "npm test"
   },
   "repository": {
     "type": "git",
@@ -19,6 +21,7 @@
   "dependencies": {
     "chai": "^4.0.1",
     "eslint": "^3.19.0",
+    "husky": "^0.14.3",
     "mocha": "^3.4.2",
     "sinon": "^2.3.5"
   },
