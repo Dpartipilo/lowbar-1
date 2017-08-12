@@ -194,7 +194,7 @@ describe('_', function () {
             expect(_.last).to.have.lengthOf(2);
         });
 
-        it('3. should return undefined for an empty array/string or if a non-array/string last argument is given', function () {
+        it('3. should return undefined if the provided argument is empty or is not an array or string', function () {
             const result1 = _.last();
             expect(result1).to.be.undefined;
 
@@ -214,7 +214,7 @@ describe('_', function () {
             expect(result6).to.be.undefined;
         });
 
-        it('4. should return the last element of an array if no second argument is provided', function () {
+        it('4. should return the last element of an array if the second argument is not defined', function () {
             const result1 = _.last([1, 2, 3, 4, 5]);
             expect(result1).to.equal(5);
 
@@ -222,7 +222,7 @@ describe('_', function () {
             expect(result2).to.equal('world');
         });
 
-        it('5. should return the last letter of a string if no second argument is provided', function () {
+        it('5. should return the last letter of a string if the second argument is not defined', function () {
             const result = _.last('hello');
             expect(result).to.equal('o');
         });
@@ -233,9 +233,11 @@ describe('_', function () {
             expect(result1).to.eql([5]);
 
             const result2 = _.last([1, 2, 3, 4, 5], 2);
+            expect(result2).to.be.an('array');
             expect(result2).to.eql([4, 5]);
 
             const result3 = _.last(['to', 'be', 'or', 'not', 'to', 'be'], 4);
+            expect(result3).to.be.an('array');
             expect(result3).to.eql(['or', 'not', 'to', 'be']);
         });
 
@@ -271,11 +273,9 @@ describe('_', function () {
 
             const result3 = _.last('hello', 3.3);
             expect(result3).to.eql(['e', 'l', 'l', 'o']);
-
-
         });
 
-        it('10. returns the whole array if n is bigger than the array or string length', function () {
+        it('10. should return the whole array if n is bigger than the array or string length', function () {
             const result1 = _.last([1, 2, 3, 4, 5], 100);
             expect(result1).to.eql([1, 2, 3, 4, 5]);
 
@@ -304,6 +304,12 @@ describe('_', function () {
 
             const result2 = _.last('', 1);
             expect(result2).to.eql([]);
+        });
+
+        it('13. should not mutate the original array', function () {
+            const arr = [1,2,3];
+            const result = _.last(arr);
+            expect(arr).to.not.eql(result);
         });
     });
 
