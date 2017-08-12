@@ -20,42 +20,42 @@ describe('_', function () {
             expect(_.identity).to.have.lengthOf(1);
         });
 
-        it('3. returns the inputted value (number)', function () {
+        it('3. should return the inputted value (number)', function () {
             const number = 4;
             expect(_.identity(number)).to.be.a('number');
             expect(_.identity(number)).to.equal(4);
             expect(_.identity(number)).to.equal(number);
         });
 
-        it('4. returns the inputted value (string)', function () {
+        it('4. should return the inputted value (string)', function () {
             const str = 'hello world';
             expect(_.identity(str)).to.be.a('string');
             expect(_.identity(str)).to.equal('hello world');
             expect(_.identity(str)).to.equal(str);
         });
 
-        it('5. returns the inputted value (boolean)', function () {
+        it('5. should return the inputted value (boolean)', function () {
             const boo = true;
             expect(_.identity(boo)).to.be.a('boolean');
             expect(_.identity(boo)).to.equal(true);
             expect(_.identity(boo)).to.equal(boo);
         });
 
-        it('6. returns the inputted value (array)', function () {
+        it('6. should return the inputted value (array)', function () {
             const arr = [1, 2, 3, 4, 5, 6];
             expect(_.identity(arr)).to.be.an('array');
             expect(_.identity(arr)).to.eql([1, 2, 3, 4, 5, 6]);
             expect(_.identity(arr)).to.equal(arr);
         });
 
-        it('7. returns the inputted value (object)', function () {
+        it('7. should return the inputted value (object)', function () {
             const obj = { a: 1, b: 2, c: 3 };
             expect(_.identity(obj)).to.be.an('object');
             expect(_.identity(obj)).to.eql({ a: 1, b: 2, c: 3 });
             expect(_.identity(obj)).to.equal(obj);
         });
 
-        it('8. returns undefined if no arguments are given', function () {
+        it('8. should return undefined if no arguments are given', function () {
             expect(_.identity()).to.be.undefined;
         });
     });

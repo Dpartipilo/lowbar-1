@@ -1,3 +1,4 @@
 node_modules
 tempFile.js
 .nyc_output
+.eslintrc
