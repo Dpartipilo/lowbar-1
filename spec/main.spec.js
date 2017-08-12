@@ -90,7 +90,7 @@ describe('_', function () {
             expect(result6).to.be.undefined;
         });
 
-        it('4. should return the first element of an array if no second argument is provided', function () {
+        it('4. should return the first element of an array if the second argument is not defined', function () {
             const result1 = _.first([1, 2, 3, 4, 5]);
             expect(result1).to.equal(1);
 
@@ -98,7 +98,7 @@ describe('_', function () {
             expect(result2).to.equal('hello');
         });
 
-        it('5. should return the first letter of a string if no second argument is provided', function () {
+        it('5. should return the first letter of a string if the second argument is not defined', function () {
             const result = _.first('hello');
             expect(result).to.equal('h');
         });
@@ -146,7 +146,7 @@ describe('_', function () {
             expect(result2).to.eql([1, 2]);
         });
 
-        it('10. returns the whole array if n is bigger than the array or string length', function () {
+        it('10. should return the whole array if n is bigger than the array or string length', function () {
             const result1 = _.first([1, 2, 3, 4, 5], 100);
             expect(result1).to.eql([1, 2, 3, 4, 5]);
 
