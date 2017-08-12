@@ -176,6 +176,12 @@ describe('_', function () {
             const result2 = _.first('', 1);
             expect(result2).to.eql([]);
         });
+
+        it('13. should not mutate the original array', function () {
+            const arr1 = [1,2,3];
+            const result1 = _.first(arr1);
+            expect(arr1).to.not.equal(result1);
+        });
     });
 
     //  LAST
