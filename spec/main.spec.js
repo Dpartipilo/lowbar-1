@@ -319,8 +319,8 @@ describe('_', function () {
             expect(_.each).to.be.a('function');
         });
 
-        it('2. takes two arguments', function () {
-            expect(_.each).to.have.lengthOf(2);
+        it('2. takes three arguments', function () {
+            expect(_.each).to.have.lengthOf(3);
         });
 
         it('3. calls the function as many times as items in the array (SINON)', function () {
@@ -386,6 +386,30 @@ describe('_', function () {
             const putListInArr = (item, key, list) => listArr.push(list);
             _.each({ one: 1, two: 2, three: 3 }, putListInArr);
             expect(listArr).to.eql([{ one: 1, two: 2, three: 3 }, { one: 1, two: 2, three: 3 }, { one: 1, two: 2, three: 3 }]);
+        });
+
+        it('12. takes a context argument (array)', function () {
+            function List() {
+                this.items = [];
+                this.addItem = function(item) {
+                    this.items.push(item);
+                };
+            }
+            const shoppingList = new List ();
+            _.each(['apples', 'pears', 'bananas'], shoppingList.addItem, shoppingList);
+            expect(shoppingList.items).to.eql(['apples', 'pears', 'bananas']);
+        });
+
+        it('13. takes a context argument (object)', function () {
+            function List() {
+                this.items = [];
+                this.addItem = function(item) {
+                    this.items.push(item);
+                };
+            }
+            const shoppingList = new List ();
+            _.each({1: 'apples', 2: 'pears', 3: 'bananas'}, shoppingList.addItem, shoppingList);
+            expect(shoppingList.items).to.eql(['apples', 'pears', 'bananas']);
         });
 
     });

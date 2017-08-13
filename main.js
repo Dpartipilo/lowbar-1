@@ -34,16 +34,18 @@ _.last = (array, n) => {
 };
 
 //  EACH
-_.each = (list, iteratee) => {
+_.each = (list, iteratee, context) => {
+    context = context || this;
+    
     // loop over each element of the array and call the iteratee with each element
     if (Array.isArray(list)) {
         for (let i = 0; i < list.length; i++) {
-            iteratee(list[i], i, list);
+            iteratee.call(context, list[i], i, list);
         }
     } else {
         // loop over each key-value pair in the list and call the iteratee with each pair
         for (let prop in list) {
-            iteratee(list[prop], prop, list);
+            iteratee.call(context, list[prop], prop, list);
         }
     }
 };
