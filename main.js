@@ -208,16 +208,16 @@ _.reduce = (list, iteratee, memo, context) => {
 };
 
 //  EVERY
-_.every = (list, predicate) => {
+_.every = (list, predicate, context) => {
     // loop over each element in the array, returning false if the predicate is not met
     if (Array.isArray(list)) {
         for (let i = 0; i < list.length; i++) {
-            if (!(predicate(list[i]))) return false;
+            if (!(predicate.call(context, list[i]))) return false;
         }
     } else if (typeof list === 'object') {
         // loop over each object value, returning false if the predicate is not met
         for (let key in list) {
-            if (!(predicate(list[key]))) return false;
+            if (!(predicate.call(context, list[key]))) return false;
         }
     }
     // return true if the predicate is not met for all items in the list

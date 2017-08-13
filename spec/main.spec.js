@@ -1510,8 +1510,8 @@ describe('_', function () {
             expect(_.every).to.be.a('function');
         });
 
-        it('2. takes two arguments', function () {
-            expect(_.every).to.have.lengthOf(2);
+        it('2. takes three arguments', function () {
+            expect(_.every).to.have.lengthOf(3);
         });
 
         it('3. returns a boolean', function () {
@@ -1577,6 +1577,21 @@ describe('_', function () {
             count = 0;
             _.every({ a: 'a', b: 1, c: 'c', d: 'd' }, isString);
             expect(count).to.equal(2);
+        });
+
+        it('10. takes a context argument as the third argument', function () {
+            function List() {
+                this.list1 = [2,4,6,8,10];
+                this.list2 = [2,4,5,8,10];
+                this.isEven = function(item) {
+                    return item % 2 === 0;
+                };
+            }
+            const numList = new List ();
+            let res1 = _.every(numList.list1, numList.isEven, numList);
+            expect(res1).to.be.true;
+            let res2 = _.every(numList.list2, numList.isEven, numList);
+            expect(res2).to.be.false;
         });
 
     });
