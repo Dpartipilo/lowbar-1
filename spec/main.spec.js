@@ -706,8 +706,8 @@ describe('_', function () {
             expect(_.reject).to.be.a('function');
         });
 
-        it('2. takes two arguments', function () {
-            expect(_.reject).to.have.length.greaterThan(1);
+        it('2. takes three arguments', function () {
+            expect(_.reject).to.have.lengthOf(3);
         });
 
         it('3. returns an array', function () {
@@ -824,6 +824,18 @@ describe('_', function () {
                 return !(l.includes(v));
             };
             expect(_.reject(arr, func2)).to.eql([10, 20, 30, 40, 50, 60]);
+        });
+
+        it('11. takes a context argument as the third argument', function () {
+            function List() {
+                this.list = [1,2,3,4,5,6]
+                this.getEven = function(item) {
+                    return item % 2 === 0;
+                };
+            }
+            const numList = new List ();
+            let result = _.reject(numList.list, numList.getEven, numList);
+            expect(result).to.eql([1,3,5]);
         });
     });
 

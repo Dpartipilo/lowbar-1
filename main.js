@@ -82,7 +82,7 @@ _.filter = (list, predicate, context) => {
     return result;
 };
 //  REJECT
-_.reject = (list, predicate) => {
+_.reject = (list, predicate, context) => {
     // create a result array
     const result = [];
     // if the list or predicate is not provided, return an empty array
@@ -91,7 +91,7 @@ _.reject = (list, predicate) => {
     _.each(list, (v, i, l) => {
         // if the predicate resolves to false, push the value to the result array
         if (!(predicate(v, i, l))) result.push(v);
-    });
+    }, context);
     return result;
 };
 
