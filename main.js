@@ -225,18 +225,18 @@ _.every = (list, predicate, context) => {
 };
 
 //  SOME
-_.some = (list, predicate) => {
+_.some = (list, predicate, context) => {
     // loop over each element in an array list, returning true if one item in the
     // list meets the predicate
     if (Array.isArray(list)) {
         for (let i = 0; i < list.length; i++) {
-            if (predicate(list[i])) return true;
+            if (predicate.call(context, list[i])) return true;
         }
     } else if (typeof list === 'object') {
         // loop over each value in an object list, returning true if one item in the
         // list meets the predicate
         for (let key in list) {
-            if (predicate(list[key])) return true;
+            if (predicate.call(context, list[key])) return true;
         }
     }
     // return false if no values meet the predicate

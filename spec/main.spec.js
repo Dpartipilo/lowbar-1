@@ -1603,7 +1603,7 @@ describe('_', function () {
         });
 
         it('2. takes two arguments', function () {
-            expect(_.some).to.have.lengthOf(2);
+            expect(_.some).to.have.lengthOf(3);
         });
 
         it('3. returns a boolean', function () {
@@ -1678,6 +1678,21 @@ describe('_', function () {
             count = 0;
             _.some({ a: 1, b: 1, c: 'c', d: 'd' }, isString);
             expect(count).to.equal(3);
+        });
+        
+        it('10. takes a context argument as the third argument', function () {
+            function List() {
+                this.list1 = [1,3,6,5,7];
+                this.list2 = [1,3,5,7,9];
+                this.isEven = function(item) {
+                    return item % 2 === 0;
+                };
+            }
+            const numList = new List ();
+            let res1 = _.some(numList.list1, numList.isEven, numList);
+            expect(res1).to.be.true;
+            let res2 = _.some(numList.list2, numList.isEven, numList);
+            expect(res2).to.be.false;
         });
 
     });
