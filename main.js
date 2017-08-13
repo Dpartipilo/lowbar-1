@@ -67,7 +67,7 @@ _.indexOf = (array, value, startingIndex = 0) => {
 };
 
 //  FILTER
-_.filter = (list, predicate) => {
+_.filter = (list, predicate, context) => {
     // create a new result array
     const result = [];
     // return an empty array if list is not defined
@@ -78,7 +78,7 @@ _.filter = (list, predicate) => {
         if (!predicate) result.push(v);
         // if there is a predicate, check the value and if it resolves to true, push it to the result array
         else if (predicate(v, i, l)) result.push(v);
-    });
+    }, context);
     return result;
 };
 //  REJECT

@@ -565,11 +565,11 @@ describe('_', function () {
             expect(_.filter).to.be.a('function');
         });
 
-        it('2. takes two arguments', function () {
-            expect(_.filter).to.have.length.greaterThan(1);
+        it('2. takes three arguments', function () {
+            expect(_.filter).to.have.lengthOf(3);
         });
 
-        it('3. returns an array', function () {
+        it('3. should return an array', function () {
             const arr = [1, 2, 3, 4, 5, 6];
             function getEvenNumbers(n) {
                 return n % 2 === 0;
@@ -581,7 +581,7 @@ describe('_', function () {
             expect(result2).to.be.an('array');
         });
 
-        it('4. returns a new array with the numbers that meet the criteria in the predicate', function () {
+        it('4. should return a new array with the numbers that meet the criteria in the predicate', function () {
             const arr1 = [1, 2, 3, 4, 5, 6];
             function getEvenNumbers(n) {
                 return n % 2 == 0;
@@ -599,7 +599,7 @@ describe('_', function () {
             expect(result2).to.eql([1, 7, 5, 0, -3]);
         });
 
-        it('5. does not mutate the original array', function () {
+        it('5. should not mutate the original array', function () {
             let arr = [1, 2, 3, 4, 5, 6];
             function getEvenNumbers(n) {
                 return n % 2 == 0;
@@ -609,7 +609,7 @@ describe('_', function () {
             expect(result).to.not.equal(arr);
         });
 
-        it('6. returns an array of values filtered from a string', function () {
+        it('6. should return an array of values filtered from a string', function () {
             let str1 = '12345678';
             function getEvenNumbers(n) {
                 return n % 2 == 0;
@@ -625,8 +625,7 @@ describe('_', function () {
             expect(result2).to.eql(['a', 'e', 'i', 'o', 'u']);
         });
 
-
-        it('7. returns an array of values filtered from an object', function () {
+        it('7. should return an array of values filtered from an object', function () {
             let obj1 = { a: 1, b: 2, c: 3, d: 4 };
             function getEvenNumbers(n) {
                 return n % 2 == 0;
@@ -642,7 +641,7 @@ describe('_', function () {
             expect(result2).to.eql(['a', 'e']);
         });
 
-        it('8. returns an empty array if the "list" is empty, null, undefined, a number or a boolean, with or without a predicate', function () {
+        it('8. should return an empty array if the "list" is empty, null, undefined, a number or a boolean, with or without a predicate', function () {
             expect(_.filter()).to.eql([]);
             expect(_.filter(null)).to.eql([]);
             expect(_.filter(undefined)).to.eql([]);
@@ -686,6 +685,18 @@ describe('_', function () {
                 return l.includes(v);
             };
             expect(_.filter(arr, func2)).to.eql([10, 20, 30, 40, 50, 60]);
+        });
+
+        it('12. should take context as the third argument', function () {
+            function List() {
+                this.list = [1,2,3,4,5,6]
+                this.getEven = function(item) {
+                    return item % 2 === 0;
+                };
+            }
+            const numList = new List ();
+            let result = _.filter(numList.list, numList.getEven, numList);
+            expect(result).to.eql([2,4,6]);
         });
     });
 
