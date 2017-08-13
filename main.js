@@ -90,7 +90,7 @@ _.reject = (list, predicate, context) => {
     // loop over each value in the list
     _.each(list, (v, i, l) => {
         // if the predicate resolves to false, push the value to the result array
-        if (!(predicate(v, i, l))) result.push(v);
+        if (!(predicate.call(context, v, i, l))) result.push(v);
     }, context);
     return result;
 };

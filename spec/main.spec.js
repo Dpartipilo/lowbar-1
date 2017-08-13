@@ -831,14 +831,15 @@ describe('_', function () {
         });
 
         it('11. takes a context argument as the third argument', function () {
-            function List() {
-                this.list = [1,2,3,4,5,6]
-                this.getEven = function(item) {
+            const evens = {
+                getEven: function(item) {
                     return item % 2 === 0;
-                };
+                }
             }
-            const numList = new List ();
-            let result = _.reject(numList.list, numList.getEven, numList);
+            const list = [1,2,3,4,5,6]
+            let result = _.reject(list, function (item) {
+                return this.getEven(item);
+            }, evens);
             expect(result).to.eql([1,3,5]);
         });
     });
