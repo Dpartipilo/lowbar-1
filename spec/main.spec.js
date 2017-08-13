@@ -389,27 +389,30 @@ describe('_', function () {
         });
 
         it('12. takes a context argument (array)', function () {
-            function List() {
-                this.items = [];
-                this.addItem = function(item) {
-                    this.items.push(item);
-                };
+            const shoppingList = {
+                addItem: function (item) {
+                    return `6 x ${item}`;
+                }
             }
-            const shoppingList = new List ();
-            _.each(['apples', 'pears', 'bananas'], shoppingList.addItem, shoppingList);
-            expect(shoppingList.items).to.eql(['apples', 'pears', 'bananas']);
+            const result = [];
+            _.each(['apples', 'pears', 'bananas'], function (item) {
+                result.push(this.addItem(item));
+            }, shoppingList);
+            expect(result).to.eql(['6 x apples', '6 x pears', '6 x bananas']);
+
         });
 
         it('13. takes a context argument (object)', function () {
-            function List() {
-                this.items = [];
-                this.addItem = function(item) {
-                    this.items.push(item);
-                };
+            const shoppingList = {
+                addItem: function (item) {
+                    return `6 x ${item}`;
+                }
             }
-            const shoppingList = new List ();
-            _.each({1: 'apples', 2: 'pears', 3: 'bananas'}, shoppingList.addItem, shoppingList);
-            expect(shoppingList.items).to.eql(['apples', 'pears', 'bananas']);
+            const result = [];
+            _.each({1: 'apples', 2: 'pears', 3: 'bananas'}, function (item) {
+                result.push(this.addItem(item));
+            }, shoppingList);
+            expect(result).to.eql(['6 x apples', '6 x pears', '6 x bananas']);
         });
 
     });
