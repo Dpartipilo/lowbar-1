@@ -1294,8 +1294,8 @@ describe('_', function () {
             expect(_.reduce).to.be.a('function');
         });
 
-        it('2. takes three arguments', function () {
-            expect(_.reduce).to.have.lengthOf(3);
+        it('2. takes four arguments', function () {
+            expect(_.reduce).to.have.lengthOf(4);
         });
 
         it('3. if the list argument is an array, it calls the function as many times as items in the array (SINON)', function () {
@@ -1487,6 +1487,20 @@ describe('_', function () {
             expect(result1).to.eql(result2);
             expect(result2).to.eql(10);
         });
+
+        it('27. takes a context as the fourth argument', function () {
+            function List() {
+                this.list = [1,2,3,4,5,6];
+                this.memo = 0;
+                this.total = function(item, memo) {
+                    return memo += item;
+                };
+            }
+            const numList = new List ();
+            let res = _.reduce(numList.list, numList.total, numList.memo, numList);
+            expect(res).to.eql(21);
+        });
+
 
     });
 

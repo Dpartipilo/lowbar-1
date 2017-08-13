@@ -183,7 +183,8 @@ _.pluck = (list, propertyName) => {
 };
 
 //  REDUCE
-_.reduce = (list, iteratee, memo) => {
+_.reduce = (list, iteratee, memo, context) => {
+    context = context || this;
     if (Array.isArray(list)) {
         // if no memo is defined, the first value of the list becomes the memo 
         // and the iteratee is not called on it
@@ -191,7 +192,7 @@ _.reduce = (list, iteratee, memo) => {
         // loop over each element in the array and call the iteratee on it, returning 
         // the result as the new memo
         for (let i = 0; i < list.length; i++) {
-            memo = iteratee(memo, list[i], i, list);
+            memo = iteratee.call(context, memo, list[i], i, list);
         }
     } else {
         for (let key in list) {
@@ -200,7 +201,7 @@ _.reduce = (list, iteratee, memo) => {
             if (memo !== 0 && memo !== '' && !memo) memo = list[key];
             // loop over each value in the object and call the iteratee on it, returning
             // the result as the new memo
-            else memo = iteratee(memo, list[key], key, list);
+            else memo = iteratee.call(context, memo, list[key], key, list);
         }
     }
     return memo;
