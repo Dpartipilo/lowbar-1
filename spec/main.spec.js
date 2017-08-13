@@ -973,8 +973,8 @@ describe('_', function () {
             expect(_.map).to.be.a('function');
         });
 
-        it('2. takes two arguments', function () {
-            expect(_.map).to.have.lengthOf(2);
+        it('2. takes three arguments', function () {
+            expect(_.map).to.have.lengthOf(3);
         });
 
         it('3. calls the function as many times as items in the array (SINON)', function () {
@@ -993,7 +993,7 @@ describe('_', function () {
             expect(count).to.equal(6);
         });
 
-        it('5. returns a transformed array', function () {
+        it('5. should return a transformed array for an array input', function () {
             const multiplyThree = (n) => n * 3;
 
             const result = _.map([1, 2, 3, 4, 5, 6], multiplyThree);
@@ -1061,6 +1061,18 @@ describe('_', function () {
             const result = _.map({ a: 1, b: 2, c: 3 }, accessList);
             expect(result).to.be.an('object');
             expect(result).to.eql({ a: { a: 1, b: 2, c: 3 }, b: { a: 1, b: 2, c: 3 }, c: { a: 1, b: 2, c: 3 } });
+        });
+
+        it('14. can take a context as the third argument (array)', function () {
+            function List() {
+                this.list = [1,2,3,4,5,6]
+                this.double = function(item) {
+                    return item * 2;
+                };
+            }
+            const numList = new List ();
+            let res = _.map(numList.list, numList.double, numList);
+            expect(res).to.eql([2,4,6,8,10,12]);
         });
     });
 
