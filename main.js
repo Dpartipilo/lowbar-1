@@ -77,7 +77,7 @@ _.filter = (list, predicate, context) => {
         // if there is no predicate, add the result
         if (!predicate) result.push(v);
         // if there is a predicate, check the value and if it resolves to true, push it to the result array
-        else if (predicate(v, i, l)) result.push(v);
+        else if (predicate.call(context, v, i, l)) result.push(v);
     }, context);
     return result;
 };
