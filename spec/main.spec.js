@@ -2291,7 +2291,7 @@ describe('_', function () {
         });
 
         it('2. takes two arguments', function () {
-            expect(_.sortBy).to.have.lengthOf(2);
+            expect(_.sortBy).to.have.lengthOf(3);
         });
 
         it('3. returns a new array', function () {
@@ -2414,6 +2414,16 @@ describe('_', function () {
         it('21. returns an array of alphabetically ordered letters if a string argument is given', function () {
             expect(_.sortBy('hello')).to.eql(['e', 'h', 'l', 'l', 'o']);
             expect(_.sortBy('hello world')).to.eql([' ', 'd', 'e', 'h', 'l', 'l', 'l', 'o', 'o', 'r', 'w']);
+        });
+
+        it('22. takes a context argument as the third argument', function () {
+            function List () {
+                this.arr = ['any', 'antique', 'a', 'and', 'ants', 'as'];
+                this.func = function (w) { return w.length; };
+            }
+            const newList = new List ();
+            const result = _.sortBy(newList.arr, newList.func, newList);
+            expect(result).to.eql(['a', 'as', 'any', 'and', 'ants', 'antique']);
         });
     });
 

@@ -362,7 +362,7 @@ _.invoke = function (list, methodName, args) {
 };
 
 //  SORT BY
-_.sortBy = function (list, iteratee) {
+_.sortBy = function (list, iteratee, context) {
     // define variables
     let listArr, iterated = false;
     // create a new list/array from the parameters, so they do not mutate
@@ -382,7 +382,7 @@ _.sortBy = function (list, iteratee) {
     if (typeof iteratee === 'function') {
         const newList = [];
         for (let i = 0; i < listArr.length; i++) {
-            newList.push({ originalValue: listArr[i], newValue: iteratee(listArr[i]) });
+            newList.push({originalValue: listArr[i], newValue: iteratee.call(context, listArr[i])});
         }
         listArr = newList, iterated = true;
     }
