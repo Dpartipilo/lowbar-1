@@ -173,15 +173,15 @@ _.pluck = (list, propertyName) => {
 //  REDUCE
 _.reduce = (list, iteratee, memo, context) => {
     context = context || this;
-    if (Array.isArray(list)) {
         // if no memo is defined, the first value of the list becomes the memo 
         // and the iteratee is not called on it
+    if (Array.isArray(list)) {
         if (memo !== 0 && memo !== '' && !memo) memo = list.shift();
         // loop over each element in the array and call the iteratee on it, returning 
         // the result as the new memo
-        for (let i = 0; i < list.length; i++) {
+        _.each(list, (v, i, l) => {
             memo = iteratee.call(context, memo, list[i], i, list);
-        }
+        }, context);
     } else {
         for (let key in list) {
             // if no memo is defined, the first value of the list becomes the memo 
