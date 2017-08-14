@@ -1504,15 +1504,13 @@ describe('_', function () {
         });
 
         it('27. takes a context as the fourth argument', function () {
-            function List() {
-                this.list = [1,2,3,4,5,6];
-                this.memo = 0;
-                this.total = function(item, memo) {
-                    return memo += item;
-                };
-            }
-            const numList = new List ();
-            let res = _.reduce(numList.list, numList.total, numList.memo, numList);
+            const total = {
+                    total: function(item, memo) {
+                        return memo += item;
+                    }
+                }
+            const list = [1,2,3,4,5,6]
+            let res = _.reduce(list, function (memo, item) { return this.total(memo, item)}, 0, total);
             expect(res).to.eql(21);
         });
 
