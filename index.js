@@ -297,7 +297,7 @@ _.memoize = (fn, hf) => {
 };
 
 //  SHUFFLE
-_.shuffle = function (arr) {
+_.shuffle = (arr) => {
     // prepare string arguments by creating an array
     if (typeof arr === 'string') arr = arr.split('');
     // prepare object arguments by creating an array
@@ -326,25 +326,17 @@ _.shuffle = function (arr) {
 };
 
 //  INVOKE
-_.invoke = function (list, methodName, args) {
+_.invoke = (list, methodName, args) => {
     if (!methodName) return undefined;
     // create a new result array
     const result = [];
-    if (Array.isArray(list) || typeof list === 'string') {
+    if (typeof list === 'object' || typeof list === 'string') {
         // call the function on each element, adding the results to the result array
-        for (var i = 0; i < list.length; i++) {
-            typeof list[i][methodName] === 'function'
-                ? result.push(list[i][methodName](args))
+        _.each(list, (v, i, l) => {
+            typeof v[methodName] === 'function'
+                ? result.push(v[methodName](args))
                 : result.push(undefined);
-        }
-    }
-    else if (typeof list === 'object') {
-        // call the function on each value, adding the results to the result array
-        for (let key in list) {
-            typeof list[key][methodName] === 'function'
-                ? result.push(list[key][methodName](args))
-                : result.push(undefined);
-        }
+        });
     }
     return result;
 };
