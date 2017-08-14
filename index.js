@@ -361,9 +361,9 @@ _.sortBy = function (list, iteratee, context) {
     // creating a new list of objects containing the original and new values
     if (typeof iteratee === 'function') {
         const newList = [];
-        for (let i = 0; i < listArr.length; i++) {
-            newList.push({originalValue: listArr[i], newValue: iteratee.call(context, listArr[i])});
-        }
+        _.each(listArr, (v) => {
+            newList.push({originalValue: v, newValue: iteratee.call(context, v)});
+        });
         listArr = newList, iterated = true;
     }
     //  sort the array
@@ -381,9 +381,9 @@ _.sortBy = function (list, iteratee, context) {
     // in their current (sorted) order
     if (iterated) {
         const updatedResult = [];
-        for (let i = 0; i < result.length; i++) {
-            updatedResult.push(result[i].originalValue);
-        }
+        _.each(result, (v, i, l) => {
+            updatedResult.push(v.originalValue);
+        });
         return updatedResult;
     }
     return result;
