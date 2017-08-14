@@ -131,23 +131,11 @@ _.uniq = (list, sorted, iteratee) => {
 //  MAP
 _.map = (list, iteratee, context) => {
     context = context || this;
-    // loop over each value in an array list
-    if (Array.isArray(list)) {
-        const result = [];
-        for (let i = 0; i < list.length; i++) {
-            // push the result of calling the iteratee to a new array
-            result.push(iteratee.call(context, list[i], i, list));
-        }
-        return result;
-    } else {
-        // loop over each key-value pair in an object
-        let result = [];
-        for (let key in list) {
-            // define a new key value pair as the result of the iteratee and the value/key
-            result.push(iteratee.call(context, list[key], key, list));
-        }
-        return result;
-    }
+    const result = [];
+    _.each(list, function (v, i, l) {
+        result.push(iteratee.call(context, v, i, l));
+    }, context)
+    return result;
 };
 
 // CONTAINS
