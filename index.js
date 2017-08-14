@@ -459,14 +459,14 @@ _.flatten = function (array, shallow) {
     if (array.length < 1) return;
     let result = [];
     // loop over each value in the array
-    for (let i = 0; i < array.length; i++) {
+    _.each(array, (v) => {
         // if array[i] is an array, recursively call the function
-        if (!shallow && Array.isArray(array[i])) result = result.concat(_.flatten(array[i]));
+        if (!shallow && Array.isArray(v)) result = result.concat(_.flatten(v));
         // if shallow is true, only flatten the array one level
-        else if (Array.isArray(array[i])) result = result.concat(array[i]);
+        else if (Array.isArray(v)) result = result.concat(v);
         // if array[i] is not an array, push the element to the result
-        else result.push(array[i]);
-    }
+        else result.push(v);
+    });
     return result;
 };
 
