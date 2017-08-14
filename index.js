@@ -276,7 +276,7 @@ _.defaults = function (obj) {
 };
 
 //  ONCE
-_.once = function (fn) {
+_.once = (fn) => {
     let alreadyCalled = false;
     return function () {
         if (!alreadyCalled) {
