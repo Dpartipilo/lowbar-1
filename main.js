@@ -141,10 +141,10 @@ _.map = (list, iteratee, context) => {
         return result;
     } else {
         // loop over each key-value pair in an object
-        let result = {};
+        let result = [];
         for (let key in list) {
             // define a new key value pair as the result of the iteratee and the value/key
-            result[key] = iteratee.call(context, list[key], key, list);
+            result.push(iteratee.call(context, list[key], key, list));
         }
         return result;
     }

@@ -1040,43 +1040,53 @@ describe('_', function () {
             const multiplyThree = (n) => n * 3;
 
             const result = _.map({ a: 1, b: 2, c: 3, d: 4, e: 5 }, multiplyThree);
-            expect(result).to.be.an('object');
-            expect(result).to.eql({ a: 3, b: 6, c: 9, d: 12, e: 15 });
+            expect(result).to.be.an('array');
+            expect(result).to.eql([3,6,9,12,15]);
         });
 
         it('11. the function can access each value of the array and transform it', function () {
             const accessItem = (value) => [value, value * 2];
 
             const result = _.map({ a: 1, b: 2, c: 3, d: 4, e: 5 }, accessItem);
-            expect(result).to.be.an('object');
-            expect(result).to.eql({ a: [1, 2], b: [2, 4], c: [3, 6], d: [4, 8], e: [5, 10] });
+            expect(result).to.be.an('array');
+            expect(result).to.eql([[1, 2],[2, 4],[3, 6],[4, 8],[5, 10]]);
         });
 
         it('12. the function can access the keys of each of the objects', function () {
             const accessIndex = (value, key) => [(value + 2), key];
 
             const result = _.map({ a: 1, b: 2, c: 3 }, accessIndex);
-            expect(result).to.be.an('object');
-            expect(result).to.eql({ a: [3, 'a'], b: [4, 'b'], c: [5, 'c'] });
+            expect(result).to.be.an('array');
+            expect(result).to.eql([[3, 'a'],[4, 'b'],[5, 'c']]);
         });
 
         it('13. the function can access the inputted list during each iteration', function () {
             const accessList = (value, key, list) => list;
 
             const result = _.map({ a: 1, b: 2, c: 3 }, accessList);
-            expect(result).to.be.an('object');
-            expect(result).to.eql({ a: { a: 1, b: 2, c: 3 }, b: { a: 1, b: 2, c: 3 }, c: { a: 1, b: 2, c: 3 } });
+            expect(result).to.be.an('array');
+            expect(result).to.eql([{ a: 1, b: 2, c: 3 },{ a: 1, b: 2, c: 3 },{ a: 1, b: 2, c: 3 }]);
         });
 
         it('14. can take a context as the third argument (array)', function () {
-            function List() {
-                this.list = [1,2,3,4,5,6]
-                this.double = function(item) {
+            const double = {
+                double: function(item) {
                     return item * 2;
-                };
+                }
             }
-            const numList = new List ();
-            let res = _.map(numList.list, numList.double, numList);
+            const list = [1,2,3,4,5,6];
+            let res = _.map(list, function (item) {return this.double(item)}, double);
+            expect(res).to.eql([2,4,6,8,10,12]);
+        });
+
+        it('15. can take a context as the third argument (object)', function () {
+            const double = {
+                double: function(item) {
+                    return item * 2;
+                }
+            }
+            const list = {a: 1, b: 2, c: 3, d: 4, e: 5, f: 6};
+            let res = _.map(list, function (item) {return this.double(item)}, double);
             expect(res).to.eql([2,4,6,8,10,12]);
         });
     });
