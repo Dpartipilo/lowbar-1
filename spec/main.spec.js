@@ -2428,12 +2428,11 @@ describe('_', function () {
         });
 
         it('22. takes a context argument as the third argument', function () {
-            function List () {
-                this.arr = ['any', 'antique', 'a', 'and', 'ants', 'as'];
-                this.func = function (w) { return w.length; };
+            const list = {
+                func: function (w) { return w.length; }
             }
-            const newList = new List ();
-            const result = _.sortBy(newList.arr, newList.func, newList);
+            const arr = ['any', 'antique', 'a', 'and', 'ants', 'as'];
+            const result = _.sortBy(arr, function (w) {return this.func(w)}, list);
             expect(result).to.eql(['a', 'as', 'any', 'and', 'ants', 'antique']);
         });
     });
