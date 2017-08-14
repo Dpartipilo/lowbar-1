@@ -1,6 +1,6 @@
 const { expect } = require('chai');
 const path = require('path');
-const _ = require(path.resolve(__dirname, '..', 'main'));
+const _ = require(path.resolve(__dirname, '..', 'index'));
 const sinon = require('sinon');
 
 describe('_', function () {
