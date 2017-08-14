@@ -1510,7 +1510,7 @@ describe('_', function () {
                     }
                 }
             const list = [1,2,3,4,5,6]
-            let res = _.reduce(list, function (memo, item) { return this.total(memo, item)}, 0, total);
+            let res = _.reduce(list, function (memo, item) { return this.total(item, memo)}, 0, total);
             expect(res).to.eql(21);
         });
 
@@ -1593,17 +1593,16 @@ describe('_', function () {
         });
 
         it('10. takes a context argument as the third argument', function () {
-            function List() {
-                this.list1 = [2,4,6,8,10];
-                this.list2 = [2,4,5,8,10];
-                this.isEven = function(item) {
+            const list = {
+                isEven: function(item) {
                     return item % 2 === 0;
-                };
+                }
             }
-            const numList = new List ();
-            let res1 = _.every(numList.list1, numList.isEven, numList);
+            const list1 = [2,4,6,8,10];
+            let res1 = _.every(list1, function (item) {return this.isEven(item)}, list);
             expect(res1).to.be.true;
-            let res2 = _.every(numList.list2, numList.isEven, numList);
+            const list2 = [2,4,5,8,10];
+            let res2 = _.every(list2, function (item) {return this.isEven(item)}, list);
             expect(res2).to.be.false;
         });
 
