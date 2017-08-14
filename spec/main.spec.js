@@ -1693,17 +1693,16 @@ describe('_', function () {
         });
         
         it('10. takes a context argument as the third argument', function () {
-            function List() {
-                this.list1 = [1,3,6,5,7];
-                this.list2 = [1,3,5,7,9];
-                this.isEven = function(item) {
+            const list = {
+                isEven: function(item) {
                     return item % 2 === 0;
-                };
+                }
             }
-            const numList = new List ();
-            let res1 = _.some(numList.list1, numList.isEven, numList);
+            const list1 = [1,3,6,5,7];
+            let res1 = _.some(list1, function (item) {return this.isEven(item)}, list);
             expect(res1).to.be.true;
-            let res2 = _.some(numList.list2, numList.isEven, numList);
+            const list2 = [1,3,5,7,9];
+            let res2 = _.some(list2, function (item) {return this.isEven(item)}, list);
             expect(res2).to.be.false;
         });
 
