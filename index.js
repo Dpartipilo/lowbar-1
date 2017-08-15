@@ -132,7 +132,7 @@ _.uniq = (list, sorted, iteratee) => {
 _.map = (list, iteratee, context) => {
     context = context || this;
     const result = [];
-    _.each(list, function (v, i, l) {
+    _.each(list, (v, i, l) => {
         result.push(iteratee.call(context, v, i, l));
     }, context)
     return result;
@@ -342,7 +342,7 @@ _.invoke = (list, methodName, args) => {
 };
 
 //  SORT BY
-_.sortBy = function (list, iteratee, context) {
+_.sortBy = (list, iteratee, context) => {
     // define variables
     let listArr, iterated = false;
     // create a new list/array from the parameters, so they do not mutate
