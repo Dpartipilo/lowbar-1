@@ -453,7 +453,7 @@ _.sortedIndex = (list, value, iteratee) => {
 };
 
 //  FLATTEN
-_.flatten = function (array, shallow) {
+_.flatten = (array, shallow) => {
     // return an empty array if it is not an array or string
     if (!(Array.isArray(array)) && typeof array !== 'string') return [];
     if (array.length < 1) return;
