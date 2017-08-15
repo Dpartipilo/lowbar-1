@@ -408,7 +408,7 @@ _.zip = function () {
     return result;
 };
 //  SORTEDINDEX
-_.sortedIndex = function (list, value, iteratee) {
+_.sortedIndex = (list, value, iteratee) => {
     // return 0 if no iteratee and the array contains an object
     if (!value || (typeof list[0] === 'object' && !(Array.isArray(list[0])) && !iteratee)) return 0;
     // enable a number value to be used if it is inputted as a string or array
