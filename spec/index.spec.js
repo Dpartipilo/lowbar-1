@@ -1017,7 +1017,7 @@ describe('_', () => {
                 double: item => item * 2
             };
             const list = [1, 2, 3, 4, 5, 6];
-            let res = _.map(list, function (item) { return this.double(item) }, double);
+            let res = _.map(list, function (item) { return this.double(item); }, double);
             expect(res).to.eql([2, 4, 6, 8, 10, 12]);
         });
 
@@ -1533,10 +1533,10 @@ describe('_', () => {
                 isEven: (item) => item % 2 === 0
             };
             const list1 = [2, 4, 6, 8, 10];
-            let res1 = _.every(list1, function (item) { return this.isEven(item) }, list);
+            let res1 = _.every(list1, function (item) { return this.isEven(item); }, list);
             expect(res1).to.be.true;
             const list2 = [2, 4, 5, 8, 10];
-            let res2 = _.every(list2, function (item) { return this.isEven(item) }, list);
+            let res2 = _.every(list2, function (item) { return this.isEven(item); }, list);
             expect(res2).to.be.false;
         });
 
@@ -2236,7 +2236,7 @@ describe('_', () => {
             const sortArr = [5, 4, 3, 2, 1];
             expect(_.sortBy(sortArr)).to.be.an('array');
             expect(_.sortBy(sortArr)).to.not.equal(sortArr);
-        })
+        });
 
         it('4. returns an array', () => {
             expect(_.sortBy([1, 2, 3, 4, 5])).to.be.an('array');
@@ -2514,7 +2514,7 @@ describe('_', () => {
         it('4. returns a flattened array from an array nested to any depth', () => {
             expect(_.flatten([[1, [2]], [3, [4], 5]])).to.eql([1, 2, 3, 4, 5]);
             expect(_.flatten([1, 2, [[[[[[[[[3]]]]]]]]]])).to.eql([1, 2, 3]);
-            expect(_.flatten([4, [3, [7, [3, [[6]], [[8]], [[[10]]]]], 8], 1])).to.eql([4, 3, 7, 3, 6, 8, 10, 8, 1])
+            expect(_.flatten([4, [3, [7, [3, [[6]], [[8]], [[[10]]]]], 8], 1])).to.eql([4, 3, 7, 3, 6, 8, 10, 8, 1]);
         });
 
         it('5. returns an array flattened a single level if shallow is true', () => {
@@ -2668,11 +2668,3 @@ describe('_', () => {
         });
     });
 });
-
-
-
-
-
-
-
-

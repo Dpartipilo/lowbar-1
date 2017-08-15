@@ -36,7 +36,7 @@ _.last = (array, n) => {
 //  EACH
 _.each = (list, iteratee, context) => {
     context = context || this;
-    
+
     // loop over each element of the array and call the iteratee with each element
     if (Array.isArray(list)) {
         for (let i = 0; i < list.length; i++) {
@@ -134,7 +134,7 @@ _.map = (list, iteratee, context) => {
     const result = [];
     _.each(list, (v, i, l) => {
         result.push(iteratee.call(context, v, i, l));
-    }, context)
+    }, context);
     return result;
 };
 
@@ -173,13 +173,13 @@ _.pluck = (list, propertyName) => {
 //  REDUCE
 _.reduce = (list, iteratee, memo, context) => {
     context = context || this;
-        // if no memo is defined, the first value of the list becomes the memo 
-        // and the iteratee is not called on it
+    // if no memo is defined, the first value of the list becomes the memo 
+    // and the iteratee is not called on it
     if (Array.isArray(list)) {
         if (memo !== 0 && memo !== '' && !memo) memo = list.shift();
         // loop over each element in the array and call the iteratee on it, returning 
         // the result as the new memo
-        _.each(list, (v, i, l) => {
+        _.each(list, (v, i) => {
             memo = iteratee.call(context, memo, list[i], i, list);
         }, context);
     } else {
@@ -332,7 +332,7 @@ _.invoke = (list, methodName, args) => {
     const result = [];
     if (typeof list === 'object' || typeof list === 'string') {
         // call the function on each element, adding the results to the result array
-        _.each(list, (v, i, l) => {
+        _.each(list, v => {
             typeof v[methodName] === 'function'
                 ? result.push(v[methodName](args))
                 : result.push(undefined);
@@ -362,7 +362,7 @@ _.sortBy = (list, iteratee, context) => {
     if (typeof iteratee === 'function') {
         const newList = [];
         _.each(listArr, (v) => {
-            newList.push({originalValue: v, newValue: iteratee.call(context, v)});
+            newList.push({ originalValue: v, newValue: iteratee.call(context, v) });
         });
         listArr = newList, iterated = true;
     }
@@ -381,7 +381,7 @@ _.sortBy = (list, iteratee, context) => {
     // in their current (sorted) order
     if (iterated) {
         const updatedResult = [];
-        _.each(result, (v, i, l) => {
+        _.each(result, v => {
             updatedResult.push(v.originalValue);
         });
         return updatedResult;
@@ -477,7 +477,7 @@ _.intersection = function () {
         if (Array.isArray(arguments[i]) || typeof arguments[i] === 'string') {
             for (let j = 0; j < arguments[i].length; j++) {
                 const includesX = (arr) => arr.includes(arguments[i][j]);
-                if (_.every(arguments, includesX) && !(result.includes(arguments[i][j]))) result.push(arguments[i][j])
+                if (_.every(arguments, includesX) && !(result.includes(arguments[i][j]))) result.push(arguments[i][j]);
             }
         }
     }

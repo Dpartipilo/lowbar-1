@@ -20,7 +20,7 @@
   "homepage": "https://github.com/SalVN/refactor-lowbar#readme",
   "dependencies": {
     "chai": "^4.0.1",
-    "eslint": "^3.19.0",
+    "eslint": "3.19.0",
     "husky": "^0.14.3",
     "mocha": "^3.4.2",
     "sinon": "^2.3.5"
